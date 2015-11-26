@@ -7,10 +7,8 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -23,73 +21,50 @@ public class MainUI extends UI {
 	private SpringViewProvider viewProvider;
 
 	private HorizontalLayout rootLayout;
-	private VerticalLayout navigationLayout;
-	private VerticalLayout contentLayout;
 
 	private Navigator navigator;
+	private Panel contentPanel;
+
+	public MainUI() {
+		System.out.println("ui");
+	}
 
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
-		initLayout();
-		initNavigationPanel();
-		initContentPanel();
-		// initViewPanel();
+		initPanel();
+		initNavigator();
 	}
 
-	private void initLayout() {
+	private void initPanel() {
+		contentPanel = new Panel();
 		rootLayout = new HorizontalLayout();
-		rootLayout.setSizeFull();
-		rootLayout.setMargin(true);
-		rootLayout.setSpacing(true);
 		setContent(rootLayout);
-	}
+		rootLayout.setSizeFull();
 
-	private void initNavigationPanel() {
-		Panel navigationPanel = new Panel();
-		navigationPanel.setHeight(100, Unit.PERCENTAGE);
-		navigationPanel.setWidth(20, Unit.PERCENTAGE);
-		navigationLayout = new VerticalLayout();
-		navigationLayout.setWidth(100, Unit.PERCENTAGE);
-		navigationLayout.addComponent(createMoveButton(Menu.VIEW_NAME));
-		navigationPanel.setContent(navigationLayout);
-		rootLayout.addComponent(navigationPanel);
-	}
+		VerticalLayout menuLayout = new VerticalLayout();
+		menuLayout.setSizeFull();
+		Label l = new Label("root");
+		l.setSizeFull();
+		menuLayout.addComponent(l);
 
-	private void initContentPanel() {
-		Panel contentPanel = new Panel();
+		HorizontalLayout contentLayout = new HorizontalLayout();
+		contentLayout.setSizeFull();
+		contentLayout.addComponent(contentPanel);
 
-		// contentPanel.setHeight(100, Unit.PERCENTAGE);
-		// contentPanel.setWidth(100, Unit.PERCENTAGE);
-		contentLayout = new VerticalLayout();
-		contentLayout.setWidth(100, Unit.PERCENTAGE);
-		contentPanel.setWidth(100, Unit.PERCENTAGE);
-		contentPanel.setContent(contentLayout);
-		rootLayout.addComponent(contentPanel);
+		contentPanel.setSizeFull();
+		rootLayout.addComponent(menuLayout);
+		rootLayout.addComponent(contentLayout);
+		rootLayout.setExpandRatio(contentLayout, 5.0f);
+		rootLayout.setExpandRatio(menuLayout, 1.0f);
 
 	}
 
-	private void initViewPanel() {
-		Panel viewContainer = new Panel();
-		viewContainer.setSizeFull();
-		rootLayout.addComponent(viewContainer);
-		rootLayout.setExpandRatio(viewContainer, 1.0f);
+	private void initNavigator() {
 
-		navigator = new Navigator(this, viewContainer);
+		getPage().setTitle("Top Worker");
+		navigator = new Navigator(this, contentPanel);
 		navigator.addProvider(viewProvider);
 
 	}
 
-	private Button createMoveButton(final String destination) {
-		Button btn = new Button("click");
-		btn.setSizeFull();
-		btn.addClickListener(new ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(destination);
-
-			}
-		});
-		return btn;
-	}
 }
