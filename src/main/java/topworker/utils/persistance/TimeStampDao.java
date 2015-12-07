@@ -1,4 +1,6 @@
-package topworker.persistance;
+package topworker.utils.persistance;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,23 +12,28 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import topworker.model.entity.User;
-import topworker.model.entity.User_;
+import topworker.model.entity.TimeStamp;
+import topworker.model.entity.TimeStamp_;
 
 @Repository
-public class UserDao {
+public class TimeStampDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Transactional(value = "PlatformTransactionManager")
-	public User getUserById(Long id) {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-		CriteriaQuery<User> cq = cb.createQuery(User.class);
-		Root<User> c = cq.from(User.class);
-		cq.where(c.get(User_.id).in(id));
-		Query q = entityManager.createQuery(cq);
-		return (User) q.getSingleResult();
+	public void postTime(TimeStamp timeStamp) {
 
+		entityManager.persist(timeStamp);
+	}
+
+	@Transactional(value = "PlatformTransactionManager")
+	public List<TimeStamp> getAll() {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<TimeStamp> cq = cb.createQuery(TimeStamp.class);
+		Root<TimeStamp> c = cq.from(TimeStamp.class);
+		cq.orderBy(cb.asc(c.get(TimeStamp_.time)));
+		Query q = entityManager.createQuery(cq);
+		return q.getResultList();
 	}
 }

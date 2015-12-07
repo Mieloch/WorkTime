@@ -1,4 +1,4 @@
-package topworker.rest.services;
+package topworker.utils.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import topWorker.restClient.model.ClientDetails;
 import topworker.model.entity.TimeStamp;
 import topworker.model.entity.User;
-import topworker.persistance.TimeStampDao;
-import topworker.persistance.UserDao;
+import topworker.utils.persistance.TimeStampDao;
+import topworker.utils.persistance.UserDao;
 
 @RestController
 @RequestMapping("/time/stamp/")

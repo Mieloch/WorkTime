@@ -20,7 +20,7 @@ public class MainUI extends UI {
 	@Autowired
 	private SpringViewProvider viewProvider;
 
-	private HorizontalLayout rootLayout;
+	private VerticalLayout rootLayout;
 
 	private Navigator navigator;
 	private Panel contentPanel;
@@ -37,11 +37,11 @@ public class MainUI extends UI {
 
 	private void initPanel() {
 		contentPanel = new Panel();
-		rootLayout = new HorizontalLayout();
+		rootLayout = new VerticalLayout();
 		setContent(rootLayout);
 		rootLayout.setSizeFull();
 
-		VerticalLayout menuLayout = new VerticalLayout();
+		HorizontalLayout menuLayout = new HorizontalLayout();
 		menuLayout.setSizeFull();
 		Label l = new Label("root");
 		l.setSizeFull();
@@ -51,11 +51,20 @@ public class MainUI extends UI {
 		contentLayout.setSizeFull();
 		contentLayout.addComponent(contentPanel);
 
+		HorizontalLayout bottomLayout = new HorizontalLayout();
+		bottomLayout.setSizeFull();
+		Label l2 = new Label("root");
+		l2.setSizeFull();
+		bottomLayout.addComponent(l2);
+
 		contentPanel.setSizeFull();
 		rootLayout.addComponent(menuLayout);
 		rootLayout.addComponent(contentLayout);
-		rootLayout.setExpandRatio(contentLayout, 5.0f);
-		rootLayout.setExpandRatio(menuLayout, 1.0f);
+		rootLayout.addComponent(bottomLayout);
+
+		rootLayout.setExpandRatio(menuLayout, 1.5f);
+		rootLayout.setExpandRatio(contentLayout, 6.0f);
+		rootLayout.setExpandRatio(bottomLayout, 1.0f);
 
 	}
 

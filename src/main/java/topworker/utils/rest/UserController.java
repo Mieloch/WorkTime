@@ -1,4 +1,4 @@
-package topworker.rest.services;
+package topworker.utils.rest;
 
 public class UserController {
 
