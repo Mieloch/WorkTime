@@ -10,8 +10,8 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import topworker.model.entity.User;
-import topworker.model.entity.User_;
+import topworker.model.entity.EUser;
+import topworker.model.entity.EUser_;
 
 @Repository
 public class UserDao {
@@ -20,13 +20,13 @@ public class UserDao {
 	private EntityManager entityManager;
 
 	@Transactional(value = "PlatformTransactionManager")
-	public User getUserById(Long id) {
+	public EUser getUserById(Long id) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-		CriteriaQuery<User> cq = cb.createQuery(User.class);
-		Root<User> c = cq.from(User.class);
-		cq.where(c.get(User_.id).in(id));
+		CriteriaQuery<EUser> cq = cb.createQuery(EUser.class);
+		Root<EUser> c = cq.from(EUser.class);
+		cq.where(c.get(EUser_.id).in(id));
 		Query q = entityManager.createQuery(cq);
-		return (User) q.getSingleResult();
+		return (EUser) q.getSingleResult();
 
 	}
 }

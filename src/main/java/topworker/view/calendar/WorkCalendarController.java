@@ -1,14 +1,21 @@
 package topworker.view.calendar;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.vaadin.ui.Calendar;
+import com.vaadin.ui.components.calendar.event.BasicEvent;
+import com.vaadin.ui.components.calendar.event.CalendarEvent;
 
+import topworker.model.entity.EWorkPeriod;
+import topworker.utils.persistance.WorkPeriodDao;
 import topworker.view.calendar.enums.CalendarRange;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
@@ -19,12 +26,22 @@ class WorkCalendarController {
 	private Calendar calendarComponent;
 	private CalendarRange currentRange;
 
+	@Autowired
+	private WorkPeriodDao workPeriodDao;
+
 	public WorkCalendarController() {
 		calendar = new GregorianCalendar();
 	}
 
-	public void loadTimeStamps() {
-		// timeStampDao.
+	public void loadWorkPeriods() {
+		List<EWorkPeriod> periods = workPeriodDao.getAll();
+		for (EWorkPeriod eWorkPeriod : periods) {
+			SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+			String endDate = format.format(eWorkPeriod.getStop());
+			CalendarEvent calEvent = new BasicEvent(endDate, eWorkPeriod.getUser().getName(), eWorkPeriod.getStart(),
+					eWorkPeriod.getStop());
+			calendarComponent.addEvent(calEvent);
+		}
 	}
 
 	public void setCalendar(Calendar calendarComponent) {

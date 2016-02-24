@@ -13,13 +13,12 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("valo")
+@Theme("topworkertheme")
 @SpringUI
 public class MainUI extends UI {
 
 	@Autowired
 	private SpringViewProvider viewProvider;
-
 	private VerticalLayout rootLayout;
 
 	private Navigator navigator;
