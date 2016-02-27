@@ -1,4 +1,4 @@
-package topworker.model.entity;
+package topworker.model.dal.entity;
 
 import java.util.List;
 

@@ -14,8 +14,9 @@ import com.vaadin.ui.Calendar;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEvent;
 
-import topworker.model.entity.EWorkPeriod;
-import topworker.utils.persistance.WorkPeriodDao;
+import topworker.model.WorkPeriodService;
+import topworker.model.bo.WorkPeriod;
+import topworker.model.dal.entity.EWorkPeriod;
 import topworker.view.calendar.enums.CalendarRange;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
@@ -27,18 +28,18 @@ class WorkCalendarController {
 	private CalendarRange currentRange;
 
 	@Autowired
-	private WorkPeriodDao workPeriodDao;
+	private WorkPeriodService workPeriodService;
 
 	public WorkCalendarController() {
 		calendar = new GregorianCalendar();
 	}
 
 	public void loadWorkPeriods() {
-		List<EWorkPeriod> periods = workPeriodDao.getAll();
-		for (EWorkPeriod eWorkPeriod : periods) {
+		List<WorkPeriod> periods = workPeriodService.getAll();
+		for (WorkPeriod eWorkPeriod : periods) {
 			SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 			String endDate = format.format(eWorkPeriod.getStop());
-			CalendarEvent calEvent = new BasicEvent(endDate, eWorkPeriod.getUser().getName(), eWorkPeriod.getStart(),
+			CalendarEvent calEvent = new BasicEvent(endDate, "TODO USER", eWorkPeriod.getStart(),
 					eWorkPeriod.getStop());
 			calendarComponent.addEvent(calEvent);
 		}

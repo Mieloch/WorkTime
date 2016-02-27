@@ -1,0 +1,6 @@
+- glowny ekran
+- ekran statystyk
+- poprawic kalendarz jak w samplerze
+- css i wyglad
+- logowanie
+

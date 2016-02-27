@@ -46,12 +46,10 @@ public class WorkCalendarView extends HorizontalLayout implements View {
 	void init() {
 		initLayout();
 		addComponents();
-		System.out.println("contrtuct");
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		System.out.println("VIEW 1");
 		calendarController.loadWorkPeriods();
 	}
 

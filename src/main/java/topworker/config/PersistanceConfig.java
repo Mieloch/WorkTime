@@ -34,7 +34,7 @@ public class PersistanceConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(getDataSource());
-		em.setPackagesToScan(new String[] { "topworker.model.entity" });
+		em.setPackagesToScan(new String[] { "topworker.model.dal" });
 
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
