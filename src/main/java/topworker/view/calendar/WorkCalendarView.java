@@ -3,9 +3,14 @@ package topworker.view.calendar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
+import javax.swing.text.html.Option;
 
+import com.vaadin.data.Property;
+import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -13,13 +18,8 @@ import org.springframework.web.context.WebApplicationContext;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Calendar;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventMoveHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventResizeHandler;
@@ -29,122 +29,132 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents.WeekClickHandle
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 @SpringView(name = WorkCalendarView.VIEW_NAME)
 public class WorkCalendarView extends HorizontalLayout implements View {
-	public static final String VIEW_NAME = "calendar";
+    public static final String VIEW_NAME = "calendar";
 
-	private Calendar calendarComponent;
-	private ComboBox monthComboBox;
+    private Calendar calendarComponent;
+    private OptionGroup perpectiveOption;
+    private VerticalLayout leftLayout;
+    private HorizontalLayout navigationLayout;
+    private VerticalLayout midLayout;
+    private Button showMonthButton;
+    private Button showWeekButton;
 
-	private VerticalLayout leftLayout;
-	private HorizontalLayout navigationLayout;
-	private VerticalLayout midLayout;
-	private Button showMonthButton;
+    @Autowired
+    private WorkCalendarController calendarController;
 
-	@Autowired
-	private WorkCalendarController calendarController;
+    @PostConstruct
+    void init() {
+        initLayout();
+        addComponents();
+    }
 
-	@PostConstruct
-	void init() {
-		initLayout();
-		addComponents();
-	}
+    @Override
+    public void enter(ViewChangeEvent event) {
+        calendarController.loadWorkPeriods();
+    }
 
-	@Override
-	public void enter(ViewChangeEvent event) {
-		calendarController.loadWorkPeriods();
-	}
+    private void initLayout() {
+        leftLayout = new VerticalLayout();
+        midLayout = new VerticalLayout();
+        midLayout.setSizeFull();
+        midLayout.setMargin(true);
+        leftLayout.setMargin(true);
+        addComponent(leftLayout);
+        addComponent(midLayout);
+        setExpandRatio(leftLayout, 1.0f);
+        setExpandRatio(midLayout, 6.0f);
+        navigationLayout = new HorizontalLayout();
+        navigationLayout.setSizeFull();
+        leftLayout.addComponent(navigationLayout);
+        setSizeFull();
+    }
 
-	private void initLayout() {
-		leftLayout = new VerticalLayout();
-		midLayout = new VerticalLayout();
+    private void addComponents() {
+        createComponents();
+        midLayout.addComponent(calendarComponent);
 
-		// leftLayout.setSizeFull();
-		midLayout.setSizeFull();
+        navigationLayout.addComponent(createButton("ml", new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                calendarController.navigate(-1);
+            }
+        }));
+        navigationLayout.addComponent(createButton("mr", new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                calendarController.navigate(1);
+            }
+        }));
+        leftLayout.addComponent(perpectiveOption);
+    }
 
-		midLayout.setMargin(true);
+    private void createComponents() {
+        calendarComponent = createCalendar();
+        showMonthButton = createButton("Miesiąc", new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                calendarController.setMonthPerspective();
+            }
+        });
+        showWeekButton = createButton("Tydzień", new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                calendarController.setWeekPerpective();
+            }
+        });
+        perpectiveOption = createPerpectiveOption();
 
-		addComponent(leftLayout);
-		addComponent(midLayout);
+    }
 
-		setExpandRatio(leftLayout, 1.0f);
-		setExpandRatio(midLayout, 6.0f);
+    private Calendar createCalendar() {
+        Calendar calcComponent = new Calendar();
+        calcComponent.setSizeFull();
+        calcComponent.setLocale(new Locale("pl", "PL"));
+        calcComponent.setHandler((DateClickHandler) null);
+        calcComponent.setHandler((EventMoveHandler) null);
+        calcComponent.setHandler((EventResizeHandler) null);
 
-		navigationLayout = new HorizontalLayout();
-		navigationLayout.setSizeFull();
-		leftLayout.addComponent(navigationLayout);
+        calcComponent.setHandler(new WeekClickHandler() {
 
-		setSizeFull();
-	}
+            @Override
+            public void weekClick(WeekClick event) {
+                calendarController.setWeek(event.getWeek());
+            }
+        });
+        calendarController.setCalendar(calcComponent);
 
-	private void addComponents() {
-		createComponents();
-		midLayout.addComponent(calendarComponent);
+        return calcComponent;
+    }
 
-		navigationLayout.addComponent(createButton("ml", new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				calendarController.navigate(-1);
-			}
-		}));
-		navigationLayout.addComponent(createButton("mr", new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				calendarController.navigate(1);
-			}
-		}));
-	}
+    private OptionGroup createPerpectiveOption() {
+        OptionGroup optionGroup = new OptionGroup();
+        optionGroup.addItem("week");
+        optionGroup.setItemCaption("week", "Tydzień");
+        optionGroup.addItem("month");
+        optionGroup.setItemCaption("month", "Miesiąc");
+        optionGroup.select("month");
+        optionGroup.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                String value = (String) event.getProperty().getValue();
+                switch (value) {
+                    case "week":
+                        calendarController.setWeekPerpective();
+                        break;
+                    case "month":
+                        calendarController.setMonthPerspective();
+                        break;
+                }
+            }
+        });
+        return optionGroup;
+    }
 
-	private void createComponents() {
-		calendarComponent = createCalendar();
-		monthComboBox = createMonthComboBox();
-		showMonthButton = createButton("Pokaż miesiąc", new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				calendarController.changePerspective();
-				leftLayout.removeComponent(showMonthButton);
-			}
-		});
+    private Button createButton(String caption, ClickListener listener) {
+        Button b = new Button(caption);
+        b.addClickListener(listener);
+        return b;
+    }
 
-	}
-
-	private Calendar createCalendar() {
-		Calendar calcComponent = new Calendar();
-		calcComponent.setSizeFull();
-		calcComponent.setHandler((DateClickHandler) null);
-		calcComponent.setHandler((EventMoveHandler) null);
-		calcComponent.setHandler((EventResizeHandler) null);
-
-		calcComponent.setHandler(new WeekClickHandler() {
-
-			@Override
-			public void weekClick(WeekClick event) {
-				calendarController.setWeek(event.getWeek());
-				leftLayout.addComponent(showMonthButton);
-			}
-		});
-		calendarController.setCalendar(calcComponent);
-
-		return calcComponent;
-	}
-
-	private Button createButton(String caption, ClickListener listener) {
-		Button b = new Button(caption);
-		b.addClickListener(listener);
-		return b;
-	}
-
-	private ComboBox createMonthComboBox() {
-		ComboBox combo = new ComboBox("Miesiąc:");
-		combo.setNullSelectionAllowed(false);
-		GregorianCalendar cal = new GregorianCalendar();
-		combo.setHeight(50f, Unit.PERCENTAGE);
-		cal.set(GregorianCalendar.MONTH, 0);
-		SimpleDateFormat format = new SimpleDateFormat("MMMMMMMMMMMMMM");
-		for (int i = 0; i < 12; i++) {
-			combo.addItem(format.format(cal.getTime()));
-			cal.add(GregorianCalendar.MONTH, 1);
-		}
-		combo.setValue(format.format(new Date()));
-		return combo;
-	}
 
 }

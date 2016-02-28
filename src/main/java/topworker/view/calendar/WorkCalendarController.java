@@ -23,99 +23,107 @@ import topworker.view.calendar.enums.CalendarRange;
 @Component
 class WorkCalendarController {
 
-	private GregorianCalendar calendar;
-	private Calendar calendarComponent;
-	private CalendarRange currentRange;
+    private GregorianCalendar calendar;
+    private Calendar calendarComponent;
+    private CalendarRange currentRange;
 
-	@Autowired
-	private WorkPeriodService workPeriodService;
+    @Autowired
+    private WorkPeriodService workPeriodService;
 
-	public WorkCalendarController() {
-		calendar = new GregorianCalendar();
-	}
+    public WorkCalendarController() {
+        calendar = new GregorianCalendar();
+    }
 
-	public void loadWorkPeriods() {
-		List<WorkPeriod> periods = workPeriodService.getAll();
-		for (WorkPeriod eWorkPeriod : periods) {
-			SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-			String endDate = format.format(eWorkPeriod.getStop());
-			CalendarEvent calEvent = new BasicEvent(endDate, "TODO USER", eWorkPeriod.getStart(),
-					eWorkPeriod.getStop());
-			calendarComponent.addEvent(calEvent);
-		}
-	}
+    public void loadWorkPeriods() {
+        List<WorkPeriod> periods = workPeriodService.getAll();
+        for (WorkPeriod eWorkPeriod : periods) {
+            SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+            String endDate = format.format(eWorkPeriod.getStop());
+            CalendarEvent calEvent = new BasicEvent(endDate, "TODO USER", eWorkPeriod.getStart(),
+                    eWorkPeriod.getStop());
+            calendarComponent.addEvent(calEvent);
+        }
+    }
 
-	public void setCalendar(Calendar calendarComponent) {
-		this.calendarComponent = calendarComponent;
-		setCurrentMonth();
-	}
+    public void setCalendar(Calendar calendarComponent) {
+        this.calendarComponent = calendarComponent;
+        setCurrentMonth();
+    }
 
-	public void setCurrentMonth() {
+    public void setCurrentMonth() {
 
-		calendar.setTime(new Date());
-		setWholeMonth();
-	}
+        calendar.setTime(new Date());
+        setWholeMonth();
+    }
 
-	public void changeMonth(int value) {
-		calendar.add(GregorianCalendar.MONTH, value);
-		setWholeMonth();
-	}
+    public void changeMonth(int value) {
+        calendar.add(GregorianCalendar.MONTH, value);
+        setWholeMonth();
+    }
 
-	public void navigate(int direction) {
-		switch (currentRange) {
-		case MONTH:
-			changeMonth(direction);
-			break;
-		case WEEK:
-			changeWeek(direction);
-			break;
-		default:
-			throw new IllegalStateException();
-		}
-	}
+    public void navigate(int direction) {
+        switch (currentRange) {
+            case MONTH:
+                changeMonth(direction);
+                break;
+            case WEEK:
+                changeWeek(direction);
+                break;
+            default:
+                throw new IllegalStateException();
+        }
+    }
 
-	public void changeWeek(int direction) {
-		calendar.add(GregorianCalendar.DAY_OF_MONTH, 7 * direction);
-		calendarComponent.setStartDate(calendar.getTime());
-		calendar.add(GregorianCalendar.DAY_OF_MONTH, 6);
-		calendarComponent.setEndDate(calendar.getTime());
-		calendar.add(GregorianCalendar.DAY_OF_MONTH, -6);
+    public void changeWeek(int direction) {
+        calendar.add(GregorianCalendar.DAY_OF_MONTH, 7 * direction);
+        calendarComponent.setStartDate(calendar.getTime());
+        calendar.add(GregorianCalendar.DAY_OF_MONTH, 6);
+        calendarComponent.setEndDate(calendar.getTime());
+        calendar.add(GregorianCalendar.DAY_OF_MONTH, -6);
 
-	}
+    }
 
-	public void changePerspective() {
-		switch (currentRange) {
-		case MONTH:
-			setWeek(calendar.get(GregorianCalendar.WEEK_OF_YEAR));
-			break;
-		case WEEK:
-			setWholeMonth();
-			break;
-		default:
-			throw new IllegalStateException();
-		}
-	}
+    public void changePerspective() {
+        switch (currentRange) {
+            case MONTH:
+                setWeek(calendar.get(GregorianCalendar.WEEK_OF_YEAR));
+                break;
+            case WEEK:
+                setWholeMonth();
+                break;
+            default:
+                throw new IllegalStateException();
+        }
+    }
 
-	public void setWeek(int week) {
+    public void setWeekPerpective(){
+        setWeek(calendar.get(GregorianCalendar.WEEK_OF_YEAR));
+    }
 
-		calendar.set(GregorianCalendar.WEEK_OF_YEAR, week);
-		calendar.set(GregorianCalendar.DAY_OF_WEEK, 2);
+    public void setMonthPerspective(){
+        setWholeMonth();
+    }
 
-		calendarComponent.setStartDate(calendar.getTime());
-		calendar.add(GregorianCalendar.DAY_OF_MONTH, 6);
-		calendarComponent.setEndDate(calendar.getTime());
-		calendar.add(GregorianCalendar.DAY_OF_MONTH, -6);
-		currentRange = CalendarRange.WEEK;
+    public void setWeek(int week) {
 
-	}
+        calendar.set(GregorianCalendar.WEEK_OF_YEAR, week);
+        calendar.set(GregorianCalendar.DAY_OF_WEEK, 2);
 
-	private void setWholeMonth() {
-		calendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
-		calendarComponent.setStartDate(calendar.getTime());
-		calendar.add(GregorianCalendar.MONTH, 1);
-		calendarComponent.setEndDate(calendar.getTime());
-		calendar.add(GregorianCalendar.MONTH, -1);
-		calendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
-		currentRange = CalendarRange.MONTH;
-	}
+        calendarComponent.setStartDate(calendar.getTime());
+        calendar.add(GregorianCalendar.DAY_OF_MONTH, 6);
+        calendarComponent.setEndDate(calendar.getTime());
+        calendar.add(GregorianCalendar.DAY_OF_MONTH, -6);
+        currentRange = CalendarRange.WEEK;
+
+    }
+
+    private void setWholeMonth() {
+        calendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
+        calendarComponent.setStartDate(calendar.getTime());
+        calendar.add(GregorianCalendar.MONTH, 1);
+        calendarComponent.setEndDate(calendar.getTime());
+        calendar.add(GregorianCalendar.MONTH, -1);
+        calendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
+        currentRange = CalendarRange.MONTH;
+    }
 }
