@@ -1,6 +1,7 @@
 package topworker.view;
 
 import com.vaadin.navigator.View;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,10 +40,11 @@ public class MainUI extends UI {
         setContent(rootLayout);
         rootLayout.setSizeFull();
 
-        HorizontalLayout navigationLayout = new HorizontalLayout();
-        navigationLayout.setSizeFull();
-        navigationLayout.addComponent(createNavigationButton("Kalendarz", WorkCalendarView.VIEW_NAME));
-        navigationLayout.addComponent(createNavigationButton("Statystyki", SummaryView.VIEW_NAME));
+        HorizontalLayout upperLayout = new HorizontalLayout();
+        upperLayout.setHeight(100f, Unit.PERCENTAGE);
+        upperLayout.setMargin(true);
+        upperLayout.addComponent(createNavigationButton("Kalendarz", WorkCalendarView.VIEW_NAME, "calendar"));
+        upperLayout.addComponent(createNavigationButton("Statystyki", SummaryView.VIEW_NAME, "list"));
 
         HorizontalLayout contentLayout = new HorizontalLayout();
         contentLayout.setSizeFull();
@@ -55,11 +57,11 @@ public class MainUI extends UI {
         bottomLayout.addComponent(l2);
 
         contentPanel.setSizeFull();
-        rootLayout.addComponent(navigationLayout);
+        rootLayout.addComponent(upperLayout);
         rootLayout.addComponent(contentLayout);
         rootLayout.addComponent(bottomLayout);
 
-        rootLayout.setExpandRatio(navigationLayout, 1.5f);
+        rootLayout.setExpandRatio(upperLayout, 1.5f);
         rootLayout.setExpandRatio(contentLayout, 6.0f);
         rootLayout.setExpandRatio(bottomLayout, 1.0f);
 
@@ -73,8 +75,10 @@ public class MainUI extends UI {
 
     }
 
-    private Button createNavigationButton(String caption, final String navigationDestination) {
+    private Button createNavigationButton(String caption, final String navigationDestination, String style) {
         Button button = new Button(caption);
+        button.setHeight(100f, Unit.PERCENTAGE);
+        button.addStyleName(style);
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {

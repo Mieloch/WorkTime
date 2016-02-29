@@ -78,13 +78,13 @@ public class WorkCalendarView extends HorizontalLayout implements View {
             public void buttonClick(ClickEvent event) {
                 calendarController.navigate(-1);
             }
-        }));
+        },"left-arrow"));
         navigationLayout.addComponent(createButton("mr", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 calendarController.navigate(1);
             }
-        }));
+        },"right-arrow"));
         leftLayout.addComponent(perpectiveOption);
     }
 
@@ -95,13 +95,14 @@ public class WorkCalendarView extends HorizontalLayout implements View {
             public void buttonClick(ClickEvent event) {
                 calendarController.setMonthPerspective();
             }
-        });
+        },null);
+
         showWeekButton = createButton("Tydzień", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 calendarController.setWeekPerpective();
             }
-        });
+        },null);
         perpectiveOption = createPerpectiveOption();
 
     }
@@ -150,8 +151,11 @@ public class WorkCalendarView extends HorizontalLayout implements View {
         return optionGroup;
     }
 
-    private Button createButton(String caption, ClickListener listener) {
+    private Button createButton(String caption, ClickListener listener, String style) {
         Button b = new Button(caption);
+        if(style != null){
+            b.addStyleName(style);
+        }
         b.addClickListener(listener);
         return b;
     }

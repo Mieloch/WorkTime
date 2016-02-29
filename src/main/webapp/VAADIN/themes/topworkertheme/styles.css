@@ -1503,6 +1503,14 @@ div.v-layout.v-horizontal.v-widget {
 	vertical-align: top;
 }
 
+@font-face {
+	font-family: "fontello";
+	src: url('../topworkertheme/fonts');
+	src: url('../topworkertheme/fonts/fontello.eot?#iefix') format("embedded-opentype"), url('../topworkertheme/fonts/fontello.woff') format("woff"), url('../topworkertheme/fonts/fontello.ttf') format("truetype"), url('../topworkertheme/fonts/fontello.svg#fontello') format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
 .topworkertheme.v-app, .topworkertheme.v-app-loading {
 	font: 300 16px/1.55 "Open Sans", sans-serif;
 	color: #464646;
@@ -12400,8 +12408,18 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
+.topworkertheme .v-verticallayout .v-layout .v-vertical .v-widget .v-has-width .v-has-height {
+	background: #4095bf;
+}
+
+.topworkertheme [class*=" icon-"] {
+	font-family: "fontello";
+	font-style: normal;
+	font-size: 3em;
+}
+
 .topworkertheme .v-button {
-	color: blue;
+	color: black;
 }
 
 .topworkertheme .v-calendar-back {
@@ -12410,4 +12428,49 @@ div.v-layout.v-horizontal.v-widget {
 
 .topworkertheme .v-calendar-next {
 	visibility: hidden;
+}
+
+.topworkertheme .right-arrow {
+	font-family: "fontello";
+	font-style: normal;
+}
+
+.topworkertheme .right-arrow:after {
+	content: "\e800";
+}
+
+.topworkertheme .left-arrow {
+	font-family: "fontello";
+	font-style: normal;
+}
+
+.topworkertheme .left-arrow:after {
+	content: "\e801";
+}
+
+.topworkertheme .calendar {
+	font-family: "fontello";
+	font-style: normal;
+}
+
+.topworkertheme .calendar:after {
+	content: "\e802";
+}
+
+.topworkertheme .search {
+	font-family: "fontello";
+	font-style: normal;
+}
+
+.topworkertheme .search:after {
+	content: "\e803";
+}
+
+.topworkertheme .list {
+	font-family: "fontello";
+	font-style: normal;
+}
+
+.topworkertheme .list:after {
+	content: "\e804";
 }
