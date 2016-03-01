@@ -39,22 +39,27 @@ public class MainUI extends UI {
         rootLayout = new VerticalLayout();
         setContent(rootLayout);
         rootLayout.setSizeFull();
-
+rootLayout.addStyleName("menu-panel");
         HorizontalLayout upperLayout = new HorizontalLayout();
         upperLayout.setHeight(100f, Unit.PERCENTAGE);
-        upperLayout.setMargin(true);
-        upperLayout.addComponent(createNavigationButton("Kalendarz", WorkCalendarView.VIEW_NAME, "calendar"));
-        upperLayout.addComponent(createNavigationButton("Statystyki", SummaryView.VIEW_NAME, "list"));
+        upperLayout.setWidth(20, Unit.PERCENTAGE);
+        //upperLayout.setMargin(true);
+        Button calendarButton = createNavigationButton("", WorkCalendarView.VIEW_NAME, "calendar");
+        Button listButton = createNavigationButton("", SummaryView.VIEW_NAME, "list");
+        upperLayout.addComponent(calendarButton);
+        upperLayout.addComponent(listButton);
+        upperLayout.setComponentAlignment(calendarButton,Alignment.MIDDLE_CENTER);
+        upperLayout.setComponentAlignment(listButton,Alignment.MIDDLE_CENTER);
 
         HorizontalLayout contentLayout = new HorizontalLayout();
+        contentLayout.addStyleName("content-panel");
         contentLayout.setSizeFull();
         contentLayout.addComponent(contentPanel);
 
         HorizontalLayout bottomLayout = new HorizontalLayout();
         bottomLayout.setSizeFull();
-        Label l2 = new Label("root");
-        l2.setSizeFull();
-        bottomLayout.addComponent(l2);
+        bottomLayout.addStyleName("menu-panel");
+
 
         contentPanel.setSizeFull();
         rootLayout.addComponent(upperLayout);
@@ -77,7 +82,9 @@ public class MainUI extends UI {
 
     private Button createNavigationButton(String caption, final String navigationDestination, String style) {
         Button button = new Button(caption);
-        button.setHeight(100f, Unit.PERCENTAGE);
+        button.setWidth(80f,Unit.PERCENTAGE);
+        button.setHeight(80f,Unit.PERCENTAGE);
+
         button.addStyleName(style);
         button.addClickListener(new Button.ClickListener() {
             @Override

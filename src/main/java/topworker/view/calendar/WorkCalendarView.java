@@ -1,13 +1,8 @@
 package topworker.view.calendar;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
-import javax.swing.text.html.Option;
 
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
@@ -73,13 +68,13 @@ public class WorkCalendarView extends HorizontalLayout implements View {
         createComponents();
         midLayout.addComponent(calendarComponent);
 
-        navigationLayout.addComponent(createButton("ml", new ClickListener() {
+        navigationLayout.addComponent(createButton("", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 calendarController.navigate(-1);
             }
         },"left-arrow"));
-        navigationLayout.addComponent(createButton("mr", new ClickListener() {
+        navigationLayout.addComponent(createButton("", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 calendarController.navigate(1);
@@ -103,7 +98,7 @@ public class WorkCalendarView extends HorizontalLayout implements View {
                 calendarController.setWeekPerpective();
             }
         },null);
-        perpectiveOption = createPerpectiveOption();
+        perpectiveOption = createPerspectiveOption();
 
     }
 
@@ -127,7 +122,7 @@ public class WorkCalendarView extends HorizontalLayout implements View {
         return calcComponent;
     }
 
-    private OptionGroup createPerpectiveOption() {
+    private OptionGroup createPerspectiveOption() {
         OptionGroup optionGroup = new OptionGroup();
         optionGroup.addItem("week");
         optionGroup.setItemCaption("week", "Tydzień");

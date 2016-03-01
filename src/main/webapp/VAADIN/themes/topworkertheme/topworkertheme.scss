@@ -38,8 +38,12 @@
 
 
   @include valo;
-  .v-verticallayout .v-layout .v-vertical .v-widget .v-has-width .v-has-height {
-    background: hsl(200, 50%, 50%);
+  .menu-panel{
+    background-color:rgb(49,49,68);
+  }
+
+  .content-panel{
+    background: #F9F9F9;
   }
 
   [class*=" icon-"] {
@@ -79,6 +83,14 @@
   .calendar {
     font-family: 'fontello';
     font-style: normal;
+    font-size:4vw;
+    margin-left: 10%;
+    background: rgba(187, 56, 56, 0);
+    border: green;
+    border-style: solid;
+    border-width: 2px;
+    color: green;
+
   }
   .calendar:after {
     content: "\e802";
@@ -97,6 +109,14 @@
   .list {
     font-family: 'fontello';
     font-style: normal;
+    font-size:4.5vw;
+    margin-left: 4%;
+    background: rgba(187, 56, 56, 0);
+    border: orange;
+    border-style: solid;
+    border-width: 2px;
+    color: orange;
+
   }
   .list:after {
     content: "\e804";
