@@ -1,11 +1,15 @@
 package topworker.view.calendar;
 
-import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Calendar;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -31,8 +35,7 @@ public class WorkCalendarView extends HorizontalLayout implements View {
     private VerticalLayout leftLayout;
     private HorizontalLayout navigationLayout;
     private VerticalLayout midLayout;
-    private Button showMonthButton;
-    private Button showWeekButton;
+    private Label monthNameLabel;
 
     @Autowired
     private WorkCalendarController calendarController;
@@ -46,6 +49,8 @@ public class WorkCalendarView extends HorizontalLayout implements View {
     @Override
     public void enter(ViewChangeEvent event) {
         calendarController.loadWorkPeriods();
+        setMonthLabelCaption(calendarComponent.getStartDate(),calendarComponent.getEndDate());
+
     }
 
     private void initLayout() {
@@ -60,44 +65,47 @@ public class WorkCalendarView extends HorizontalLayout implements View {
         setExpandRatio(midLayout, 6.0f);
         navigationLayout = new HorizontalLayout();
         navigationLayout.setSizeFull();
+        navigationLayout.setSpacing(true);
         leftLayout.addComponent(navigationLayout);
         setSizeFull();
     }
 
     private void addComponents() {
         createComponents();
+        midLayout.addComponent(monthNameLabel);
         midLayout.addComponent(calendarComponent);
 
-        navigationLayout.addComponent(createButton("", new ClickListener() {
+        midLayout.setComponentAlignment(monthNameLabel,Alignment.MIDDLE_CENTER);
+        midLayout.setExpandRatio(monthNameLabel,1.5f);
+        midLayout.setExpandRatio(calendarComponent,9.0f);
+
+        Button leftButton = createButton("", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 calendarController.navigate(-1);
+                setMonthLabelCaption(calendarComponent.getStartDate(),calendarComponent.getEndDate());
             }
-        },"left-arrow"));
-        navigationLayout.addComponent(createButton("", new ClickListener() {
+        },"left-arrow");
+        leftButton.setSizeFull();
+        navigationLayout.addComponent(leftButton);
+        Button rightButton = createButton("", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 calendarController.navigate(1);
+                setMonthLabelCaption(calendarComponent.getStartDate(),calendarComponent.getEndDate());
             }
-        },"right-arrow"));
+        },"right-arrow");
+        rightButton.setSizeFull();
+        navigationLayout.addComponent(rightButton);
         leftLayout.addComponent(perpectiveOption);
+        leftLayout.setComponentAlignment(perpectiveOption,Alignment.MIDDLE_CENTER);
     }
 
     private void createComponents() {
         calendarComponent = createCalendar();
-        showMonthButton = createButton("Miesiąc", new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                calendarController.setMonthPerspective();
-            }
-        },null);
-
-        showWeekButton = createButton("Tydzień", new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                calendarController.setWeekPerpective();
-            }
-        },null);
+        monthNameLabel = new Label("");
+        monthNameLabel.setSizeUndefined();
+        monthNameLabel.addStyleName("month-label");
         perpectiveOption = createPerspectiveOption();
 
     }
@@ -115,10 +123,10 @@ public class WorkCalendarView extends HorizontalLayout implements View {
             @Override
             public void weekClick(WeekClick event) {
                 calendarController.setWeek(event.getWeek());
+                perpectiveOption.select("week");
             }
         });
         calendarController.setCalendar(calcComponent);
-
         return calcComponent;
     }
 
@@ -147,12 +155,22 @@ public class WorkCalendarView extends HorizontalLayout implements View {
     }
 
     private Button createButton(String caption, ClickListener listener, String style) {
+
         Button b = new Button(caption);
         if(style != null){
             b.addStyleName(style);
         }
         b.addClickListener(listener);
         return b;
+    }
+
+    private void setMonthLabelCaption(Date begin, Date end){
+        long diff =  (begin.getTime() - end.getTime());
+        int days = (int)TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
+
+        DateUtils.addDays(begin,days);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMMMM");
+        monthNameLabel.setValue(dateFormat.format(begin));
     }
 
 

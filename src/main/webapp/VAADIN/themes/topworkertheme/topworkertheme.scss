@@ -60,20 +60,34 @@
   .v-calendar-next {
     visibility: hidden;
   }
-
+  //month label
+  .month-label{
+    font-size:xx-large;
+    font-weight: bold;
+  }
   // right
   .right-arrow {
     font-family: 'fontello';
     font-style: normal;
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
   .right-arrow:after {
     content: "\e800";
+  }
+
+  .right-arrow:hover{
+    background: transparent;
   }
 
   //left
   .left-arrow {
     font-family: 'fontello';
     font-style: normal;
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
   .left-arrow:after {
     content: "\e801";

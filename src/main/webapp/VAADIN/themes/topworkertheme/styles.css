@@ -12434,18 +12434,33 @@ div.v-layout.v-horizontal.v-widget {
 	visibility: hidden;
 }
 
+.topworkertheme .month-label {
+	font-size: xx-large;
+	font-weight: bold;
+}
+
 .topworkertheme .right-arrow {
 	font-family: "fontello";
 	font-style: normal;
+	background: transparent;
+	border: none;
+	box-shadow: none;
 }
 
 .topworkertheme .right-arrow:after {
 	content: "\e800";
 }
 
+.topworkertheme .right-arrow:hover {
+	background: transparent;
+}
+
 .topworkertheme .left-arrow {
 	font-family: "fontello";
 	font-style: normal;
+	background: transparent;
+	border: none;
+	box-shadow: none;
 }
 
 .topworkertheme .left-arrow:after {

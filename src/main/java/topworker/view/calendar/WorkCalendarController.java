@@ -118,6 +118,7 @@ class WorkCalendarController {
     }
 
     private void setWholeMonth() {
+        calendar.add(java.util.Calendar.DAY_OF_MONTH,7);
         calendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
         calendarComponent.setStartDate(calendar.getTime());
         calendar.add(GregorianCalendar.MONTH, 1);
