@@ -9,8 +9,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "USERS")
-public class EUser {
+@Table(name = "USER_DETAILS")
+public class EUserDetails {
 
 	@Id
 	@GeneratedValue
@@ -18,7 +18,7 @@ public class EUser {
 	private String name;
 	private String lastName;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "userDetails")
 	private List<EWorkPeriod> workPeriods;
 
 	public String getName() {

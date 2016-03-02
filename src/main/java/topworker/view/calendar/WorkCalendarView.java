@@ -167,9 +167,8 @@ public class WorkCalendarView extends HorizontalLayout implements View {
     private void setMonthLabelCaption(Date begin, Date end){
         long diff =  (begin.getTime() - end.getTime());
         int days = (int)TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
-
         DateUtils.addDays(begin,days);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMMMM");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMMMM",new Locale("pl","PL"));
         monthNameLabel.setValue(dateFormat.format(begin));
     }
 
