@@ -20,7 +20,7 @@ public class EWorkPeriod {
     private Date stop;
 
     @ManyToOne
-    private EUser user;
+    private EUserDetails userDetails;
 
     public EWorkPeriod() {
     }
@@ -51,11 +51,11 @@ public class EWorkPeriod {
         this.stop = stop;
     }
 
-    public EUser getUser() {
-        return user;
+    public EUserDetails getUserDetails() {
+        return userDetails;
     }
 
-    public void setUser(EUser user) {
-        this.user = user;
+    public void setUserDetails(EUserDetails userDetails) {
+        this.userDetails = userDetails;
     }
 }
