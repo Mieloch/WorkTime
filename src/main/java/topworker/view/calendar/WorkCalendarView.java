@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Calendar;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;

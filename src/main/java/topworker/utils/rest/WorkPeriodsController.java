@@ -20,8 +20,8 @@ public class WorkPeriodsController {
 
 	@Autowired
 	private WorkPeriodService workPeriodService;
-	Logger log = Logger.getLogger(WorkPeriodsController.class.getName());
 
+	Logger log = Logger.getLogger(WorkPeriodsController.class.getName());
 	@RequestMapping(value = "/post", method = RequestMethod.POST)
 	public ResponseEntity<WorkPeriod> postPeriod(@RequestBody WorkPeriod period) {
 		System.out.println("Posting workPeriod");
@@ -30,5 +30,13 @@ public class WorkPeriodsController {
 
 		log.log(Level.INFO, "Posting workPeriod");
 		return new ResponseEntity<WorkPeriod>(HttpStatus.OK);
+	}
+
+	public WorkPeriodService getWorkPeriodService() {
+		return workPeriodService;
+	}
+
+	public void setWorkPeriodService(WorkPeriodService workPeriodService) {
+		this.workPeriodService = workPeriodService;
 	}
 }

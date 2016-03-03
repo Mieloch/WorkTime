@@ -1,12 +1,7 @@
 package topworker.view.summary;
 
 import com.vaadin.data.Property;
-import com.vaadin.data.Validator;
-import com.vaadin.data.validator.AbstractStringValidator;
 import com.vaadin.data.validator.DateRangeValidator;
-import com.vaadin.data.validator.NullValidator;
-import com.vaadin.data.validator.RegexpValidator;
-import org.apache.commons.lang.time.DateUtils;
 import org.springframework.context.annotation.Scope;
 import com.vaadin.data.Item;
 import com.vaadin.navigator.View;
@@ -17,12 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import topworker.model.WorkPeriodService;
 import topworker.model.bo.WorkDay;
-import topworker.model.bo.WorkPeriod;
 
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Calendar;
 
 /**
  * Created by Echomil on 2016-02-24.
