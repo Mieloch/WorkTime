@@ -1,12 +1,10 @@
 package topworker.model.dal.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import topworker.model.dal.UserDao;
 import topworker.model.dal.entity.EUser;
-import topworker.model.dal.entity.metadata.EUser_;
-import topworker.model.dal.entity.metadata.EWorkPeriod_;
+import topworker.model.dal.entity.EUser_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

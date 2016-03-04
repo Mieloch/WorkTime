@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import topworker.model.dal.entity.metadata.EUserDetails_;
+import topworker.model.dal.entity.EUserDetails_;
 import topworker.model.dal.entity.EUserDetails;
 
 @Repository

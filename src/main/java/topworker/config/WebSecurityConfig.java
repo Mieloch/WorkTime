@@ -20,23 +20,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/*").permitAll().and().formLogin().loginPage("/login").defaultSuccessUrl("/#!calendar", true).usernameParameter("login").passwordParameter("password").and().csrf();
-        // TODO Auto-generated method stub
-       /* http.csrf().disable().authorizeRequests().antMatchers("*//**").hasRole("USER").and().formLogin()
-                .defaultSuccessUrl("/#!calendar", true);*/
+        http.authorizeRequests().antMatchers("/*").hasRole("USER").and().formLogin().defaultSuccessUrl("/#!calendar", true).usernameParameter("login").passwordParameter("password").and().csrf().disable();
     }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         try {
-            auth.userDetailsService(userDetailsService);
+            auth.userDetailsService(userDetailsService).and();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
-
 
 
 }

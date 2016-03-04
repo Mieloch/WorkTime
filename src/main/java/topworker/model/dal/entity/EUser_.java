@@ -1,15 +1,9 @@
-package topworker.model.dal.entity.metadata;
+package topworker.model.dal.entity;
 
 import topworker.model.dal.entity.EUser;
-import topworker.model.dal.entity.EWorkPeriod;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-import java.util.Date;
-
-/**
- * Created by echomil on 04.03.16.
- */
 
 @StaticMetamodel(EUser.class)
 public class EUser_ {

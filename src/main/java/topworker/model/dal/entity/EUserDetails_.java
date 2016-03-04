@@ -1,4 +1,4 @@
-package topworker.model.dal.entity.metadata;
+package topworker.model.dal.entity;
 
 import topworker.model.dal.entity.EUserDetails;
 

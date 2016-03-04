@@ -1,15 +1,15 @@
 package topworker.model.dal.entity;
 
-import topworker.model.bo.UserRole;
-
 import javax.persistence.*;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
 import java.util.Set;
 
 /**
  * Created by echomil on 03.03.16.
  */
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 public class EUser {
 
     @Id
@@ -23,7 +23,7 @@ public class EUser {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "USER_USER_ROLES", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ROLES_ID")})
+    @JoinTable(name = "USERS_USER_ROLES", joinColumns = {@JoinColumn(name = "USERS_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ROLES_ID")})
     private Set<EUserRoles> userRoles;
 
     @Column(name = "ACTIVE", nullable = false)
@@ -69,4 +69,10 @@ public class EUser {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    /**
+     * Created by echomil on 04.03.16.
+     */
+
+
 }
