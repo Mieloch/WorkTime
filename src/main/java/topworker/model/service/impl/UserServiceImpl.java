@@ -4,6 +4,7 @@ import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import topworker.model.bo.User;
 import topworker.model.bo.UserRole;
 import topworker.model.dal.UserDao;
@@ -16,6 +17,8 @@ import javax.annotation.PostConstruct;
 /**
  * Created by echomil on 04.03.16.
  */
+
+@Service("UserServiceImpl")
 public class UserServiceImpl implements UserService {
 
     @Autowired

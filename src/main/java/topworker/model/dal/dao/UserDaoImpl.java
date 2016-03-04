@@ -1,6 +1,8 @@
 package topworker.model.dal.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import topworker.model.dal.UserDao;
 import topworker.model.dal.entity.EUser;
 import topworker.model.dal.entity.metadata.EUser_;
@@ -16,6 +18,9 @@ import javax.persistence.criteria.Root;
 /**
  * Created by echomil on 04.03.16.
  */
+
+@Repository(value = "UserDaoImpl")
+@Transactional(value = "PlatformTransactionManager")
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
