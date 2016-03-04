@@ -1,4 +1,6 @@
-package topworker.model.dal.entity;
+package topworker.model.dal.entity.metadata;
+
+import topworker.model.dal.entity.EWorkPeriod;
 
 import java.util.Date;
 

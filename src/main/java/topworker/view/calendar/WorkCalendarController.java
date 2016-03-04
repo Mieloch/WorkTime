@@ -14,9 +14,8 @@ import com.vaadin.ui.Calendar;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEvent;
 
-import topworker.model.WorkPeriodService;
+import topworker.model.service.WorkPeriodService;
 import topworker.model.bo.WorkPeriod;
-import topworker.model.dal.entity.EWorkPeriod;
 import topworker.view.calendar.enums.CalendarRange;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)

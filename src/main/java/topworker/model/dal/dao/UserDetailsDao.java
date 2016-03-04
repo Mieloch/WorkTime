@@ -10,11 +10,11 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import topworker.model.dal.entity.EUser_;
+import topworker.model.dal.entity.metadata.EUserDetails_;
 import topworker.model.dal.entity.EUserDetails;
 
 @Repository
-public class UserDao {
+public class UserDetailsDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -24,7 +24,7 @@ public class UserDao {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<EUserDetails> cq = cb.createQuery(EUserDetails.class);
 		Root<EUserDetails> c = cq.from(EUserDetails.class);
-		cq.where(c.get(EUser_.id).in(id));
+		cq.where(c.get(EUserDetails_.id).in(id));
 		Query q = entityManager.createQuery(cq);
 		return (EUserDetails) q.getSingleResult();
 

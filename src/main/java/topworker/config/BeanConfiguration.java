@@ -2,8 +2,8 @@ package topworker.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import topworker.model.WorkPeriodService;
-import topworker.model.WorkPeriodServiceImpl;
+import topworker.model.service.WorkPeriodService;
+import topworker.model.service.impl.WorkPeriodServiceImpl;
 
 /**
  * Created by Echomil on 2016-02-26.

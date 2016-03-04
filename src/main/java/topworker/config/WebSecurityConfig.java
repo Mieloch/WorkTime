@@ -21,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) {
 		try {
+
 			auth.inMemoryAuthentication().withUser("test").password("test").roles("USER");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import topworker.model.bo.WorkPeriod;
 import topworker.model.dal.entity.EWorkPeriod;
 import topworker.model.dal.WorkPeriodDao;
-import topworker.model.dal.entity.EWorkPeriod_;
+import topworker.model.dal.entity.metadata.EWorkPeriod_;
 
 @Repository(value = "WorkPeriodDaoImpl")
 @Transactional(value = "PlatformTransactionManager")
@@ -28,7 +28,7 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     private EntityManager entityManager;
 
     @Autowired
-    private UserDao userDao;
+    private UserDetailsDao userDetailsDao;
 
     @Override
     public List<EWorkPeriod> getFromDateToDate(Date startDate, Date endDate) {
@@ -49,7 +49,7 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         }
         e.setStop(timeStamp.getStop());
 
-        e.setUserDetails(userDao.getUserById(1l));
+        e.setUserDetails(userDetailsDao.getUserById(1l));
         entityManager.persist(e);
         // entityManager.merge(e);
     }

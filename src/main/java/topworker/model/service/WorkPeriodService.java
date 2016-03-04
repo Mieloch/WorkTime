@@ -1,4 +1,4 @@
-package topworker.model;
+package topworker.model.service;
 
 import topworker.model.bo.WorkDay;
 import topworker.model.bo.WorkPeriod;

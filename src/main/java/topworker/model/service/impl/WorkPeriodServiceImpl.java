@@ -1,17 +1,15 @@
-package topworker.model;
+package topworker.model.service.impl;
 
-import com.vaadin.data.Item;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import topworker.model.bo.WorkDay;
 import topworker.model.bo.WorkPeriod;
 import topworker.model.dal.WorkPeriodDao;
 import topworker.model.dal.entity.EWorkPeriod;
+import topworker.model.service.WorkPeriodService;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
