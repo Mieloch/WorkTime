@@ -1,7 +1,5 @@
 package topworker.model.dal.entity;
 
-import topworker.model.dal.entity.EWorkPeriod;
-
 import java.util.Date;
 
 import javax.persistence.metamodel.SingularAttribute;

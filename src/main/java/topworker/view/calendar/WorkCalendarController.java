@@ -14,7 +14,7 @@ import com.vaadin.ui.Calendar;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEvent;
 
-import topworker.model.service.WorkPeriodService;
+import topworker.service.WorkPeriodService;
 import topworker.model.bo.WorkPeriod;
 import topworker.view.calendar.enums.CalendarRange;
 

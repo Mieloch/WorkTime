@@ -8,8 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
 @EnableAutoConfiguration
@@ -24,9 +28,15 @@ public class TopWorkerApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) {
+
 		ApplicationContext ctx = SpringApplication.run(TopWorkerApplication.class, args);
 
+
+		printBeanNames(ctx);
+
 	}
+
+
 
 	private static void printBeanNames(ApplicationContext ctx) {
 		String[] beanNames = ctx.getBeanDefinitionNames();

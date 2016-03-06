@@ -16,8 +16,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import topworker.model.bo.WorkPeriod;
-import topworker.model.dal.entity.EWorkPeriod;
 import topworker.model.dal.WorkPeriodDao;
+import topworker.model.dal.entity.EWorkPeriod;
 import topworker.model.dal.entity.EWorkPeriod_;
 
 @Repository(value = "WorkPeriodDaoImpl")

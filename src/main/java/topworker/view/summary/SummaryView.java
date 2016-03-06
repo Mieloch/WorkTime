@@ -10,7 +10,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
-import topworker.model.service.WorkPeriodService;
+import topworker.service.WorkPeriodService;
 import topworker.model.bo.WorkDay;
 
 import javax.annotation.PostConstruct;

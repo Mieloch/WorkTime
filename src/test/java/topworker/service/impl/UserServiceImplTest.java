@@ -1,12 +1,9 @@
-package topworker.model.service.impl;
+package topworker.service.impl;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
 import topworker.model.bo.User;
 import topworker.model.bo.UserRole;
 import topworker.model.dal.UserDao;

@@ -102,6 +102,8 @@
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.13" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.2.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-themes:7.4.5" level="project" />
+    <orderEntry type="library" name="Maven: org.jdal:jdal-core:2.1.RC1" level="project" />
+    <orderEntry type="library" name="Maven: org.jdal:jdal-vaadin:2.1.RC1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:1.3.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:4.2.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />

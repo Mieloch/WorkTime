@@ -1,7 +1,5 @@
 package topworker.model.dal.entity;
 
-import topworker.model.dal.entity.EUserDetails;
-
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 

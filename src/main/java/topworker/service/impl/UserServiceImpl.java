@@ -1,4 +1,4 @@
-package topworker.model.service.impl;
+package topworker.service.impl;
 
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
@@ -10,9 +10,7 @@ import topworker.model.bo.UserRole;
 import topworker.model.dal.UserDao;
 import topworker.model.dal.entity.EUser;
 import topworker.model.dal.entity.EUserRoles;
-import topworker.model.service.UserService;
-
-import javax.annotation.PostConstruct;
+import topworker.service.UserService;
 
 /**
  * Created by echomil on 04.03.16.

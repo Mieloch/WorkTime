@@ -1,8 +1,6 @@
 package topworker.model.dal.entity;
 
 import javax.persistence.*;
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.StaticMetamodel;
 import java.util.Set;
 
 /**

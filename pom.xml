@@ -24,6 +24,8 @@
         <java.version>1.7</java.version>
     </properties>
 
+
+
     <dependencies>
 
         <dependency>
@@ -93,6 +95,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.jdal</groupId>
+            <artifactId>jdal-core</artifactId>
+            <version>2.1.RC1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jdal</groupId>
+            <artifactId>jdal-vaadin</artifactId>
+            <version>2.1.RC1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
@@ -124,20 +138,20 @@
                 </executions>
             </plugin>
             <plugin>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-maven-plugin</artifactId>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>clean</goal>
-                        <goal>resources</goal>
-                        <goal>update-theme</goal>
-                        <goal>update-widgetset</goal>
-                        <goal>compile-theme</goal>
-                        <goal>compile</goal>
-                    </goals>
-                </execution>
-            </executions>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>clean</goal>
+                            <goal>resources</goal>
+                            <goal>update-theme</goal>
+                            <goal>update-widgetset</goal>
+                            <goal>compile-theme</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

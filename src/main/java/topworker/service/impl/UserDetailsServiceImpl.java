@@ -1,4 +1,4 @@
-package topworker.model.service.impl;
+package topworker.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import topworker.model.bo.User;
 import topworker.model.bo.UserRole;
-import topworker.model.service.UserService;
+import topworker.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;

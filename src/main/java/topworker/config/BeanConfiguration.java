@@ -1,14 +1,16 @@
 package topworker.config;
 
+import org.jdal.vaadin.beans.VaadinScope;
+import org.springframework.beans.factory.config.CustomScopeConfigurer;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
-import topworker.model.service.UserService;
-import topworker.model.service.WorkPeriodService;
-import topworker.model.service.impl.UserDetailsServiceImpl;
-import topworker.model.service.impl.UserServiceImpl;
-import topworker.model.service.impl.WorkPeriodServiceImpl;
+import topworker.TopWorkerApplication;
+import topworker.service.WorkPeriodService;
+import topworker.service.impl.WorkPeriodServiceImpl;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Echomil on 2016-02-26.
@@ -21,12 +23,5 @@ public class BeanConfiguration {
     public WorkPeriodService getWorkPeriodService() {
         return new WorkPeriodServiceImpl();
     }
-
-   /* @Bean
-    public UserService getUserService() {
-        return new UserServiceImpl();
-    }*/
-
-
 
 }

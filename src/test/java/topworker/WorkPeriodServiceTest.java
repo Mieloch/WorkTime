@@ -1,4 +1,4 @@
-package topworker.model;
+package topworker;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import topworker.model.bo.WorkPeriod;
 import topworker.model.dal.WorkPeriodDao;
 import topworker.model.dal.entity.EWorkPeriod;
-import topworker.model.service.impl.WorkPeriodServiceImpl;
+import topworker.service.impl.WorkPeriodServiceImpl;
 
 import java.util.*;
 

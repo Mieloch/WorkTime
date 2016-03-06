@@ -1,4 +1,4 @@
-package topworker.model.service.impl;
+package topworker.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -7,7 +7,7 @@ import topworker.model.bo.WorkDay;
 import topworker.model.bo.WorkPeriod;
 import topworker.model.dal.WorkPeriodDao;
 import topworker.model.dal.entity.EWorkPeriod;
-import topworker.model.service.WorkPeriodService;
+import topworker.service.WorkPeriodService;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

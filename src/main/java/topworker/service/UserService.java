@@ -1,4 +1,4 @@
-package topworker.model.service;
+package topworker.service;
 
 import topworker.model.bo.User;
 
