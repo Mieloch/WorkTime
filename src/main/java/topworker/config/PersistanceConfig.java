@@ -22,54 +22,54 @@ import org.springframework.transaction.PlatformTransactionManager;
 @ConfigurationProperties(locations = "classpath:database.properties")
 public class PersistanceConfig {
 
-	private static final String HIBERNATE_PROP_FILE = "hibernate.properties";
+    private static final String HIBERNATE_PROP_FILE = "hibernate.properties";
 
-	@Bean(name = "dataBase")
-	public DataSource getDataSource() {
-		DataSource dataSource = new DataSource();
-		return dataSource;
+    @Bean(name = "dataBase")
+    public DataSource getDataSource() {
+        DataSource dataSource = new DataSource();
+        return dataSource;
 
-	}
+    }
 
-	@Bean(name = "LocalContainerEntityManagerFactoryBean")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(getDataSource());
-		em.setPackagesToScan(new String[] { "topworker.model.dal" });
+    @Bean(name = "LocalContainerEntityManagerFactoryBean")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(getDataSource());
+        em.setPackagesToScan(new String[]{"topworker.model.dal"});
 
-		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
-		em.setJpaVendorAdapter(vendorAdapter);
-		em.setJpaProperties(additionalProperties());
+        em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaProperties(additionalProperties());
 
-		return em;
+        return em;
 
-	}
+    }
 
-	@Bean(name = "PlatformTransactionManager")
-	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(emf);
+    @Bean(name = "PlatformTransactionManager")
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
 
-		return transactionManager;
-	}
+        return transactionManager;
+    }
 
-	@Bean(name = "PersistenceExceptionTranslationPostProcessor")
-	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-		return new PersistenceExceptionTranslationPostProcessor();
-	}
+    @Bean(name = "PersistenceExceptionTranslationPostProcessor")
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
 
-	private Properties additionalProperties() {
-		Properties properties = new Properties();
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(HIBERNATE_PROP_FILE);
-		if (inputStream != null) {
-			try {
-				properties.load(inputStream);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+    private Properties additionalProperties() {
+        Properties properties = new Properties();
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(HIBERNATE_PROP_FILE);
+        if (inputStream != null) {
+            try {
+                properties.load(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-		return properties;
-	}
+        return properties;
+    }
 }

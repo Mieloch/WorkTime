@@ -3,6 +3,7 @@ package topworker.service.impl;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import topworker.model.bo.WorkDay;
 import topworker.model.bo.WorkPeriod;
 import topworker.model.dal.WorkPeriodDao;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 
+@Service
 public class WorkPeriodServiceImpl implements WorkPeriodService {
 
     @Autowired

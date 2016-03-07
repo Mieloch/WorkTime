@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -21,8 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       // http.authorizeRequests().antMatchers("/").hasRole("USER").and().formLogin().loginPage("/login").defaultSuccessUrl("/#!calendar", true).usernameParameter("login").passwordParameter("password").and().csrf().disable();
-            http.csrf().disable();
+        http.csrf().disable();
     }
 
     @Autowired
@@ -35,8 +36,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthService getAuthService(){
-        return new SpringAuthManager();
+    public LogoutHandler getLogoutHandler() {
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.setInvalidateHttpSession(false);
+        return logoutHandler;
     }
 
 

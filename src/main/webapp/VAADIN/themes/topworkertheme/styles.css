@@ -12448,7 +12448,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .right-arrow:after {
-	content: "\e800";
+	content: "\e802";
 }
 
 .topworkertheme .right-arrow:hover {
@@ -12464,7 +12464,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .left-arrow:after {
-	content: "\e801";
+	content: "\e803";
 }
 
 .topworkertheme .calendar {
@@ -12480,7 +12480,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .calendar:after {
-	content: "\e802";
+	content: "\e804";
 }
 
 .topworkertheme .search {
@@ -12489,7 +12489,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .search:after {
-	content: "\e803";
+	content: "\e805";
 }
 
 .topworkertheme .list {
@@ -12505,5 +12505,37 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .list:after {
-	content: "\e804";
+	content: "\e806";
+}
+
+.topworkertheme .logout {
+	font-family: "fontello";
+	font-style: normal;
+	font-size: 4vw;
+	margin-right: 2%;
+	background: rgba(187, 56, 56, 0);
+	border: #197de1;
+	border-style: solid;
+	border-width: 2px;
+	color: #197de1;
+}
+
+.topworkertheme .logout:after {
+	content: "\e800";
+}
+
+.topworkertheme .login {
+	font-family: "fontello";
+	font-style: normal;
+	font-size: 4vw;
+	margin-right: 1.4%;
+	background: rgba(187, 56, 56, 0);
+	border: #197de1;
+	border-style: solid;
+	border-width: 2px;
+	color: #197de1;
+}
+
+.topworkertheme .login:after {
+	content: "\e801";
 }

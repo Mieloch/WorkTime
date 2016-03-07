@@ -3,11 +3,13 @@ package topworker.utils.rest;
 import com.vaadin.navigator.ViewChangeListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import topworker.view.Login;
+import topworker.view.home.Home;
+import topworker.view.login.Login;
 
 /**
  * Created by echomil on 06.03.16.
  */
+
 public class ViewChangeSecurityChecker implements ViewChangeListener {
 
     @Override
@@ -16,8 +18,16 @@ public class ViewChangeSecurityChecker implements ViewChangeListener {
 
             return true;
         }
+        if (event.getNewView() instanceof Home) {
+
+            return true;
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null)
+        {
+            return false;
+        }
         if (authentication.getPrincipal().equals("anonymousUser")) {
             authentication.setAuthenticated(false);
         }

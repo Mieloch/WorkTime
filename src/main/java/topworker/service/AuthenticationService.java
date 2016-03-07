@@ -5,6 +5,7 @@ package topworker.service;
  */
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.jdal.vaadin.VaadinUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,11 @@ public class AuthenticationService {
 
 
 
-    public void handleAuthentication(String login, String password, HttpServletRequest httpRequest) {
+    public void handleAuthentication(String login, String password) {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, password);
-
-     //   token.setDetails(new WebAuthenticationDetails(httpRequest));
-
+        HttpServletRequest h = VaadinUtils.getRequest();
+        token.setDetails(new WebAuthenticationDetails(h));
         ServletContext servletContext = VaadinUtils.getSession().getServletContext();
 
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
@@ -40,17 +40,18 @@ public class AuthenticationService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    public void handleLogout(HttpServletRequest httpRequest) {
+    public void handleLogout() {
 
-        ServletContext servletContext = httpRequest.getSession().getServletContext();
+        ServletContext servletContext = VaadinUtils.getSession().getServletContext();
 
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
         LogoutHandler logoutHandler = wac.getBean(LogoutHandler.class);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         // Response should not be used?
-        logoutHandler.logout(httpRequest, null, authentication);
+        HttpServletRequest h = VaadinUtils.getRequest();
+
+        logoutHandler.logout(h, null, authentication);
     }
 }
