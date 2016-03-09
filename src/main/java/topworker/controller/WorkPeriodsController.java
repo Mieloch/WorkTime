@@ -1,4 +1,4 @@
-package topworker.utils.rest;
+package topworker.controller;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -1,6 +1,5 @@
-- glowny ekran
-- ekran statystyk
-- poprawic kalendarz jak w samplerze
-- css i wyglad
-- logowanie
+- glowny ekran, krotki opis aplikacji, przycisk domku
+- ogarniecie kodu
+- email z miesiecznym podsumowaniem
+-
 

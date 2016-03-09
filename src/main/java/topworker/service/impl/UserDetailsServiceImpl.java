@@ -12,6 +12,7 @@ import topworker.model.bo.User;
 import topworker.model.bo.UserRole;
 import topworker.service.UserService;
 
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         User user = userService.getByLogin(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");

@@ -1,4 +1,4 @@
-package topworker.utils.rest;
+package topworker.utils;
 
 import com.vaadin.navigator.ViewChangeListener;
 import org.springframework.security.core.Authentication;

@@ -12,7 +12,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.BadCredentialsException;
 import topworker.event.LoginEvent;
 import topworker.service.AuthenticationService;
-import topworker.utils.rest.ViewChangeSecurityChecker;
+import topworker.utils.ViewChangeSecurityChecker;
 import topworker.view.calendar.WorkCalendarView;
 import topworker.view.home.Home;
 import topworker.view.login.Login;
