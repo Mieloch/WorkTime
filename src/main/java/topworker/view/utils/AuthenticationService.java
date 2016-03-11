@@ -1,8 +1,9 @@
-package topworker.service;
+package topworker.view.utils;
 
 /**
  * Created by echomil on 06.03.16.
  */
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,7 +22,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 
 public class AuthenticationService {
-
 
 
     public void handleAuthentication(String login, String password) {
@@ -53,5 +53,14 @@ public class AuthenticationService {
         HttpServletRequest h = VaadinUtils.getRequest();
 
         logoutHandler.logout(h, null, authentication);
+    }
+
+    public boolean isAuthenticated() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return false;
+        } else {
+            return auth.isAuthenticated();
+        }
     }
 }

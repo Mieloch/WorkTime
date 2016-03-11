@@ -12455,6 +12455,36 @@ div.v-layout.v-horizontal.v-widget {
 	background: transparent;
 }
 
+.topworkertheme .home {
+	font-family: "fontello";
+	font-style: normal;
+	font-size: 4.5vw;
+	background: rgba(187, 56, 56, 0);
+	border: purple;
+	border-style: solid;
+	border-width: 2px;
+	color: purple;
+}
+
+.topworkertheme .home:after {
+	content: "\e809";
+}
+
+.topworkertheme .signup {
+	font-family: "fontello";
+	font-style: normal;
+	font-size: 4.5vw;
+	background: rgba(187, 56, 56, 0);
+	border: palevioletred;
+	border-style: solid;
+	border-width: 2px;
+	color: palevioletred;
+}
+
+.topworkertheme .signup:after {
+	content: "\e807";
+}
+
 .topworkertheme .left-arrow {
 	font-family: "fontello";
 	font-style: normal;
@@ -12471,7 +12501,6 @@ div.v-layout.v-horizontal.v-widget {
 	font-family: "fontello";
 	font-style: normal;
 	font-size: 4vw;
-	margin-left: 10%;
 	background: rgba(187, 56, 56, 0);
 	border: green;
 	border-style: solid;
@@ -12496,7 +12525,6 @@ div.v-layout.v-horizontal.v-widget {
 	font-family: "fontello";
 	font-style: normal;
 	font-size: 4.5vw;
-	margin-left: 4%;
 	background: rgba(187, 56, 56, 0);
 	border: orange;
 	border-style: solid;
@@ -12512,7 +12540,6 @@ div.v-layout.v-horizontal.v-widget {
 	font-family: "fontello";
 	font-style: normal;
 	font-size: 4vw;
-	margin-right: 2%;
 	background: rgba(187, 56, 56, 0);
 	border: #197de1;
 	border-style: solid;
@@ -12524,11 +12551,20 @@ div.v-layout.v-horizontal.v-widget {
 	content: "\e800";
 }
 
+.topworkertheme .welcome-information {
+	border: none;
+	color: black;
+}
+
+.topworkertheme .welcome-label {
+	font-size: 3vw;
+	text-align: center;
+}
+
 .topworkertheme .login {
 	font-family: "fontello";
 	font-style: normal;
 	font-size: 4vw;
-	margin-right: 1.4%;
 	background: rgba(187, 56, 56, 0);
 	border: #197de1;
 	border-style: solid;

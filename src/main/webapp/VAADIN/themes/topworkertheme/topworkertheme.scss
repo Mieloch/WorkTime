@@ -81,6 +81,38 @@
     background: transparent;
   }
 
+  .home {
+    font-family: 'fontello';
+    font-style: normal;
+    font-size:4.5vw;
+    //margin-left: 4%;
+    background: rgba(187, 56, 56, 0);
+    border: purple;
+    border-style: solid;
+    border-width: 2px;
+    color: purple;
+
+  }
+  .home:after {
+    content: "\e809";
+  }
+
+  .signup {
+    font-family: 'fontello';
+    font-style: normal;
+    font-size:4.5vw;
+    //margin-left: 4%;
+    background: rgba(187, 56, 56, 0);
+    border: palevioletred;
+    border-style: solid;
+    border-width: 2px;
+    color: palevioletred;
+
+  }
+  .signup:after {
+    content: "\e807";
+  }
+
   //left
   .left-arrow {
     font-family: 'fontello';
@@ -98,7 +130,7 @@
     font-family: 'fontello';
     font-style: normal;
     font-size:4vw;
-    margin-left: 10%;
+   // margin-left: 10%;
     background: rgba(187, 56, 56, 0);
     border: green;
     border-style: solid;
@@ -124,7 +156,7 @@
     font-family: 'fontello';
     font-style: normal;
     font-size:4.5vw;
-    margin-left: 4%;
+  //  margin-left: 4%;
     background: rgba(187, 56, 56, 0);
     border: orange;
     border-style: solid;
@@ -136,12 +168,13 @@
     content: "\e806";
   }
 
+
   //logout btn
   .logout {
     font-family: 'fontello';
     font-style: normal;
     font-size:4vw;
-    margin-right: 2%;
+   // margin-right: 2%;
     background: rgba(187, 56, 56, 0);
     border: #197de1;
     border-style: solid;
@@ -152,12 +185,21 @@
     content: "\e800";
   }
 
+  .welcome-information{
+    border: none;
+    color: black;
+  }
+
+  .welcome-label{
+    font-size: 3vw;
+    text-align: center;
+  }
   //login btn
   .login {
     font-family: 'fontello';
     font-style: normal;
     font-size:4vw;
-    margin-right: 1.4%;
+   // margin-right: 1.4%;
     background: rgba(187, 56, 56, 0);
     border: #197de1;
     border-style: solid;

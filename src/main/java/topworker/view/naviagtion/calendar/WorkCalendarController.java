@@ -1,4 +1,4 @@
-package topworker.view.calendar;
+package topworker.view.naviagtion.calendar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +16,7 @@ import com.vaadin.ui.components.calendar.event.CalendarEvent;
 
 import topworker.service.WorkPeriodService;
 import topworker.model.bo.WorkPeriod;
-import topworker.view.calendar.enums.CalendarRange;
+import topworker.view.naviagtion.calendar.enums.CalendarRange;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Component

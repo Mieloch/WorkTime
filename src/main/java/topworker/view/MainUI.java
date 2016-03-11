@@ -11,12 +11,13 @@ import com.vaadin.spring.navigator.SpringViewProvider;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.BadCredentialsException;
 import topworker.event.LoginEvent;
-import topworker.service.AuthenticationService;
-import topworker.utils.ViewChangeSecurityChecker;
-import topworker.view.calendar.WorkCalendarView;
-import topworker.view.home.Home;
-import topworker.view.login.Login;
-import topworker.view.summary.SummaryView;
+import topworker.view.naviagtion.signup.SignUp;
+import topworker.view.utils.AuthenticationService;
+import topworker.view.utils.ViewChangeSecurityChecker;
+import topworker.view.naviagtion.calendar.WorkCalendarView;
+import topworker.view.naviagtion.home.Home;
+import topworker.view.naviagtion.login.Login;
+import topworker.view.naviagtion.summary.SummaryView;
 
 @Theme("topworkertheme")
 @SpringUI()
@@ -31,13 +32,15 @@ public class MainUI extends UI {
     private Navigator navigator;
     private Panel contentPanel;
     private HorizontalLayout contentLayout;
-    private HorizontalLayout upperLayout;
+    private GridLayout upperLayout;
     private HorizontalLayout bottomLayout;
     private Button loginButton;
     private Button logoutButton;
+    AuthenticationService authenticationService;
 
 
     public MainUI() {
+         authenticationService = new AuthenticationService();
 
     }
 
@@ -52,12 +55,11 @@ public class MainUI extends UI {
 
 
     public void handleLogoutEvent() {
-        AuthenticationService authenticationService = new AuthenticationService();
         try {
             navigator.navigateTo(Home.VIEW_NAME);
             authenticationService.handleLogout();
             removeNavigationButtons();
-            addLoginButton();
+            addNotLogedButtons();
         } catch (BadCredentialsException exception) {
             Notification.show("Błąd przy wylogowaniu", Notification.Type.ERROR_MESSAGE);
         }
@@ -65,7 +67,6 @@ public class MainUI extends UI {
     }
     @EventListener
     public void handleLoginEvent(LoginEvent loginEvent) {
-        AuthenticationService authenticationService = new AuthenticationService();
         try {
             authenticationService.handleAuthentication(loginEvent.getLogin(), loginEvent.getPassword());
             upperLayout.removeAllComponents();
@@ -89,15 +90,15 @@ public class MainUI extends UI {
     private void addNavigationButtons() {
         Button calendarButton = createNavigationButton("", WorkCalendarView.VIEW_NAME, "calendar");
         Button listButton = createNavigationButton("", SummaryView.VIEW_NAME, "list");
-        upperLayout.addComponent(calendarButton);
-        upperLayout.addComponent(listButton);
-        upperLayout.addComponent(logoutButton);
-        upperLayout.setExpandRatio(calendarButton,1f);
-        upperLayout.setExpandRatio(listButton,1f);
-        upperLayout.setExpandRatio(logoutButton,8f);
+        Button homeButton = createNavigationButton("", Home.VIEW_NAME,"home");
+        upperLayout.addComponent(calendarButton,0,0);
+        upperLayout.addComponent(listButton,1,0);
+        upperLayout.addComponent(homeButton,6,0);
+        upperLayout.addComponent(logoutButton,7,0);
         upperLayout.setComponentAlignment(listButton, Alignment.MIDDLE_CENTER);
         upperLayout.setComponentAlignment(calendarButton, Alignment.MIDDLE_CENTER);
-        upperLayout.setComponentAlignment(logoutButton, Alignment.MIDDLE_RIGHT);
+        upperLayout.setComponentAlignment(homeButton, Alignment.MIDDLE_CENTER);
+        upperLayout.setComponentAlignment(logoutButton, Alignment.MIDDLE_CENTER);
     }
 
     private void removeNavigationButtons(){
@@ -125,9 +126,15 @@ public class MainUI extends UI {
 
     }
     private void initUpperLayout(){
-        upperLayout = new HorizontalLayout();
+        upperLayout = new GridLayout();
+        upperLayout.setRows(1);
+        upperLayout.setColumns(8);
         upperLayout.setSizeFull();
-        addLoginButton();
+        if(authenticationService.isAuthenticated()){
+            addNavigationButtons();
+        }else{
+            addNotLogedButtons();
+        }
         /*upperLayout.setHeight(100f, Unit.PERCENTAGE);
         upperLayout.setWidth(20f,Unit.PERCENTAGE);*/
     }
@@ -171,7 +178,7 @@ public class MainUI extends UI {
             }
         });
         logoutButton.addStyleName("logout");
-        logoutButton.setWidth(10f, Unit.PERCENTAGE);
+        logoutButton.setWidth(80f, Unit.PERCENTAGE);
         logoutButton.setHeight(80f, Unit.PERCENTAGE);
         return logoutButton;
     }
@@ -185,14 +192,20 @@ public class MainUI extends UI {
             }
         });
         loginButton.addStyleName("login");
-        loginButton.setWidth(8f, Unit.PERCENTAGE);
+        loginButton.setWidth(80f, Unit.PERCENTAGE);
         loginButton.setHeight(80f, Unit.PERCENTAGE);
         return loginButton;
     }
 
-    private void addLoginButton(){
-        upperLayout.addComponent(loginButton);
-        upperLayout.setComponentAlignment(loginButton,Alignment.MIDDLE_RIGHT);
+    private void addNotLogedButtons(){
+        Button homeButton = createNavigationButton("", Home.VIEW_NAME,"home");
+        Button signupButton = createNavigationButton("", SignUp.VIEW_NAME,"signup");
+        upperLayout.addComponent(signupButton,5,0);
+        upperLayout.setComponentAlignment(signupButton,Alignment.MIDDLE_CENTER);
+        upperLayout.addComponent(homeButton,6,0);
+        upperLayout.setComponentAlignment(homeButton,Alignment.MIDDLE_CENTER);
+        upperLayout.addComponent(loginButton,7,0);
+        upperLayout.setComponentAlignment(loginButton,Alignment.MIDDLE_CENTER);
     }
 
 }

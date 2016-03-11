@@ -1,4 +1,4 @@
-package topworker.view.summary;
+package topworker.view.naviagtion.summary;
 
 import com.vaadin.data.Property;
 import com.vaadin.data.validator.DateRangeValidator;

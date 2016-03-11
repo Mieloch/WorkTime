@@ -1,6 +1,6 @@
-package topworker.view.login;
+package topworker.view.naviagtion.login;
 
-import com.google.gwt.event.shared.EventBus;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -40,8 +40,6 @@ public class Login extends VerticalLayout implements View {
         setComponentAlignment(form, Alignment.MIDDLE_CENTER);
         addComponent(loginButton);
         setComponentAlignment(loginButton, Alignment.TOP_CENTER);
-       // setExpandRatio(form,3f);
-       // setExpandRatio(loginButton,1f);
     }
 
     private void init() {
@@ -50,6 +48,7 @@ public class Login extends VerticalLayout implements View {
         loginField = new TextField("Login");
         passwordField = new PasswordField("Haslo");
         loginButton = createLoginButton();
+        loginButton.addShortcutListener(new Button.ClickShortcut(loginButton,ShortcutAction.KeyCode.ENTER));
         form.addComponent(loginField);
         form.addComponent(passwordField);
 
