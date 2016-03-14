@@ -4,6 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import topworker.model.bo.WorkDay;
 import topworker.model.bo.WorkPeriod;
@@ -103,6 +105,15 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
             return null;
         }
         return mapToWorkPeriod(queryResult);
+    }
+
+    @Override
+    public List<WorkPeriod> getAllBelongToUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+        return mapToWorkPeriod(workPeriodDao.getAllBelongToUser(login));
+
+
     }
 
     private List<WorkPeriod> mapToWorkPeriod(List<EWorkPeriod> eWorkPeriods) {

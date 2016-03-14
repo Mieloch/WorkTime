@@ -1,7 +1,13 @@
 package topworker.model.dal.dao;
 
-import java.util.Date;
-import java.util.List;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import topworker.model.bo.WorkPeriod;
+import topworker.model.dal.WorkPeriodDao;
+import topworker.model.dal.entity.EUser;
+import topworker.model.dal.entity.EUser_;
+import topworker.model.dal.entity.EWorkPeriod;
+import topworker.model.dal.entity.EWorkPeriod_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -9,16 +15,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import topworker.model.bo.WorkPeriod;
-import topworker.model.dal.WorkPeriodDao;
-import topworker.model.dal.entity.EWorkPeriod;
-import topworker.model.dal.entity.EWorkPeriod_;
+import java.util.Date;
+import java.util.List;
 
 @Repository(value = "WorkPeriodDaoImpl")
 @Transactional(value = "PlatformTransactionManager")
@@ -26,7 +26,6 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
 
     @PersistenceContext
     private EntityManager entityManager;
-
 
 
     @Override
@@ -48,7 +47,7 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         }
         e.setStop(timeStamp.getStop());
 
-      //  e.setUser(userDetailsDao.getUserById(1l));
+        //  e.setUser(userDetailsDao.getUserById(1l));
         entityManager.persist(e);
         // entityManager.merge(e);
     }
@@ -87,6 +86,17 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         cq.where(root.get(EWorkPeriod_.start).in(start));
         Query q = entityManager.createQuery(cq);
 
+        return q.getResultList();
+    }
+
+    @Override
+    public List<EWorkPeriod> getAllBelongToUser(String user) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
+        Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);
+        Join<EWorkPeriod, EUser> userJoin = root.join(EWorkPeriod_.user);
+        cq.where(userJoin.get(EUser_.login).in(user));
+        Query q = entityManager.createQuery(cq);
         return q.getResultList();
     }
 

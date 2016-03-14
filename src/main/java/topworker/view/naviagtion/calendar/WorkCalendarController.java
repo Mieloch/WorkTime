@@ -1,22 +1,20 @@
 package topworker.view.naviagtion.calendar;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
+import com.vaadin.ui.Calendar;
+import com.vaadin.ui.components.calendar.event.BasicEvent;
+import com.vaadin.ui.components.calendar.event.CalendarEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-
-import com.vaadin.ui.Calendar;
-import com.vaadin.ui.components.calendar.event.BasicEvent;
-import com.vaadin.ui.components.calendar.event.CalendarEvent;
-
-import topworker.service.WorkPeriodService;
 import topworker.model.bo.WorkPeriod;
+import topworker.service.WorkPeriodService;
 import topworker.view.naviagtion.calendar.enums.CalendarRange;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Component
@@ -34,7 +32,7 @@ class WorkCalendarController {
     }
 
     public void loadWorkPeriods() {
-        List<WorkPeriod> periods = workPeriodService.getAll();
+        List<WorkPeriod> periods = workPeriodService.getAllBelongToUser();
         for (WorkPeriod eWorkPeriod : periods) {
             SimpleDateFormat format = new SimpleDateFormat("hh:mm");
             String endDate = format.format(eWorkPeriod.getStop());

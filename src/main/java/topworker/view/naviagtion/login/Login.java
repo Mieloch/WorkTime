@@ -48,7 +48,7 @@ public class Login extends VerticalLayout implements View {
     private void init() {
         content = new VerticalLayout();
         content.setSizeUndefined();
-        loginLabel = new Label("Zalogj");
+        loginLabel = new Label("Zaloguj");
         loginLabel.addStyleName("welcome-label");
         FormLayout form = new FormLayout();
         form.setSizeUndefined();
@@ -61,7 +61,6 @@ public class Login extends VerticalLayout implements View {
         content.addComponent(form);
         content.addComponent(loginButton);
         content.setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
-
     }
 
     private Button createLoginButton() {

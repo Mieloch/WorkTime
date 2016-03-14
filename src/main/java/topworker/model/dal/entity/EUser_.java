@@ -1,5 +1,6 @@
 package topworker.model.dal.entity;
 
+import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -7,4 +8,6 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class EUser_ {
     public static volatile SingularAttribute<EUser, String> login;
     public static volatile SingularAttribute<EUser, Integer> id;
+    public static volatile SetAttribute<EUser, EWorkPeriod> workPeriods;
+
 }

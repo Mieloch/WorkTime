@@ -1,5 +1,6 @@
-- glowny ekran, krotki opis aplikacji, przycisk domku
-- ogarniecie kodu
++ glowny ekran, krotki opis aplikacji, przycisk domku
++/- ogarniecie kodu
 - email z miesiecznym podsumowaniem
--
+- internacjonalizacja
+- demo user i schemat
 

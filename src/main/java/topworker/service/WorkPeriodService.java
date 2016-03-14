@@ -14,6 +14,8 @@ public interface WorkPeriodService {
 
     List<WorkPeriod> getAll();
 
+    List<WorkPeriod> getAllBelongToUser();
+
     void postTime(WorkPeriod workPeriod);
 
     List<WorkPeriod> getAllStartingIn(Date start);

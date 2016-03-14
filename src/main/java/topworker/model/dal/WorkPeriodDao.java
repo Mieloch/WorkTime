@@ -15,4 +15,6 @@ public interface WorkPeriodDao {
      List<EWorkPeriod> getAll();
      EWorkPeriod getByStartDate(Date startDate);
      List<EWorkPeriod> getAllStartingIn(Date start);
+
+     List<EWorkPeriod> getAllBelongToUser(String user);
 }
