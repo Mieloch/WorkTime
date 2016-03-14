@@ -27,15 +27,23 @@ public class SignUp extends VerticalLayout implements View {
     private TextField login;
     private TextField email;
     private PasswordField password;
+    private Label registerLabel;
 
     public SignUp() {
         initForm();
+        addComponent(registerLabel);
         addComponent(form);
         setSizeFull();
-        setComponentAlignment(form, Alignment.MIDDLE_CENTER);
+        setExpandRatio(registerLabel, 1.5f);
+        setExpandRatio(form, 9f);
+        setComponentAlignment(form, Alignment.TOP_CENTER);
+        setComponentAlignment(registerLabel, Alignment.MIDDLE_CENTER);
     }
 
     public void initForm() {
+        registerLabel = new Label("Zarejestruj sie");
+        registerLabel.addStyleName("welcome-label");
+
         form = new FormLayout();
         form.setSizeUndefined();
         initFields();

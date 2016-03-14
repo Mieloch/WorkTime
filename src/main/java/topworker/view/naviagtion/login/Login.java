@@ -24,8 +24,8 @@ public class Login extends VerticalLayout implements View {
 
     private PasswordField passwordField;
 
-    private Button loginButton;
-    private FormLayout form;
+    private VerticalLayout content;
+    private Label loginLabel;
 
 
     @Autowired
@@ -36,21 +36,31 @@ public class Login extends VerticalLayout implements View {
         setMargin(true);
         setSizeFull();
         init();
-        addComponent(form);
-        setComponentAlignment(form, Alignment.MIDDLE_CENTER);
-        addComponent(loginButton);
-        setComponentAlignment(loginButton, Alignment.TOP_CENTER);
+        addComponent(loginLabel);
+        setComponentAlignment(loginLabel, Alignment.MIDDLE_CENTER);
+        addComponent(content);
+        setComponentAlignment(content, Alignment.TOP_CENTER);
+        setExpandRatio(loginLabel, 1.5f);
+        setExpandRatio(content, 9f);
+
     }
 
     private void init() {
-        form = new FormLayout();
+        content = new VerticalLayout();
+        content.setSizeUndefined();
+        loginLabel = new Label("Zalogj");
+        loginLabel.addStyleName("welcome-label");
+        FormLayout form = new FormLayout();
         form.setSizeUndefined();
         loginField = new TextField("Login");
         passwordField = new PasswordField("Haslo");
-        loginButton = createLoginButton();
+        Button loginButton = createLoginButton();
         loginButton.addShortcutListener(new Button.ClickShortcut(loginButton,ShortcutAction.KeyCode.ENTER));
         form.addComponent(loginField);
         form.addComponent(passwordField);
+        content.addComponent(form);
+        content.addComponent(loginButton);
+        content.setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
 
     }
 
