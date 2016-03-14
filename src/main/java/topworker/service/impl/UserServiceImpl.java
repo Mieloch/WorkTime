@@ -1,12 +1,14 @@
 package topworker.service.impl;
 
+import com.vaadin.ui.Notification;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import topworker.model.bo.User;
 import topworker.model.bo.UserRole;
 import topworker.model.dal.UserDao;
@@ -14,7 +16,9 @@ import topworker.model.dal.entity.EUser;
 import topworker.model.dal.entity.EUserRoles;
 import topworker.service.UserService;
 
-import javax.persistence.NoResultException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by echomil on 04.03.16.
@@ -52,6 +56,34 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return mapToUser(eUser);
+    }
+
+    @Override
+    public void addUser(User user) {
+        Set<EUserRoles> roles = userDao.getRoles(user.getUserRoles());
+        EUser eUser = mapToEuser(user);
+        eUser.setUserRoles(roles);
+        try {
+            userDao.persist(eUser);
+        }  catch (DataIntegrityViolationException e ) {
+            String details = e.getCause().getCause().toString();
+            if(details.indexOf("email") != -1){
+                throw new IllegalArgumentException("Podany E-mail jest juz zarejestrowany");
+            }
+            else if(details.indexOf("login") != -1){
+                throw new IllegalArgumentException("Podany login jest juz zarejestrowany");
+            }
+            else{
+                e.printStackTrace();
+                throw new IllegalArgumentException("Błąd podczas zapisu uzytkownika");
+            }
+        }
+    }
+
+    protected EUser mapToEuser(User user){
+        EUser result = new EUser();
+        mapper.map(user,result);
+        return  result;
     }
 
     protected User mapToUser(EUser eUser) {

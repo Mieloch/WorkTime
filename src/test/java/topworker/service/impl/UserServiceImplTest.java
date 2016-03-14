@@ -9,7 +9,9 @@ import topworker.model.bo.UserRole;
 import topworker.model.dal.UserDao;
 import topworker.model.dal.entity.EUser;
 import topworker.model.dal.entity.EUserRoles;
+import topworker.model.dal.entity.EWorkPeriod;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,11 +39,21 @@ public class UserServiceImplTest {
         Assert.assertEquals(result, user);
     }
 
+    @Test
+    public void isUserMappedToEntityProperly(){
+        EUser eUser = prepareTestEUser();
+        User user = prepareTestUser();
+        EUser result = userService.mapToEuser(user);
+        Assert.assertEquals(result, eUser);
+
+
+    }
     private User prepareTestUser() {
         User user = new User();
         user.setLogin("login");
         user.setPassword("pass");
         user.setActive(true);
+        user.setEmail("mail@mail.com");
         Set<UserRole> roleSet = new HashSet<>();
         roleSet.add(UserRole.ADMIN);
         roleSet.add(UserRole.USER);
@@ -51,10 +63,12 @@ public class UserServiceImplTest {
 
     private EUser prepareTestEUser() {
         EUser eUser = new EUser();
-        eUser.setId(1);
+        eUser.setWorkPeriods(new ArrayList<EWorkPeriod>());
+        eUser.setId(0);
         eUser.setActive(true);
         eUser.setLogin("login");
         eUser.setPassword("pass");
+        eUser.setEmail("mail@mail.com");
         EUserRoles roleOne = new EUserRoles();
         roleOne.setType(UserRole.ADMIN.getType());
         EUserRoles roleTwo = new EUserRoles();

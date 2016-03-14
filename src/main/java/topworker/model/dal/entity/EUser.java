@@ -1,6 +1,12 @@
 package topworker.model.dal.entity;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,6 +32,28 @@ public class EUser {
 
     @Column(name = "ACTIVE", nullable = false)
     private boolean active;
+
+    @OneToMany(mappedBy = "user")
+    private List<EWorkPeriod> workPeriods;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Column(name = "EMAIL", nullable = false, unique = true)
+    private String email;
+
+    public List<EWorkPeriod> getWorkPeriods() {
+        return workPeriods;
+    }
+
+    public void setWorkPeriods(List<EWorkPeriod> workPeriods) {
+        this.workPeriods = workPeriods;
+    }
 
     public Set<EUserRoles> getUserRoles() {
         return userRoles;
@@ -68,9 +96,37 @@ public class EUser {
         this.active = active;
     }
 
-    /**
-     * Created by echomil on 04.03.16.
-     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EUser eUser = (EUser) o;
+
+        if (id != eUser.id) return false;
+        if (active != eUser.active) return false;
+        if (!login.equals(eUser.login)) return false;
+        if (!password.equals(eUser.password)) return false;
+        if (!userRoles.equals(eUser.userRoles)) return false;
+        if (workPeriods != null ? !workPeriods.equals(eUser.workPeriods) : eUser.workPeriods != null) return false;
+        return email.equals(eUser.email);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + login.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + userRoles.hashCode();
+        result = 31 * result + (active ? 1 : 0);
+        result = 31 * result + (workPeriods != null ? workPeriods.hashCode() : 0);
+        result = 31 * result + email.hashCode();
+        return result;
+    }
+/**
+ * Created by echomil on 04.03.16.
+ */
 
 
 }

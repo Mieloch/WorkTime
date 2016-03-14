@@ -1,5 +1,8 @@
 package topworker.model.bo;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -10,11 +13,29 @@ public class User {
 
     private String password;
 
+    private String email;
+
     private Set<UserRole> userRoles;
+
+    private List<WorkPeriod> workPeriods;
 
     private boolean active;
 
     public User() {
+        userRoles = new HashSet<>();
+        userRoles.add(UserRole.USER);
+        workPeriods = new ArrayList<>();
+        active = false;
+    }
+
+    public User(String login, String password, String email) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        userRoles = new HashSet<>();
+        userRoles.add(UserRole.USER);
+        workPeriods = new ArrayList<>();
+        active = false;
     }
 
     public String getLogin() {
@@ -47,6 +68,22 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<WorkPeriod> getWorkPeriods() {
+        return workPeriods;
+    }
+
+    public void setWorkPeriods(List<WorkPeriod> workPeriods) {
+        this.workPeriods = workPeriods;
     }
 
     @Override

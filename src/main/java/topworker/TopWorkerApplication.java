@@ -32,7 +32,7 @@ public class TopWorkerApplication extends SpringBootServletInitializer {
 		ApplicationContext ctx = SpringApplication.run(TopWorkerApplication.class, args);
 
 
-		printBeanNames(ctx);
+		//printBeanNames(ctx);
 
 	}
 

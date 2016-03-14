@@ -27,8 +27,7 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private UserDetailsDao userDetailsDao;
+
 
     @Override
     public List<EWorkPeriod> getFromDateToDate(Date startDate, Date endDate) {
@@ -49,7 +48,7 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         }
         e.setStop(timeStamp.getStop());
 
-        e.setUserDetails(userDetailsDao.getUserById(1l));
+      //  e.setUser(userDetailsDao.getUserById(1l));
         entityManager.persist(e);
         // entityManager.merge(e);
     }
