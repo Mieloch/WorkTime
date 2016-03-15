@@ -1,8 +1,8 @@
 Top Worker
 
-Idea on this project appears in my last part time job.
-Sometimes I was in the office in diffrent time and I was wondering if I worked enought to reach my contract limit.
-Main need was to write down time spent on office each day but I never had much motivation to do that consistently.
+Idea on this project appeard in my last part time job.
+I worked flexible hours so I had some problems with keeping track of my work time.
+Main need was to write down time spent in office each day but I never had much motivation to do that consistently.
 
 I created client+server application where client collects data and persist them on server.
 Data about time spent on work are send by HTTP post request to web application REST API.
