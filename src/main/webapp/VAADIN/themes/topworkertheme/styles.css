@@ -12556,6 +12556,14 @@ div.v-layout.v-horizontal.v-widget {
 	color: black;
 }
 
+.topworkertheme .v-calendar-event-month * {
+	display: none;
+}
+
+.topworkertheme .v-calendar-event-caption * {
+	display: none;
+}
+
 .topworkertheme .welcome-label {
 	font-size: 3vw;
 	text-align: center;

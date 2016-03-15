@@ -1,29 +1,23 @@
 package topworker.view.naviagtion.calendar;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.PostConstruct;
-
 import com.vaadin.data.Property;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Calendar;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.components.calendar.CalendarComponentEvents.*;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandler;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventMoveHandler;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventResizeHandler;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.WeekClick;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.WeekClickHandler;
+import javax.annotation.PostConstruct;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 @SpringView(name = WorkCalendarView.VIEW_NAME)
@@ -31,7 +25,7 @@ public class WorkCalendarView extends HorizontalLayout implements View {
     public static final String VIEW_NAME = "calendar";
 
     private Calendar calendarComponent;
-    private OptionGroup perpectiveOption;
+    private OptionGroup perspectiveOption;
     private VerticalLayout leftLayout;
     private HorizontalLayout navigationLayout;
     private VerticalLayout midLayout;
@@ -97,8 +91,8 @@ public class WorkCalendarView extends HorizontalLayout implements View {
         },"right-arrow");
         rightButton.setSizeFull();
         navigationLayout.addComponent(rightButton);
-        leftLayout.addComponent(perpectiveOption);
-        leftLayout.setComponentAlignment(perpectiveOption,Alignment.MIDDLE_CENTER);
+        leftLayout.addComponent(perspectiveOption);
+        leftLayout.setComponentAlignment(perspectiveOption, Alignment.MIDDLE_CENTER);
     }
 
     private void createComponents() {
@@ -106,7 +100,7 @@ public class WorkCalendarView extends HorizontalLayout implements View {
         monthNameLabel = new Label("");
         monthNameLabel.setSizeUndefined();
         monthNameLabel.addStyleName("month-label");
-        perpectiveOption = createPerspectiveOption();
+        perspectiveOption = createPerspectiveOption();
 
     }
 
@@ -123,7 +117,7 @@ public class WorkCalendarView extends HorizontalLayout implements View {
             @Override
             public void weekClick(WeekClick event) {
                 calendarController.setWeek(event.getWeek());
-                perpectiveOption.select("week");
+                perspectiveOption.select("week");
             }
         });
         calendarController.setCalendar(calcComponent);
@@ -143,7 +137,7 @@ public class WorkCalendarView extends HorizontalLayout implements View {
                 String value = (String) event.getProperty().getValue();
                 switch (value) {
                     case "week":
-                        calendarController.setWeekPerpective();
+                        calendarController.setWeekPerspective();
                         break;
                     case "month":
                         calendarController.setMonthPerspective();

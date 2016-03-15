@@ -190,6 +190,14 @@
     color: black;
   }
 
+  .v-calendar-event-month * {
+    display: none;
+  }
+
+  .v-calendar-event-caption * {
+    display: none;
+  }
+
   .welcome-label{
     font-size: 3vw;
     text-align: center;

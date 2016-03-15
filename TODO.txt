@@ -2,5 +2,5 @@
 +/- ogarniecie kodu
 - email z miesiecznym podsumowaniem
 - internacjonalizacja
-- demo user i schemat
-
++ demo user i schemat
+- rest dla klienta

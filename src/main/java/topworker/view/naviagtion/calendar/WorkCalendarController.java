@@ -9,12 +9,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import topworker.model.bo.WorkPeriod;
 import topworker.service.WorkPeriodService;
+import topworker.utils.TimeUtils;
 import topworker.view.naviagtion.calendar.enums.CalendarRange;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Component
@@ -28,16 +27,18 @@ class WorkCalendarController {
     private WorkPeriodService workPeriodService;
 
     public WorkCalendarController() {
-        calendar = new GregorianCalendar();
+        calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Warsaw"), new Locale("pl", "PL"));
     }
 
     public void loadWorkPeriods() {
         List<WorkPeriod> periods = workPeriodService.getAllBelongToUser();
-        for (WorkPeriod eWorkPeriod : periods) {
-            SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-            String endDate = format.format(eWorkPeriod.getStop());
-            CalendarEvent calEvent = new BasicEvent(endDate, "TODO USER", eWorkPeriod.getStart(),
-                    eWorkPeriod.getStop());
+        for (WorkPeriod workPeriod : periods) {
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm", new Locale("pl", "PL"));
+            String endTime = format.format(workPeriod.getStop());
+            String startTime = format.format(workPeriod.getStart());
+            CalendarEvent calEvent = new BasicEvent(startTime + "-" + endTime, TimeUtils.formatTime(workPeriod.getDuration()), workPeriod.getStart(),
+                    workPeriod.getStop());
+
             calendarComponent.addEvent(calEvent);
         }
     }
@@ -93,7 +94,7 @@ class WorkCalendarController {
         }
     }
 
-    public void setWeekPerpective(){
+    public void setWeekPerspective() {
         setWeek(calendar.get(GregorianCalendar.WEEK_OF_YEAR));
     }
 

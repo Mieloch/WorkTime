@@ -1,21 +1,23 @@
 package topworker.view.naviagtion.summary;
 
+import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.validator.DateRangeValidator;
-import org.springframework.context.annotation.Scope;
-import com.vaadin.data.Item;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
-import topworker.service.WorkPeriodService;
 import topworker.model.bo.WorkDay;
+import topworker.service.WorkPeriodService;
+import topworker.utils.TimeUtils;
 
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Echomil on 2016-02-24.
@@ -114,16 +116,13 @@ public class SummaryView extends HorizontalLayout implements View {
         for (WorkDay workDay : workDayList) {
             Item item = workDayTable.addItem("" + i);
             item.getItemProperty("Data").setValue(dateFormat.format(workDay.getDate()));
-            item.getItemProperty("Czas").setValue(formatWorkDuration(workDay.getWorkDurationMinutes()));
+            item.getItemProperty("Czas").setValue(TimeUtils.formatTime(workDay.getWorkDurationMinutes()));
             sum += workDay.getWorkDurationMinutes();
             i++;
         }
-        sumLabel.setValue("Suma: " + formatWorkDuration(sum));
+        sumLabel.setValue("Suma: " + TimeUtils.formatTime(sum));
     }
 
-    private String formatWorkDuration(int minutes) {
-        return "" + minutes / 60 + "h " + minutes % 60 + "m";
-    }
 
 
 }

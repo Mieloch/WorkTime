@@ -96,6 +96,7 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);
         Join<EWorkPeriod, EUser> userJoin = root.join(EWorkPeriod_.user);
         cq.where(userJoin.get(EUser_.login).in(user));
+        cq.orderBy(cb.desc(root.get(EWorkPeriod_.start)));
         Query q = entityManager.createQuery(cq);
         return q.getResultList();
     }

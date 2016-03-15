@@ -11,15 +11,18 @@ public class WorkPeriod {
     private Date start;
     private Date stop;
 
-    public WorkPeriod(Date start, Date stop){
+    public WorkPeriod(Date start, Date stop) {
         this.start = start;
         this.stop = stop;
     }
 
 
+    public WorkPeriod() {
 
-    public WorkPeriod(){
+    }
 
+    public int getDuration() {
+        return (int) ((stop.getTime() - start.getTime()) / 60000);
     }
 
     public Date getStart() {

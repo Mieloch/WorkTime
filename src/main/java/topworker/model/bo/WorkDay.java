@@ -3,7 +3,9 @@ package topworker.model.bo;
 
 import org.apache.commons.lang3.time.DateUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Echomil on 2016-02-26.
@@ -28,7 +30,6 @@ public class WorkDay {
             }
         }
     }
-
 
     public int getWorkDurationMinutes() {
         return workDurationMinutes;
