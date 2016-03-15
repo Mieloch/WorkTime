@@ -11,7 +11,7 @@ Each user have his own collection of work periods stored in DB.
 Web application is based on Spring Boot and Hibernate connected with PostgreSQL. User interface was developed in Vaadin framework.
 In my opinion its great solution to quickly implement handy and good looking UI. Interface allows to present stored information
 in two views: calendar or list. 
-Calendar gives more chronological perspective but list allows summary working time in selected period.
+Calendar gives more chronological perspective and list allows summary working time in selected period.
 
 There are some other features like monthly report on working time send by email and user authentication.
 
