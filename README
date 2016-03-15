@@ -1,1 +1,9 @@
-test
+Top Worker
+
+Idea on this project appears in my last part time job.
+Sometimes I was in the office in diffrent hour and I was wondering if I worked enought time to reach my contract limit.
+
+Web application is based on Spring and Hibernate connected to PostgreSQL. User interface was developed in Vaadin framework.
+In my opinion its great solution to quickly implement handy and good looking UI.
+Data about time spent on work are collected from desktop client via HTTP and REST API. 
+There are some other features like monthly report on working time send by email and user authentication.
