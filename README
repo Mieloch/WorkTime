@@ -1,9 +1,19 @@
 Top Worker
 
 Idea on this project appears in my last part time job.
-Sometimes I was in the office in diffrent hour and I was wondering if I worked enought time to reach my contract limit.
+Sometimes I was in the office in diffrent time and I was wondering if I worked enought to reach my contract limit.
+Main need was to write down time spent on office each day but I never had much motivation to do that consistently.
 
-Web application is based on Spring and Hibernate connected to PostgreSQL. User interface was developed in Vaadin framework.
-In my opinion its great solution to quickly implement handy and good looking UI.
-Data about time spent on work are collected from desktop client via HTTP and REST API. 
+I created client+server application where client collects data and persist them on server.
+Data about time spent on work are send by HTTP post request to web application REST API.
+Each user have his own collection of work periods stored in DB. 
+
+Web application is based on Spring Boot and Hibernate connected with PostgreSQL. User interface was developed in Vaadin framework.
+In my opinion its great solution to quickly implement handy and good looking UI. Interface allows to present stored information
+in two views: calendar or list. 
+Calendar gives more chronological perspective but list allows summary working time in selected period.
+
 There are some other features like monthly report on working time send by email and user authentication.
+
+Application should be available on:
+http://worktime-echomil.rhcloud.com/
