@@ -46,10 +46,7 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
             e.setStart(timeStamp.getStart());
         }
         e.setStop(timeStamp.getStop());
-
-        //  e.setUser(userDetailsDao.getUserById(1l));
         entityManager.persist(e);
-        // entityManager.merge(e);
     }
 
     @Override

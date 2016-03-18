@@ -1,8 +1,5 @@
 package topworker.controller;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,33 +7,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import topworker.service.WorkPeriodService;
 import topworker.model.bo.WorkPeriod;
+import topworker.service.WorkPeriodService;
 
 @RestController
-@RequestMapping("/workperiods/")
+@RequestMapping("/worktime/")
 public class WorkPeriodsController {
 
-	@Autowired
-	private WorkPeriodService workPeriodService;
+    @Autowired
+    private WorkPeriodService workPeriodService;
 
-	Logger log = Logger.getLogger(WorkPeriodsController.class.getName());
-	@RequestMapping(value = "/post", method = RequestMethod.POST)
-	public ResponseEntity<WorkPeriod> postPeriod(@RequestBody WorkPeriod period) {
-		System.out.println("Posting workPeriod");
-		System.out.println("PRZ POSCIE " + period.getStop());
-		workPeriodService.postTime(period);
+    @RequestMapping(value = "/workperiod", method = RequestMethod.POST)
+    public ResponseEntity<WorkPeriod> postPeriod(@RequestBody WorkPeriod period) {
+        try {
+            workPeriodService.postTime(period);
+        } catch (Exception e) {
+            return new ResponseEntity<WorkPeriod>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<WorkPeriod>(HttpStatus.OK);
+    }
 
-		log.log(Level.INFO, "Posting workPeriod");
-		return new ResponseEntity<WorkPeriod>(HttpStatus.OK);
-	}
+    public WorkPeriodService getWorkPeriodService() {
+        return workPeriodService;
+    }
 
-	public WorkPeriodService getWorkPeriodService() {
-		return workPeriodService;
-	}
-
-	public void setWorkPeriodService(WorkPeriodService workPeriodService) {
-		this.workPeriodService = workPeriodService;
-	}
+    public void setWorkPeriodService(WorkPeriodService workPeriodService) {
+        this.workPeriodService = workPeriodService;
+    }
 }

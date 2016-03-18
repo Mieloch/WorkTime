@@ -10,6 +10,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import topworker.model.bo.User;
+import topworker.service.EmailService;
 import topworker.service.UserService;
 import topworker.view.naviagtion.home.Home;
 
@@ -22,6 +23,8 @@ public class SignUp extends VerticalLayout implements View {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     private FormLayout form;
     private TextField login;
@@ -57,6 +60,7 @@ public class SignUp extends VerticalLayout implements View {
                     email.validate();
                     User user = new User(login.getValue(), password.getValue(), email.getValue());
                     userService.addUser(user);
+                    emailService.sendRegistrationMsg(user.getEmail(), user.getLogin());
                     UI.getCurrent().getNavigator().navigateTo(Home.VIEW_NAME);
                     showSuccessMsg("Aktywuj konto klikajac w link na twojej skrzynce pocztowej");
                     clearFields();

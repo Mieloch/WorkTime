@@ -1,6 +1,5 @@
 package topworker.service.impl;
 
-import com.vaadin.ui.Notification;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import topworker.model.bo.User;
 import topworker.model.bo.UserRole;
 import topworker.model.dal.UserDao;
@@ -16,8 +14,6 @@ import topworker.model.dal.entity.EUser;
 import topworker.model.dal.entity.EUserRoles;
 import topworker.service.UserService;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,6 +52,13 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return mapToUser(eUser);
+    }
+
+    @Override
+    public void activateUser(String login) {
+        EUser euser = userDao.findByLogin(login);
+        euser.setActive(true);
+        userDao.persist(euser);
     }
 
     @Override
