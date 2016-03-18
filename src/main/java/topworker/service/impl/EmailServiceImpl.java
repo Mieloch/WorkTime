@@ -35,7 +35,7 @@ public class EmailServiceImpl implements EmailService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        form.param("text", "http://localhost:8080/worktime/user/active?login=" + encryptredLogin);
+        form.param("text", "Click to activate account \nhttp://localhost:8080/worktime/user/active?login=" + encryptredLogin);
 
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_FORM_URLENCODED_TYPE);
         invocationBuilder.post(Entity.form(form));
