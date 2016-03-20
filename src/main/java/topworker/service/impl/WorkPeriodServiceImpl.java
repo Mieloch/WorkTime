@@ -97,6 +97,11 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     }
 
     @Override
+    public void postTimeToUser(String user, WorkPeriod period) {
+        workPeriodDao.postTimeToUser(user, period);
+    }
+
+    @Override
     public List<WorkPeriod> getAll() {
         List<EWorkPeriod> queryResult;
         try {

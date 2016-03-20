@@ -1,8 +1,10 @@
 package topworker.model.dal.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import topworker.model.bo.WorkPeriod;
+import topworker.model.dal.UserDao;
 import topworker.model.dal.WorkPeriodDao;
 import topworker.model.dal.entity.EUser;
 import topworker.model.dal.entity.EUser_;
@@ -27,6 +29,8 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public List<EWorkPeriod> getFromDateToDate(Date startDate, Date endDate) {
@@ -39,13 +43,13 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     }
 
     @Override
-    public void postTime(WorkPeriod timeStamp) {
-        EWorkPeriod e = getByStartDate(timeStamp.getStart());
+    public void postTime(WorkPeriod period) {
+        EWorkPeriod e = getByStartDate(period.getStart());
         if (e == null) {
             e = new EWorkPeriod();
-            e.setStart(timeStamp.getStart());
+            e.setStart(period.getStart());
         }
-        e.setStop(timeStamp.getStop());
+        e.setStop(period.getStop());
         entityManager.persist(e);
     }
 
@@ -84,6 +88,27 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         Query q = entityManager.createQuery(cq);
 
         return q.getResultList();
+    }
+
+    @Override
+    public void postTimeToUser(String user, WorkPeriod period) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
+        Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);
+        Join<EWorkPeriod, EUser> userJoin = root.join(EWorkPeriod_.user);
+        cq.where(cb.and(userJoin.get(EUser_.login).in(user), root.get(EWorkPeriod_.start).in(period.getStart())));
+        Query q = entityManager.createQuery(cq);
+        List<EWorkPeriod> l = q.getResultList();
+        if (l.isEmpty()) {
+            EWorkPeriod eWorkPeriod = new EWorkPeriod(period.getStart(), period.getStop());
+            EUser eUser = userDao.findByLogin(user);
+            eWorkPeriod.setUser(eUser);
+            entityManager.persist(eWorkPeriod);
+        } else {
+            EWorkPeriod eWorkPeriod = l.get(0);
+            eWorkPeriod.setStop(period.getStop());
+            entityManager.persist(eWorkPeriod);
+        }
     }
 
     @Override

@@ -10,7 +10,7 @@ import topworker.service.UserService;
 import topworker.utils.DesEncrypter;
 
 @RestController
-@RequestMapping("/worktime/")
+@RequestMapping("/api/")
 public class UserController {
 
     @Autowired

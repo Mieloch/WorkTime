@@ -2,7 +2,6 @@ package topworker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,20 +10,23 @@ import topworker.model.bo.WorkPeriod;
 import topworker.service.WorkPeriodService;
 
 @RestController
-@RequestMapping("/worktime/")
+@RequestMapping("/api/")
 public class WorkPeriodsController {
 
     @Autowired
     private WorkPeriodService workPeriodService;
 
     @RequestMapping(value = "/workperiod", method = RequestMethod.POST)
-    public ResponseEntity<WorkPeriod> postPeriod(@RequestBody WorkPeriod period) {
+    public HttpStatus postPeriod(@RequestBody Message msg) {
         try {
-            workPeriodService.postTime(period);
+            WorkPeriod workPeriod = new WorkPeriod();
+            workPeriod.setStart(msg.getStart());
+            workPeriod.setStop(msg.getEnd());
+            workPeriodService.postTimeToUser(msg.getLogin(), workPeriod);
         } catch (Exception e) {
-            return new ResponseEntity<WorkPeriod>(HttpStatus.NOT_FOUND);
+            return HttpStatus.UNAUTHORIZED;
         }
-        return new ResponseEntity<WorkPeriod>(HttpStatus.OK);
+        return HttpStatus.OK;
     }
 
     public WorkPeriodService getWorkPeriodService() {

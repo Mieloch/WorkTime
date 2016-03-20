@@ -35,10 +35,10 @@ public class EmailServiceImpl implements EmailService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        form.param("text", "Click to activate account \nhttp://localhost:8080/worktime/user/active?login=" + encryptredLogin);
+        form.param("text", "Click to activate account \nhttp://localhost:8080/api/user/active?login=" + encryptredLogin);
 
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_FORM_URLENCODED_TYPE);
-        invocationBuilder.post(Entity.form(form));
-
+        String response = invocationBuilder.post(Entity.form(form), String.class);
+        System.out.println(response); // TODO logger
     }
 }

@@ -22,4 +22,6 @@ public interface WorkPeriodService {
 
     List<WorkDay> getWorkDays(Date begin, Date end);
 
+    void postTimeToUser(String user, WorkPeriod period);
+
 }
