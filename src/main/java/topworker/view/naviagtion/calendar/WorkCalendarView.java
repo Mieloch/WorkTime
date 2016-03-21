@@ -105,7 +105,8 @@ public class WorkCalendarView extends HorizontalLayout implements View {
 
     private Calendar createCalendar() {
         Calendar calcComponent = new Calendar();
-        calcComponent.setSizeFull();
+        calcComponent.setWidth(90f, Unit.PERCENTAGE);
+        calcComponent.setHeight(90f, Unit.PERCENTAGE);
         calcComponent.setLocale(new Locale("pl", "PL"));
         calcComponent.setHandler((DateClickHandler) null);
         calcComponent.setHandler((EventMoveHandler) null);

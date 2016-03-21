@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import topworker.service.UserService;
-import topworker.utils.DesEncrypter;
+import topworker.utils.LoginEncrypter;
 
 @RestController
 @RequestMapping("/api/")
@@ -17,12 +17,12 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private DesEncrypter desEncrypter;
+    private LoginEncrypter loginEncrypter;
 
     @RequestMapping(value = "/user/active", method = RequestMethod.GET)
     public HttpStatus activeAccount(@RequestParam String login) {
         try {
-            String userLogin = desEncrypter.decrypt(login);
+            String userLogin = loginEncrypter.decrypt(login);
             userService.activateUser(userLogin);
         } catch (Exception e) {
             e.printStackTrace();

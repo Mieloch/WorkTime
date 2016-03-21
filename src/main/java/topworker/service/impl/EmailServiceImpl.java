@@ -5,7 +5,7 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import topworker.service.EmailService;
-import topworker.utils.DesEncrypter;
+import topworker.utils.LoginEncrypter;
 
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.Form;
@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
-    private DesEncrypter desEncrypter;
+    private LoginEncrypter loginEncrypter;
 
     @Override
     public void sendRegistrationMsg(String email, String login) {
@@ -31,7 +31,7 @@ public class EmailServiceImpl implements EmailService {
         form.param("subject", "Confirm E-mail address");
         String encryptredLogin = null;
         try {
-            encryptredLogin = desEncrypter.encrypt(login);
+            encryptredLogin = loginEncrypter.encrypt(login);
         } catch (Exception e) {
             e.printStackTrace();
         }
