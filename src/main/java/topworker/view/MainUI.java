@@ -1,23 +1,23 @@
 package topworker.view;
 
-import com.vaadin.ui.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
+import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.BadCredentialsException;
 import topworker.event.LoginEvent;
-import topworker.view.naviagtion.signup.SignUp;
-import topworker.view.utils.AuthenticationService;
-import topworker.view.utils.ViewChangeSecurityChecker;
 import topworker.view.naviagtion.calendar.WorkCalendarView;
+import topworker.view.naviagtion.download.Download;
 import topworker.view.naviagtion.home.Home;
 import topworker.view.naviagtion.login.Login;
+import topworker.view.naviagtion.signup.SignUp;
 import topworker.view.naviagtion.summary.SummaryView;
+import topworker.view.utils.AuthenticationService;
+import topworker.view.utils.ViewChangeSecurityChecker;
 
 @Theme("topworkertheme")
 @SpringUI()
@@ -91,13 +91,16 @@ public class MainUI extends UI {
         Button calendarButton = createNavigationButton("", WorkCalendarView.VIEW_NAME, "calendar");
         Button listButton = createNavigationButton("", SummaryView.VIEW_NAME, "list");
         Button homeButton = createNavigationButton("", Home.VIEW_NAME, "home");
+        Button downloadButton = createNavigationButton("", Download.VIEW_NAME, "download");
         upperLayout.addComponent(calendarButton, 0, 0);
         upperLayout.addComponent(listButton, 1, 0);
         upperLayout.addComponent(homeButton, 6, 0);
         upperLayout.addComponent(logoutButton, 7, 0);
+        upperLayout.addComponent(downloadButton, 5, 0);
         upperLayout.setComponentAlignment(listButton, Alignment.MIDDLE_CENTER);
         upperLayout.setComponentAlignment(calendarButton, Alignment.MIDDLE_CENTER);
         upperLayout.setComponentAlignment(homeButton, Alignment.MIDDLE_CENTER);
+        upperLayout.setComponentAlignment(downloadButton, Alignment.MIDDLE_CENTER);
         upperLayout.setComponentAlignment(logoutButton, Alignment.MIDDLE_CENTER);
     }
 

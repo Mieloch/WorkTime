@@ -65,6 +65,11 @@
     font-size:xx-large;
     font-weight: bold;
   }
+
+  .download-label {
+    font-size: 3vw;
+    text-align: center;
+  }
   // right
   .right-arrow {
     font-family: 'fontello';
@@ -94,7 +99,7 @@
 
   }
   .home:after {
-    content: "\e809";
+    content: "\e800";
   }
 
   .signup {
@@ -110,7 +115,7 @@
 
   }
   .signup:after {
-    content: "\e807";
+    content: "\e808";
   }
 
   //left
@@ -122,7 +127,7 @@
     box-shadow: none;
   }
   .left-arrow:after {
-    content: "\e803";
+    content: "\e804";
   }
 
   // calendar btn
@@ -139,7 +144,7 @@
 
   }
   .calendar:after {
-    content: "\e804";
+    content: "\e805";
   }
 
   // search btn
@@ -148,7 +153,7 @@
     font-style: normal;
   }
   .search:after {
-    content: "\e805";
+    content: "\e806";
   }
 
   // list btn
@@ -165,7 +170,7 @@
 
   }
   .list:after {
-    content: "\e806";
+    content: "\e807";
   }
 
 
@@ -182,10 +187,10 @@
     color: #197de1;
   }
   .logout:after {
-    content: "\e800";
+    content: "\e801";
   }
 
-  .welcome-information{
+  .information {
     border: none;
     color: black;
   }
@@ -215,7 +220,22 @@
     color: #197de1;
   }
   .login:after {
-    content: "\e801";
+    content: "\e802";
+  }
+
+  .download {
+    font-family: 'fontello';
+    font-style: normal;
+    font-size: 4vw;
+    // margin-right: 1.4%;
+    background: rgba(187, 56, 56, 0);
+    border: palevioletred;
+    border-style: solid;
+    border-width: 2px;
+    color: palevioletred;
+  }
+  .download:after {
+    content: "\e80a";
   }
 
 }

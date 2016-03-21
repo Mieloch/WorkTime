@@ -12439,6 +12439,11 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: bold;
 }
 
+.topworkertheme .download-label {
+	font-size: 3vw;
+	text-align: center;
+}
+
 .topworkertheme .right-arrow {
 	font-family: "fontello";
 	font-style: normal;
@@ -12467,7 +12472,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .home:after {
-	content: "\e809";
+	content: "\e800";
 }
 
 .topworkertheme .signup {
@@ -12482,7 +12487,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .signup:after {
-	content: "\e807";
+	content: "\e808";
 }
 
 .topworkertheme .left-arrow {
@@ -12494,7 +12499,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .left-arrow:after {
-	content: "\e803";
+	content: "\e804";
 }
 
 .topworkertheme .calendar {
@@ -12509,7 +12514,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .calendar:after {
-	content: "\e804";
+	content: "\e805";
 }
 
 .topworkertheme .search {
@@ -12518,7 +12523,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .search:after {
-	content: "\e805";
+	content: "\e806";
 }
 
 .topworkertheme .list {
@@ -12533,7 +12538,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .list:after {
-	content: "\e806";
+	content: "\e807";
 }
 
 .topworkertheme .logout {
@@ -12548,10 +12553,10 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .logout:after {
-	content: "\e800";
+	content: "\e801";
 }
 
-.topworkertheme .welcome-information {
+.topworkertheme .information {
 	border: none;
 	color: black;
 }
@@ -12581,5 +12586,20 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .login:after {
-	content: "\e801";
+	content: "\e802";
+}
+
+.topworkertheme .download {
+	font-family: "fontello";
+	font-style: normal;
+	font-size: 4vw;
+	background: rgba(187, 56, 56, 0);
+	border: palevioletred;
+	border-style: solid;
+	border-width: 2px;
+	color: palevioletred;
+}
+
+.topworkertheme .download:after {
+	content: "\e80a";
 }
