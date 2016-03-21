@@ -15,10 +15,6 @@ Calendar gives more chronological perspective and list allows summary working ti
 
 There are some other features like monthly report on working time send by email and user authentication.
 
-I have some stuff to implement like:
-- sending email via mailgun.com after DNS proper configuration
-- account management 
-- internationalization
 
 Application should be available on:
 http://worktime-echomil.rhcloud.com/
