@@ -12453,7 +12453,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .topworkertheme .right-arrow:after {
-	content: "\e802";
+	content: "\e803";
 }
 
 .topworkertheme .right-arrow:hover {
@@ -12463,7 +12463,7 @@ div.v-layout.v-horizontal.v-widget {
 .topworkertheme .home {
 	font-family: "fontello";
 	font-style: normal;
-	font-size: 4.5vw;
+	font-size: 4vw;
 	background: rgba(187, 56, 56, 0);
 	border: purple;
 	border-style: solid;

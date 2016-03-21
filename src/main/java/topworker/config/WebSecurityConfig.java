@@ -23,8 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //http.addFilter(new UsernamePasswordAuthenticationFilter()).authorizeRequests().antMatchers("/api/**").hasRole("USER").and().anonymous().disable().csrf().disable();
-        http.authorizeRequests().antMatchers("/api/**").fullyAuthenticated();
+        http.authorizeRequests().antMatchers("/api/workperiod/**").fullyAuthenticated();
         http.httpBasic();
         http.csrf().disable().anonymous().disable();
 

@@ -19,7 +19,7 @@ import java.io.InputStream;
 public class Download extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "download";
-    private final String CLIENT_PATH = "/home/echomil/repo/java/TopWorkerRestClient/out/artifacts/TopWorkerRestClient.zip";
+    private final String CLIENT_PATH = "/var/lib/openshift/56d4435f7628e179c000000d/app-root/data/TopWorkerClient.zip";
     private VerticalLayout content;
     private Label downloadLabel;
 

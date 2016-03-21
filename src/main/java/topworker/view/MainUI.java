@@ -125,7 +125,7 @@ public class MainUI extends UI {
 
         rootLayout.setExpandRatio(upperLayout, 1.5f);
         rootLayout.setExpandRatio(contentLayout, 6.0f);
-        rootLayout.setExpandRatio(bottomLayout, 1.0f);
+        rootLayout.setExpandRatio(bottomLayout, 0.6f);
 
     }
 

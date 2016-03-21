@@ -51,7 +51,6 @@ public class WorkCalendarView extends HorizontalLayout implements View {
         leftLayout = new VerticalLayout();
         midLayout = new VerticalLayout();
         midLayout.setSizeFull();
-        midLayout.setMargin(true);
         leftLayout.setMargin(true);
         addComponent(leftLayout);
         addComponent(midLayout);

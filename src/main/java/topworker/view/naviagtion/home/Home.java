@@ -30,7 +30,7 @@ public class Home extends VerticalLayout implements View {
 
     public void init() {
         content = new VerticalLayout();
-        content.setWidth(70f, Unit.PERCENTAGE);
+        content.setWidth(50f, Unit.PERCENTAGE);
         content.setHeight(100f, Unit.PERCENTAGE);
         Label welcome = new Label("Witaj");
         welcome.addStyleName("welcome-label");
