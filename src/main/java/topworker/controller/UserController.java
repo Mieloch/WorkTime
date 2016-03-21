@@ -25,6 +25,7 @@ public class UserController {
             String userLogin = desEncrypter.decrypt(login);
             userService.activateUser(userLogin);
         } catch (Exception e) {
+            e.printStackTrace();
             return HttpStatus.NOT_FOUND;
         }
         return HttpStatus.OK;
