@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import topworker.utils.CustomEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         try {
-            auth.userDetailsService(userDetailsService);
+            auth.userDetailsService(userDetailsService).passwordEncoder(new CustomEncoder());
         } catch (Exception e) {
             e.printStackTrace();
         }

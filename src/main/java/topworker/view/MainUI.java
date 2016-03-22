@@ -35,6 +35,8 @@ public class MainUI extends UI {
     private HorizontalLayout bottomLayout;
     private Button loginButton;
     private Button logoutButton;
+
+    @Autowired
     AuthenticationService authenticationService;
 
 

@@ -2,7 +2,8 @@ package topworker.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import topworker.utils.LoginEncrypter;
+import org.springframework.context.annotation.Scope;
+import topworker.view.utils.AuthenticationService;
 
 /**
  * Created by Echomil on 2016-02-26.
@@ -11,8 +12,9 @@ import topworker.utils.LoginEncrypter;
 @Configuration
 public class BeanConfiguration {
 
-    @Bean(name = "DesEncrypter")
-    public LoginEncrypter getLoginEncrypter() {
-        return new LoginEncrypter();
+    @Bean
+    @Scope(scopeName = "prototype")
+    public AuthenticationService getAuthenticationService() {
+        return new AuthenticationService();
     }
 }

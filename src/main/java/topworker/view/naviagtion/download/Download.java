@@ -19,7 +19,7 @@ import java.io.InputStream;
 public class Download extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "download";
-    private final String CLIENT_PATH = "/var/lib/openshift/56d4435f7628e179c000000d/app-root/data/TopWorkerClient.zip";
+    private final String CLIENT_PATH = "/var/lib/openshift/56f076250c1e664af2000037/app-root/data/TopWorkerClient.zip";
     private VerticalLayout content;
     private Label downloadLabel;
 
@@ -36,6 +36,7 @@ public class Download extends VerticalLayout implements View {
     private void init() {
         content = new VerticalLayout();
         TextArea instruction = new TextArea();
+        instruction.setEnabled(false);
         instruction.addStyleName("information");
         instruction.setValue("1. Wypakuj archiwum.\n2. W pliku config.properties ustaw swój login oraz hasło.\n3. Dodaj TopWorkerClient.jar do programów uruchamianych przy starcie systemu.");
         instruction.setSizeFull();

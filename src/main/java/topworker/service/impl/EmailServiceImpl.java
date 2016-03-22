@@ -5,11 +5,11 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import topworker.service.EmailService;
-import topworker.utils.LoginEncrypter;
 
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import java.net.URLEncoder;
 
 /**
  * Created by echomil on 16.03.16.
@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
-    private LoginEncrypter loginEncrypter;
+    private EncryptionServiceImpl encryptionService;
 
     @Override
     public void sendRegistrationMsg(String email, String login) {
@@ -31,7 +31,8 @@ public class EmailServiceImpl implements EmailService {
         form.param("subject", "Confirm E-mail address");
         String encryptredLogin = null;
         try {
-            encryptredLogin = loginEncrypter.encrypt(login);
+            encryptredLogin = encryptionService.encrypt(login);
+            encryptredLogin = URLEncoder.encode(encryptredLogin, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }

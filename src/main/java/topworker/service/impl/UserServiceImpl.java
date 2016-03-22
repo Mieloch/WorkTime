@@ -12,6 +12,7 @@ import topworker.model.bo.UserRole;
 import topworker.model.dal.UserDao;
 import topworker.model.dal.entity.EUser;
 import topworker.model.dal.entity.EUserRoles;
+import topworker.service.EncryptionService;
 import topworker.service.UserService;
 
 import java.util.Set;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private EncryptionService encryptionService;
+
     private ModelMapper mapper;
 
     public UserServiceImpl() {
@@ -64,6 +68,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(User user) {
         Set<EUserRoles> roles = userDao.getRoles(user.getUserRoles());
+        String digestPassword = encryptionService.digest(user.getPassword());
+        user.setPassword(digestPassword);
         EUser eUser = mapToEuser(user);
         eUser.setUserRoles(roles);
         try {

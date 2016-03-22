@@ -4,13 +4,8 @@ package topworker.view.utils;
  * Created by echomil on 06.03.16.
  */
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.jdal.vaadin.VaadinUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,10 +14,17 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import topworker.service.EncryptionService;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 
 public class AuthenticationService {
 
+
+    @Autowired
+    private EncryptionService encryptionService;
 
     public void handleAuthentication(String login, String password) {
 
@@ -62,5 +64,13 @@ public class AuthenticationService {
         } else {
             return auth.isAuthenticated();
         }
+    }
+
+    public EncryptionService getEncryptionService() {
+        return encryptionService;
+    }
+
+    public void setEncryptionService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
     }
 }
