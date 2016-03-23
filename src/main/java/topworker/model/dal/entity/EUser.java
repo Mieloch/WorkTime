@@ -1,11 +1,7 @@
 package topworker.model.dal.entity;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +28,10 @@ public class EUser {
 
     @Column(name = "ACTIVE", nullable = false)
     private boolean active;
+
+    @Column(name = "REGISTRATION_DATE", nullable = false)
+    private Date registrationDate;
+
 
     @OneToMany(mappedBy = "user")
     private List<EWorkPeriod> workPeriods;
@@ -94,6 +94,14 @@ public class EUser {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     @Override

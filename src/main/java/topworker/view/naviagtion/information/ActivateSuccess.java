@@ -1,7 +1,11 @@
 package topworker.view.naviagtion.information;
 
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
+import org.springframework.beans.factory.annotation.Autowired;
 import topworker.utils.MessagesBundle;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by echomil on 23.03.16.
@@ -11,9 +15,23 @@ import topworker.utils.MessagesBundle;
 public class ActivateSuccess extends SimpleInformationPage {
     public static final String VIEW_NAME = "activate/success";
 
+    @Autowired
+    private MessagesBundle messagesBundle;
+
+    @PostConstruct
+    private void init() {
+        setInformationMessage(messagesBundle.getMessage("activation_success_message"));
+        setTitleLabel(messagesBundle.getMessage("activation_success_label"));
+    }
+
     public ActivateSuccess() {
         super();
-        setInformationMessage(MessagesBundle.getMessage("activation_success_message"));
-        setTitleLabel(MessagesBundle.getMessage("activation_success_label"));
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+        if (event == null) {
+            init();
+        }
     }
 }

@@ -7,9 +7,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
-import org.springframework.context.i18n.LocaleContextHolder;
-
-import java.util.ResourceBundle;
 
 /**
  * Created by echomil on 23.03.16.
@@ -19,11 +16,10 @@ public class SimpleInformationPage extends VerticalLayout implements View {
     private VerticalLayout content;
     private Label titleLable;
     private TextArea information;
-    protected ResourceBundle resourceBundle;
+
 
     public SimpleInformationPage() {
-        resourceBundle = ResourceBundle.getBundle("messages", LocaleContextHolder.getLocale());
-        init();
+        createComponents();
         setSizeFull();
         addComponent(content);
         setComponentAlignment(content, Alignment.MIDDLE_CENTER);
@@ -34,7 +30,7 @@ public class SimpleInformationPage extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
     }
 
-    public void init() {
+    public void createComponents() {
         content = new VerticalLayout();
         content.setWidth(50f, Sizeable.Unit.PERCENTAGE);
         content.setHeight(100f, Sizeable.Unit.PERCENTAGE);
@@ -44,6 +40,7 @@ public class SimpleInformationPage extends VerticalLayout implements View {
         information.setEnabled(false);
         information.setSizeFull();
         information.addStyleName("information");
+        titleLable.setImmediate(true);
         content.addComponent(titleLable);
         content.addComponent(information);
         content.setExpandRatio(titleLable, 1.5f);
@@ -53,6 +50,7 @@ public class SimpleInformationPage extends VerticalLayout implements View {
 
     public void setTitleLabel(String title) {
         titleLable.setValue(title);
+
     }
 
 

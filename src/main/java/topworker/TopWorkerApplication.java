@@ -27,9 +27,9 @@ public class TopWorkerApplication extends SpringBootServletInitializer {
 	public static void main(String[] args) {
 
 		ApplicationContext ctx = SpringApplication.run(TopWorkerApplication.class, args);
-		printBeanNames(ctx);
 		EncryptionServiceImpl encryptionService = (EncryptionServiceImpl) ctx.getBean("encryptionServiceImpl");
 		encryptionService.init();
+
 	}
 
 

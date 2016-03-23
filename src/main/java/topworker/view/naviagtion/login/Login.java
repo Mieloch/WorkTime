@@ -12,6 +12,8 @@ import org.springframework.web.context.WebApplicationContext;
 import topworker.event.LoginEvent;
 import topworker.utils.MessagesBundle;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Created by echomil on 06.03.16.
  */
@@ -28,33 +30,37 @@ public class Login extends VerticalLayout implements View {
     private VerticalLayout content;
     private Label loginLabel;
 
+    @Autowired
+    private MessagesBundle messagesBundle;
 
     @Autowired
     private ApplicationEventPublisher publisher;
 
     public Login() {
+    }
 
+    @PostConstruct
+    private void init() {
         setMargin(true);
         setSizeFull();
-        init();
+        createComponents();
         addComponent(loginLabel);
         setComponentAlignment(loginLabel, Alignment.MIDDLE_CENTER);
         addComponent(content);
         setComponentAlignment(content, Alignment.TOP_CENTER);
         setExpandRatio(loginLabel, 1.5f);
         setExpandRatio(content, 9f);
-
     }
 
-    private void init() {
+    private void createComponents() {
         content = new VerticalLayout();
         content.setSizeUndefined();
-        loginLabel = new Label(MessagesBundle.getMessage("log_in_label"));
+        loginLabel = new Label(messagesBundle.getMessage("log_in_label"));
         loginLabel.addStyleName("welcome-label");
         FormLayout form = new FormLayout();
         form.setSizeUndefined();
-        loginField = new TextField(MessagesBundle.getMessage("login_field"));
-        passwordField = new PasswordField(MessagesBundle.getMessage("password_field"));
+        loginField = new TextField(messagesBundle.getMessage("login_field"));
+        passwordField = new PasswordField(messagesBundle.getMessage("password_field"));
         Button loginButton = createLoginButton();
         loginButton.addShortcutListener(new Button.ClickShortcut(loginButton,ShortcutAction.KeyCode.ENTER));
         form.addComponent(loginField);
@@ -65,7 +71,7 @@ public class Login extends VerticalLayout implements View {
     }
 
     private Button createLoginButton() {
-        Button button = new Button(MessagesBundle.getMessage("log_in_label"));
+        Button button = new Button(messagesBundle.getMessage("log_in_label"));
 
         button.addClickListener(new Button.ClickListener() {
 
@@ -83,5 +89,9 @@ public class Login extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        if (event == null) {
+            removeAllComponents();
+            init();
+        }
     }
 }

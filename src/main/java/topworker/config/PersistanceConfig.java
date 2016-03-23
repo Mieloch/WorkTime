@@ -1,12 +1,5 @@
 package topworker.config;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,11 +11,16 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
+import java.util.Properties;
+
 @Configuration
 @ConfigurationProperties(locations = "classpath:database.properties")
 public class PersistanceConfig {
 
-    private static final String HIBERNATE_PROP_FILE = "hibernate.properties";
+    @Resource(name = "hibernateProperties")
+    private Properties hibernateProperties;
 
     @Bean(name = "dataBase")
     public DataSource getDataSource() {
@@ -40,7 +38,7 @@ public class PersistanceConfig {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
         em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(additionalProperties());
+        em.setJpaProperties(hibernateProperties);
 
         return em;
 
@@ -59,17 +57,4 @@ public class PersistanceConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    private Properties additionalProperties() {
-        Properties properties = new Properties();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(HIBERNATE_PROP_FILE);
-        if (inputStream != null) {
-            try {
-                properties.load(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return properties;
-    }
 }

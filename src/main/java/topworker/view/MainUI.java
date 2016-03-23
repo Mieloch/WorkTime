@@ -2,6 +2,7 @@ package topworker.view;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
@@ -20,10 +21,14 @@ import topworker.view.naviagtion.summary.SummaryView;
 import topworker.view.utils.AuthenticationService;
 import topworker.view.utils.ViewChangeSecurityChecker;
 
+import java.util.Locale;
+
 @Theme("topworkertheme")
 @SpringUI()
 public class MainUI extends UI {
 
+    @Autowired
+    private MessagesBundle messagesBundle;
 
     @Autowired
     private SpringViewProvider viewProvider;
@@ -36,6 +41,8 @@ public class MainUI extends UI {
     private HorizontalLayout bottomLayout;
     private Button loginButton;
     private Button logoutButton;
+    private View languageChanger;
+
 
     AuthenticationService authenticationService;
 
@@ -62,7 +69,7 @@ public class MainUI extends UI {
             removeNavigationButtons();
             addNotLoggedButtons();
         } catch (BadCredentialsException exception) {
-            Notification.show(MessagesBundle.getMessage("logout_error"), Notification.Type.ERROR_MESSAGE);
+            Notification.show(messagesBundle.getMessage("logout_error"), Notification.Type.ERROR_MESSAGE);
         }
 
     }
@@ -75,7 +82,7 @@ public class MainUI extends UI {
             addNavigationButtons();
             navigator.navigateTo(WorkCalendarView.VIEW_NAME);
         } catch (BadCredentialsException exception) {
-            Notification.show(MessagesBundle.getMessage("log_in_error"), Notification.Type.ERROR_MESSAGE);
+            Notification.show(messagesBundle.getMessage("log_in_error"), Notification.Type.ERROR_MESSAGE);
         }
 
     }
@@ -83,7 +90,7 @@ public class MainUI extends UI {
     private void initNavigator() {
 
         navigator = new Navigator(this, contentPanel);
-        navigator.addViewChangeListener(new ViewChangeSecurityChecker());
+        navigator.addViewChangeListener(new ViewChangeSecurityChecker(this));
         navigator.addProvider(viewProvider);
         navigator.addView("", Home.class);
 
@@ -141,8 +148,6 @@ public class MainUI extends UI {
         } else {
             addNotLoggedButtons();
         }
-        /*upperLayout.setHeight(100f, Unit.PERCENTAGE);
-        upperLayout.setWidth(20f,Unit.PERCENTAGE);*/
     }
 
     private void initContentLayout() {
@@ -157,6 +162,24 @@ public class MainUI extends UI {
     private void initBottomLayout() {
         bottomLayout = new HorizontalLayout();
         bottomLayout.setSizeFull();
+        Button btn = new Button("test");
+        btn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                messagesBundle.changeBundle(new Locale("PL", "pl"));
+                languageChanger.enter(null);
+            }
+        });
+        Button btn2 = new Button("test2");
+        btn2.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                messagesBundle.changeBundle(new Locale("EN", "en"));
+                languageChanger.enter(null);
+            }
+        });
+        bottomLayout.addComponent(btn2);
+        bottomLayout.addComponent(btn);
         bottomLayout.addStyleName("menu-panel");
     }
 
@@ -213,6 +236,10 @@ public class MainUI extends UI {
         upperLayout.setComponentAlignment(homeButton, Alignment.MIDDLE_CENTER);
         upperLayout.addComponent(loginButton, 7, 0);
         upperLayout.setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
+    }
+
+    public void setLanguageChanger(View languageChanger) {
+        this.languageChanger = languageChanger;
     }
 
 }

@@ -42,6 +42,9 @@ public class SummaryView extends HorizontalLayout implements View {
     @Autowired
     private WorkPeriodService workPeriodService;
 
+    @Autowired
+    private MessagesBundle messagesBundle;
+
     @PostConstruct
     private void init() {
         initLayout();
@@ -51,7 +54,10 @@ public class SummaryView extends HorizontalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        if (event == null) {
+            removeAllComponents();
+            init();
+        }
     }
 
     private void initLayout() {
@@ -69,7 +75,7 @@ public class SummaryView extends HorizontalLayout implements View {
     }
 
     private void createComponents() {
-        beginDateField = new DateField(MessagesBundle.getMessage("from"));
+        beginDateField = new DateField(messagesBundle.getMessage("from"));
         beginDateField.setDateFormat(datePattern);
         beginDateField.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -77,14 +83,14 @@ public class SummaryView extends HorizontalLayout implements View {
                 if(dateRangeValidator != null){
                     endDateField.removeValidator(dateRangeValidator);
                 }
-                dateRangeValidator = new DateRangeValidator(MessagesBundle.getMessage("not_allowed_date"), beginDateField.getValue(), new Date(), null);
+                dateRangeValidator = new DateRangeValidator(messagesBundle.getMessage("not_allowed_date"), beginDateField.getValue(), new Date(), null);
                 endDateField.addValidator(dateRangeValidator);
             }
         });
-        endDateField = new DateField(MessagesBundle.getMessage("to"));
+        endDateField = new DateField(messagesBundle.getMessage("to"));
         endDateField.setDateFormat(datePattern);
         endDateField.setImmediate(true);
-        searchButton = new Button(MessagesBundle.getMessage("search"));
+        searchButton = new Button(messagesBundle.getMessage("search"));
         searchButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -93,9 +99,11 @@ public class SummaryView extends HorizontalLayout implements View {
         });
         workDayTable = new Table();
         workDayTable.setSizeFull();
-        workDayTable.addContainerProperty(MessagesBundle.getMessage("date"), String.class, "");
-        workDayTable.addContainerProperty(MessagesBundle.getMessage("work_time"), String.class, "");
-        sumLabel = new Label(MessagesBundle.getMessage("sum") + ": 0h 0m");
+
+        workDayTable.addContainerProperty("date", String.class, "", messagesBundle.getMessage("date"), null, null);
+        workDayTable.addContainerProperty("work_time", String.class, "", messagesBundle.getMessage("work_time"), null, null);
+        sumLabel = new Label(messagesBundle.getMessage("summary") + ": 0h 0m");
+
     }
 
     private void addComponents() {
@@ -116,14 +124,11 @@ public class SummaryView extends HorizontalLayout implements View {
         SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
         for (WorkDay workDay : workDayList) {
             Item item = workDayTable.addItem("" + i);
-            item.getItemProperty(MessagesBundle.getMessage("date")).setValue(dateFormat.format(workDay.getDate()));
-            item.getItemProperty(MessagesBundle.getMessage("work_time")).setValue(TimeUtils.formatTime(workDay.getWorkDurationMinutes()));
+            item.getItemProperty("date").setValue(dateFormat.format(workDay.getDate()));
+            item.getItemProperty("work_time").setValue(TimeUtils.formatTime(workDay.getWorkDurationMinutes()));
             sum += workDay.getWorkDurationMinutes();
             i++;
         }
-        sumLabel.setValue(MessagesBundle.getMessage("sum") + ": " + TimeUtils.formatTime(sum));
+        sumLabel.setValue(messagesBundle.getMessage("summary") + ": " + TimeUtils.formatTime(sum));
     }
-
-
-
 }

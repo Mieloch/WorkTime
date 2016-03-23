@@ -10,21 +10,33 @@ import org.springframework.web.bind.annotation.RestController;
 import topworker.service.UserService;
 import topworker.service.impl.EncryptionServiceImpl;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.Properties;
 
 @RestController
 @RequestMapping("/api/")
 public class UserController {
 
-    private final String ACTIVATION_SUCCESS_URL = "http://localhost:8080/#!activate/success";
-    private final String ACTIVATION_FAIL_URL = "http://localhost:8080/#!activate/fail";
+    @Resource(name = "apiProperties")
+    private Properties apiProperties;
+
+    private String ACTIVATION_SUCCESS_URL;
+    private String ACTIVATION_FAIL_URL;
     @Autowired
     private UserService userService;
 
     @Autowired
     private EncryptionServiceImpl encryptionService;
+
+    @PostConstruct
+    public void init() {
+        ACTIVATION_SUCCESS_URL = apiProperties.getProperty("activate_succes_url");
+        ACTIVATION_FAIL_URL = apiProperties.getProperty("activate_fail_url");
+    }
 
     @RequestMapping(value = "/user/active", method = RequestMethod.GET)
     public HttpStatus activeAccount(@RequestParam String login, HttpServletResponse response) {

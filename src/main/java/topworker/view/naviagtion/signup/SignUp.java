@@ -15,6 +15,8 @@ import topworker.service.UserService;
 import topworker.utils.MessagesBundle;
 import topworker.view.naviagtion.information.Home;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Created by echomil on 10.03.16.
  */
@@ -27,6 +29,9 @@ public class SignUp extends VerticalLayout implements View {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private MessagesBundle messagesBundle;
+
     private FormLayout form;
     private TextField login;
     private TextField email;
@@ -34,6 +39,11 @@ public class SignUp extends VerticalLayout implements View {
     private Label registerLabel;
 
     public SignUp() {
+
+    }
+
+    @PostConstruct
+    private void init() {
         initForm();
         addComponent(registerLabel);
         addComponent(form);
@@ -45,13 +55,13 @@ public class SignUp extends VerticalLayout implements View {
     }
 
     public void initForm() {
-        registerLabel = new Label(MessagesBundle.getMessage("sign_up_label"));
+        registerLabel = new Label(messagesBundle.getMessage("sign_up_label"));
         registerLabel.addStyleName("welcome-label");
 
         form = new FormLayout();
         form.setSizeUndefined();
         initFields();
-        Button submit = new Button(MessagesBundle.getMessage("sign_up_label"));
+        Button submit = new Button(messagesBundle.getMessage("sign_up_label"));
         submit.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -91,12 +101,12 @@ public class SignUp extends VerticalLayout implements View {
 
     private void initFields() {
         login = new TextField("Login");
-        login.addValidator(new EmptyFieldValidator(MessagesBundle.getMessage("empty_field_error")));
+        login.addValidator(new EmptyFieldValidator(messagesBundle.getMessage("empty_field_error")));
         password = new PasswordField("Haslo");
-        password.addValidator(new EmptyFieldValidator(MessagesBundle.getMessage("empty_field_error")));
+        password.addValidator(new EmptyFieldValidator(messagesBundle.getMessage("empty_field_error")));
         email = new TextField("E-mail");
-        email.addValidator(new EmailValidator(MessagesBundle.getMessage("incorrect_email_error")));
-        email.addValidator(new EmptyFieldValidator(MessagesBundle.getMessage("empty_field_error")));
+        email.addValidator(new EmailValidator(messagesBundle.getMessage("incorrect_email_error")));
+        email.addValidator(new EmptyFieldValidator(messagesBundle.getMessage("empty_field_error")));
         setValidationVisible(false);
     }
 
@@ -116,6 +126,10 @@ public class SignUp extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        if (event == null) {
+            removeAllComponents();
+            init();
+        }
 
     }
 

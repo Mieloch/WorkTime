@@ -45,10 +45,11 @@ public class EncryptionServiceTest {
 
     @Test
     public void testDigestWorks() {
-        String str = "test";
+        String str = "demo";
         StandardStringDigester digester = new StandardStringDigester();
         digester.initialize();
         String result = digester.digest(str);
+        System.out.println(result);
         Assert.notNull(result);
     }
 

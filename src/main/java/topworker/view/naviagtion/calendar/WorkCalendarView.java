@@ -31,7 +31,8 @@ public class WorkCalendarView extends HorizontalLayout implements View {
     private HorizontalLayout navigationLayout;
     private VerticalLayout midLayout;
     private Label monthNameLabel;
-
+    @Autowired
+    private MessagesBundle messagesBundle;
     @Autowired
     private WorkCalendarController calendarController;
 
@@ -43,6 +44,10 @@ public class WorkCalendarView extends HorizontalLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
+        if (event == null) {
+            removeAllComponents();
+            init();
+        }
         calendarController.loadWorkPeriods();
         setMonthLabelCaption(calendarComponent.getStartDate(),calendarComponent.getEndDate());
 
@@ -128,9 +133,9 @@ public class WorkCalendarView extends HorizontalLayout implements View {
     private OptionGroup createPerspectiveOption() {
         OptionGroup optionGroup = new OptionGroup();
         optionGroup.addItem("week");
-        optionGroup.setItemCaption("week", MessagesBundle.getMessage("calendar_week_perspective"));
+        optionGroup.setItemCaption("week", messagesBundle.getMessage("calendar_week_perspective"));
         optionGroup.addItem("month");
-        optionGroup.setItemCaption("month", MessagesBundle.getMessage("calendar_month_perspective"));
+        optionGroup.setItemCaption("month", messagesBundle.getMessage("calendar_month_perspective"));
         optionGroup.select("month");
         optionGroup.addValueChangeListener(new Property.ValueChangeListener() {
             @Override

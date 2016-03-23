@@ -1,11 +1,11 @@
 package topworker.config;
 
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
-import java.util.Locale;
+import org.springframework.context.annotation.Scope;
+import org.springframework.core.io.ClassPathResource;
+import topworker.utils.MessagesBundle;
 
 /**
  * Created by Echomil on 2016-02-26.
@@ -14,10 +14,24 @@ import java.util.Locale;
 @Configuration
 public class BeanConfiguration {
 
+
+    @Bean(name = "apiProperties")
+    public PropertiesFactoryBean apiProperties() {
+        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+        propertiesFactoryBean.setLocation(new ClassPathResource("api.properties"));
+        return propertiesFactoryBean;
+    }
+
+    @Bean(name = "hibernateProperties")
+    public PropertiesFactoryBean hibernateProperties() {
+        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+        propertiesFactoryBean.setLocation(new ClassPathResource("hibernate.properties"));
+        return propertiesFactoryBean;
+    }
+
     @Bean
-    public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale("EN", "en"));
-        return slr;
+    @Scope(scopeName = "session")
+    public MessagesBundle getMessagesBundle() {
+        return new MessagesBundle();
     }
 }

@@ -6,8 +6,10 @@ import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import topworker.utils.MessagesBundle;
 
+import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -24,9 +26,17 @@ public class Download extends VerticalLayout implements View {
     private VerticalLayout content;
     private Label downloadLabel;
 
+    @Autowired
+    private MessagesBundle messagesBundle;
+
     public Download() {
 
-        init();
+
+    }
+
+    @PostConstruct
+    private void init() {
+        createComponents();
         addComponent(downloadLabel);
         addComponent(content);
         setExpandRatio(downloadLabel, 1.5f);
@@ -35,14 +45,14 @@ public class Download extends VerticalLayout implements View {
         setComponentAlignment(content, Alignment.TOP_CENTER);
     }
 
-    private void init() {
+    private void createComponents() {
         content = new VerticalLayout();
         TextArea instruction = new TextArea();
         instruction.setEnabled(false);
         instruction.addStyleName("information");
-        instruction.setValue(MessagesBundle.getMessage("instalation_instruction"));
+        instruction.setValue(messagesBundle.getMessage("instalation_instruction"));
         instruction.setSizeFull();
-        Button button = new Button(MessagesBundle.getMessage("download_btn_caption"));
+        Button button = new Button(messagesBundle.getMessage("download_btn_caption"));
         StreamResource resource = createResource();
         FileDownloader fileDownloader = new FileDownloader(resource);
         fileDownloader.extend(button);
@@ -54,7 +64,7 @@ public class Download extends VerticalLayout implements View {
         content.setExpandRatio(button, 9f);
         content.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
         content.setComponentAlignment(instruction, Alignment.MIDDLE_CENTER);
-        downloadLabel = new Label(MessagesBundle.getMessage("download_label"));
+        downloadLabel = new Label(messagesBundle.getMessage("download_label"));
         downloadLabel.addStyleName("download-label");
     }
 
@@ -76,6 +86,9 @@ public class Download extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        if (event == null) {
+            removeAllComponents();
+            init();
+        }
     }
 }

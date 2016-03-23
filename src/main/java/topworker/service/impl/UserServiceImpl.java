@@ -15,6 +15,7 @@ import topworker.model.dal.entity.EUserRoles;
 import topworker.service.EncryptionService;
 import topworker.service.UserService;
 
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -70,6 +71,7 @@ public class UserServiceImpl implements UserService {
         Set<EUserRoles> roles = userDao.getRoles(user.getUserRoles());
         String digestPassword = encryptionService.digest(user.getPassword());
         user.setPassword(digestPassword);
+        user.setRegistrationDate(new Date());
         EUser eUser = mapToEuser(user);
         eUser.setUserRoles(roles);
         try {

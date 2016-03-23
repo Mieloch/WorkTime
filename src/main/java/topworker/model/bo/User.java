@@ -1,9 +1,6 @@
 package topworker.model.bo;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Echomil on 2016-02-25.
@@ -18,6 +15,9 @@ public class User {
     private Set<UserRole> userRoles;
 
     private List<WorkPeriod> workPeriods;
+
+
+    private Date registrationDate;
 
     private boolean active;
 
@@ -84,6 +84,14 @@ public class User {
 
     public void setWorkPeriods(List<WorkPeriod> workPeriods) {
         this.workPeriods = workPeriods;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     @Override
