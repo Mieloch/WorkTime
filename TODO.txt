@@ -7,8 +7,9 @@
 
 
 #pierwszy release
-- encrypcja loginu przy aktywacji
++ encrypcja loginu przy aktywacji
 - zmiana strefy czasowej na serwerze
 - client GUI
 - opis btn on hover
-- md5 hasel do bazy
++ md5 hasel do bazy
+- przekierowanie po aktywacji

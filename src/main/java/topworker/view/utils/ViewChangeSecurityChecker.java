@@ -3,7 +3,9 @@ package topworker.view.utils;
 import com.vaadin.navigator.ViewChangeListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import topworker.view.naviagtion.home.Home;
+import topworker.view.naviagtion.information.ActivateFail;
+import topworker.view.naviagtion.information.ActivateSuccess;
+import topworker.view.naviagtion.information.Home;
 import topworker.view.naviagtion.login.Login;
 import topworker.view.naviagtion.signup.SignUp;
 
@@ -15,14 +17,11 @@ public class ViewChangeSecurityChecker implements ViewChangeListener {
 
     @Override
     public boolean beforeViewChange(ViewChangeListener.ViewChangeEvent event) {
-        if (event.getNewView() instanceof Login) {
-            return true;
-        }
-        if (event.getNewView() instanceof Home) {
-            return true;
-        }
-        if (event.getNewView() instanceof SignUp) {
-            return true;
+        String[] notAuthViews = new String[]{Login.VIEW_NAME, Home.VIEW_NAME, SignUp.VIEW_NAME, ActivateFail.VIEW_NAME, ActivateSuccess.VIEW_NAME};
+        for (String s : notAuthViews) {
+            if (event.getViewName().equals(s)) {
+                return true;
+            }
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

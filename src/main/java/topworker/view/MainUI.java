@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.BadCredentialsException;
 import topworker.event.LoginEvent;
+import topworker.utils.MessagesBundle;
 import topworker.view.naviagtion.calendar.WorkCalendarView;
 import topworker.view.naviagtion.download.Download;
-import topworker.view.naviagtion.home.Home;
+import topworker.view.naviagtion.information.Home;
 import topworker.view.naviagtion.login.Login;
 import topworker.view.naviagtion.signup.SignUp;
 import topworker.view.naviagtion.summary.SummaryView;
@@ -36,7 +37,6 @@ public class MainUI extends UI {
     private Button loginButton;
     private Button logoutButton;
 
-    @Autowired
     AuthenticationService authenticationService;
 
 
@@ -62,7 +62,7 @@ public class MainUI extends UI {
             removeNavigationButtons();
             addNotLoggedButtons();
         } catch (BadCredentialsException exception) {
-            Notification.show("Błąd przy wylogowaniu", Notification.Type.ERROR_MESSAGE);
+            Notification.show(MessagesBundle.getMessage("logout_error"), Notification.Type.ERROR_MESSAGE);
         }
 
     }
@@ -75,7 +75,7 @@ public class MainUI extends UI {
             addNavigationButtons();
             navigator.navigateTo(WorkCalendarView.VIEW_NAME);
         } catch (BadCredentialsException exception) {
-            Notification.show("Błąd przy logowaniu", Notification.Type.ERROR_MESSAGE);
+            Notification.show(MessagesBundle.getMessage("log_in_error"), Notification.Type.ERROR_MESSAGE);
         }
 
     }

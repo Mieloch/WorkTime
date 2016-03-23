@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 import topworker.event.LoginEvent;
+import topworker.utils.MessagesBundle;
 
 /**
  * Created by echomil on 06.03.16.
@@ -48,12 +49,12 @@ public class Login extends VerticalLayout implements View {
     private void init() {
         content = new VerticalLayout();
         content.setSizeUndefined();
-        loginLabel = new Label("Zaloguj");
+        loginLabel = new Label(MessagesBundle.getMessage("log_in_label"));
         loginLabel.addStyleName("welcome-label");
         FormLayout form = new FormLayout();
         form.setSizeUndefined();
-        loginField = new TextField("Login");
-        passwordField = new PasswordField("Haslo");
+        loginField = new TextField(MessagesBundle.getMessage("login_field"));
+        passwordField = new PasswordField(MessagesBundle.getMessage("password_field"));
         Button loginButton = createLoginButton();
         loginButton.addShortcutListener(new Button.ClickShortcut(loginButton,ShortcutAction.KeyCode.ENTER));
         form.addComponent(loginField);
@@ -64,7 +65,7 @@ public class Login extends VerticalLayout implements View {
     }
 
     private Button createLoginButton() {
-        Button button = new Button("Zaloguj");
+        Button button = new Button(MessagesBundle.getMessage("log_in_label"));
 
         button.addClickListener(new Button.ClickListener() {
 

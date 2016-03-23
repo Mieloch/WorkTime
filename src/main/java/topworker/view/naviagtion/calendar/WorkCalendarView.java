@@ -11,12 +11,13 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents.*;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.context.WebApplicationContext;
+import topworker.utils.MessagesBundle;
 
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
@@ -107,7 +108,7 @@ public class WorkCalendarView extends HorizontalLayout implements View {
         Calendar calcComponent = new Calendar();
         calcComponent.setWidth(90f, Unit.PERCENTAGE);
         calcComponent.setHeight(90f, Unit.PERCENTAGE);
-        calcComponent.setLocale(new Locale("pl", "PL"));
+        calcComponent.setLocale(LocaleContextHolder.getLocale());
         calcComponent.setHandler((DateClickHandler) null);
         calcComponent.setHandler((EventMoveHandler) null);
         calcComponent.setHandler((EventResizeHandler) null);
@@ -127,9 +128,9 @@ public class WorkCalendarView extends HorizontalLayout implements View {
     private OptionGroup createPerspectiveOption() {
         OptionGroup optionGroup = new OptionGroup();
         optionGroup.addItem("week");
-        optionGroup.setItemCaption("week", "Tydzień");
+        optionGroup.setItemCaption("week", MessagesBundle.getMessage("calendar_week_perspective"));
         optionGroup.addItem("month");
-        optionGroup.setItemCaption("month", "Miesiąc");
+        optionGroup.setItemCaption("month", MessagesBundle.getMessage("calendar_month_perspective"));
         optionGroup.select("month");
         optionGroup.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -162,7 +163,7 @@ public class WorkCalendarView extends HorizontalLayout implements View {
         long diff =  (begin.getTime() - end.getTime());
         int days = (int)TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
         DateUtils.addDays(begin,days);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMMMM",new Locale("pl","PL"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMMMM", LocaleContextHolder.getLocale());
         monthNameLabel.setValue(dateFormat.format(begin));
     }
 

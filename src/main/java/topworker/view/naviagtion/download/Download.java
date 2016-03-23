@@ -6,6 +6,7 @@ import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import topworker.utils.MessagesBundle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +25,7 @@ public class Download extends VerticalLayout implements View {
     private Label downloadLabel;
 
     public Download() {
+
         init();
         addComponent(downloadLabel);
         addComponent(content);
@@ -38,9 +40,9 @@ public class Download extends VerticalLayout implements View {
         TextArea instruction = new TextArea();
         instruction.setEnabled(false);
         instruction.addStyleName("information");
-        instruction.setValue("1. Wypakuj archiwum.\n2. W pliku config.properties ustaw swój login oraz hasło.\n3. Dodaj TopWorkerClient.jar do programów uruchamianych przy starcie systemu.");
+        instruction.setValue(MessagesBundle.getMessage("instalation_instruction"));
         instruction.setSizeFull();
-        Button button = new Button("Pobierz");
+        Button button = new Button(MessagesBundle.getMessage("download_btn_caption"));
         StreamResource resource = createResource();
         FileDownloader fileDownloader = new FileDownloader(resource);
         fileDownloader.extend(button);
@@ -52,7 +54,7 @@ public class Download extends VerticalLayout implements View {
         content.setExpandRatio(button, 9f);
         content.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
         content.setComponentAlignment(instruction, Alignment.MIDDLE_CENTER);
-        downloadLabel = new Label("Instalacja");
+        downloadLabel = new Label(MessagesBundle.getMessage("download_label"));
         downloadLabel.addStyleName("download-label");
     }
 
@@ -67,7 +69,7 @@ public class Download extends VerticalLayout implements View {
                 }
                 return null;
             }
-        }, "TopWorkerClient.zip");
+        }, "WorkTimeClient.zip");
 
 
     }

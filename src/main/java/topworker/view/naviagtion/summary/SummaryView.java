@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 import topworker.model.bo.WorkDay;
 import topworker.service.WorkPeriodService;
+import topworker.utils.MessagesBundle;
 import topworker.utils.TimeUtils;
 
 import javax.annotation.PostConstruct;
@@ -50,7 +51,7 @@ public class SummaryView extends HorizontalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        System.out.println("Summary View");
+
     }
 
     private void initLayout() {
@@ -68,7 +69,7 @@ public class SummaryView extends HorizontalLayout implements View {
     }
 
     private void createComponents() {
-        beginDateField = new DateField("Od");
+        beginDateField = new DateField(MessagesBundle.getMessage("from"));
         beginDateField.setDateFormat(datePattern);
         beginDateField.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -76,14 +77,14 @@ public class SummaryView extends HorizontalLayout implements View {
                 if(dateRangeValidator != null){
                     endDateField.removeValidator(dateRangeValidator);
                 }
-                dateRangeValidator = new DateRangeValidator("Niedozwolona data",beginDateField.getValue(),new Date(),null);
+                dateRangeValidator = new DateRangeValidator(MessagesBundle.getMessage("not_allowed_date"), beginDateField.getValue(), new Date(), null);
                 endDateField.addValidator(dateRangeValidator);
             }
         });
-        endDateField = new DateField("Do");
+        endDateField = new DateField(MessagesBundle.getMessage("to"));
         endDateField.setDateFormat(datePattern);
         endDateField.setImmediate(true);
-        searchButton = new Button("Szukaj");
+        searchButton = new Button(MessagesBundle.getMessage("search"));
         searchButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -92,9 +93,9 @@ public class SummaryView extends HorizontalLayout implements View {
         });
         workDayTable = new Table();
         workDayTable.setSizeFull();
-        workDayTable.addContainerProperty("Data", String.class, "");
-        workDayTable.addContainerProperty("Czas", String.class, "");
-        sumLabel = new Label("Suma: 0h 0m");
+        workDayTable.addContainerProperty(MessagesBundle.getMessage("date"), String.class, "");
+        workDayTable.addContainerProperty(MessagesBundle.getMessage("work_time"), String.class, "");
+        sumLabel = new Label(MessagesBundle.getMessage("sum") + ": 0h 0m");
     }
 
     private void addComponents() {
@@ -115,12 +116,12 @@ public class SummaryView extends HorizontalLayout implements View {
         SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
         for (WorkDay workDay : workDayList) {
             Item item = workDayTable.addItem("" + i);
-            item.getItemProperty("Data").setValue(dateFormat.format(workDay.getDate()));
-            item.getItemProperty("Czas").setValue(TimeUtils.formatTime(workDay.getWorkDurationMinutes()));
+            item.getItemProperty(MessagesBundle.getMessage("date")).setValue(dateFormat.format(workDay.getDate()));
+            item.getItemProperty(MessagesBundle.getMessage("work_time")).setValue(TimeUtils.formatTime(workDay.getWorkDurationMinutes()));
             sum += workDay.getWorkDurationMinutes();
             i++;
         }
-        sumLabel.setValue("Suma: " + TimeUtils.formatTime(sum));
+        sumLabel.setValue(MessagesBundle.getMessage("sum") + ": " + TimeUtils.formatTime(sum));
     }
 
 

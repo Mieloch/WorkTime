@@ -2,8 +2,10 @@ package topworker.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import topworker.view.utils.AuthenticationService;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import java.util.Locale;
 
 /**
  * Created by Echomil on 2016-02-26.
@@ -13,8 +15,9 @@ import topworker.view.utils.AuthenticationService;
 public class BeanConfiguration {
 
     @Bean
-    @Scope(scopeName = "prototype")
-    public AuthenticationService getAuthenticationService() {
-        return new AuthenticationService();
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(new Locale("EN", "en"));
+        return slr;
     }
 }

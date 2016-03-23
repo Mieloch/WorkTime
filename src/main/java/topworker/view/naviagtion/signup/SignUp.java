@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import topworker.model.bo.User;
 import topworker.service.EmailService;
 import topworker.service.UserService;
-import topworker.view.naviagtion.home.Home;
+import topworker.utils.MessagesBundle;
+import topworker.view.naviagtion.information.Home;
 
 /**
  * Created by echomil on 10.03.16.
@@ -44,13 +45,13 @@ public class SignUp extends VerticalLayout implements View {
     }
 
     public void initForm() {
-        registerLabel = new Label("Zarejestruj sie");
+        registerLabel = new Label(MessagesBundle.getMessage("sign_up_label"));
         registerLabel.addStyleName("welcome-label");
 
         form = new FormLayout();
         form.setSizeUndefined();
         initFields();
-        Button submit = new Button("Zarejestruj");
+        Button submit = new Button(MessagesBundle.getMessage("sign_up_label"));
         submit.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -90,12 +91,12 @@ public class SignUp extends VerticalLayout implements View {
 
     private void initFields() {
         login = new TextField("Login");
-        login.addValidator(new EmptyFieldValidator("Pole musi byc wypelnione"));
+        login.addValidator(new EmptyFieldValidator(MessagesBundle.getMessage("empty_field_error")));
         password = new PasswordField("Haslo");
-        password.addValidator(new EmptyFieldValidator("Pole musi byc wypelnione"));
+        password.addValidator(new EmptyFieldValidator(MessagesBundle.getMessage("empty_field_error")));
         email = new TextField("E-mail");
-        email.addValidator(new EmailValidator("Niepoprawny email"));
-        email.addValidator(new EmptyFieldValidator("Pole musi byc wypelnione"));
+        email.addValidator(new EmailValidator(MessagesBundle.getMessage("incorrect_email_error")));
+        email.addValidator(new EmptyFieldValidator(MessagesBundle.getMessage("empty_field_error")));
         setValidationVisible(false);
     }
 
