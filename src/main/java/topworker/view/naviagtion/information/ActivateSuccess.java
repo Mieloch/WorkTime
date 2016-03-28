@@ -22,6 +22,8 @@ public class ActivateSuccess extends SimpleInformationPage {
     private void init() {
         setInformationMessage(messagesBundle.getMessage("activation_success_message"));
         setTitleLabel(messagesBundle.getMessage("activation_success_label"));
+        currentLocale = messagesBundle.getLocale();
+
     }
 
     public ActivateSuccess() {
@@ -30,7 +32,8 @@ public class ActivateSuccess extends SimpleInformationPage {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        if (event == null) {
+        if (!currentLocale.equals(messagesBundle.getLocale())) {
+            removeAllComponents();
             init();
         }
     }

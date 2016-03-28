@@ -25,11 +25,14 @@ public class ActivateFail extends SimpleInformationPage {
     private void init() {
         setInformationMessage(messagesBundle.getMessage("activation_fail_message"));
         setTitleLabel(messagesBundle.getMessage("activation_fail_label"));
+        currentLocale = messagesBundle.getLocale();
+
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        if (event == null) {
+        if (!currentLocale.equals(messagesBundle.getLocale())) {
+            removeAllComponents();
             init();
         }
     }

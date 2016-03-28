@@ -10,17 +10,17 @@ import java.util.List;
  * Created by Echomil on 2016-02-26.
  */
 public interface WorkPeriodService {
-    List<WorkPeriod> getFromDateToDate(Date startDate, Date endDate);
+    List<WorkPeriod> getFromDateToDate(Date startDate, Date endDate, String login);
 
     List<WorkPeriod> getAll();
 
-    List<WorkPeriod> getAllBelongToUser();
+    List<WorkPeriod> getAllBelongToLogedUser(String login);
 
-    void postTime(WorkPeriod workPeriod);
+    Integer getMonthlySumInMinutes(Date month, String login);
 
-    List<WorkPeriod> getAllStartingIn(Date start);
+    List<WorkPeriod> getAllStartingIn(Date start, String login);
 
-    List<WorkDay> getWorkDays(Date begin, Date end);
+    List<WorkDay> getWorkDays(Date begin, Date end, String login);
 
     void postTimeToUser(String user, WorkPeriod period);
 

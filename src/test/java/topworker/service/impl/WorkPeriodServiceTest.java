@@ -51,9 +51,9 @@ public class WorkPeriodServiceTest {
         List<WorkPeriod> workPeriodList = new ArrayList<>();
         workPeriodList.add(new WorkPeriod(start, end));
         mockedWorkPeriodDao = Mockito.mock(WorkPeriodDao.class);
-        Mockito.when(mockedWorkPeriodDao.getFromDateToDate(start, end)).thenReturn(new ArrayList<EWorkPeriod>(eWorkPeriodList));
+        Mockito.when(mockedWorkPeriodDao.getFromDateToDate(start, end, "")).thenReturn(new ArrayList<EWorkPeriod>(eWorkPeriodList));
         workPeriodService.setWorkPeriodDao(mockedWorkPeriodDao);
-        Assert.assertEquals(workPeriodList, workPeriodService.getFromDateToDate(start, end));
+        Assert.assertEquals(workPeriodList, workPeriodService.getFromDateToDate(start, end, ""));
     }
 
     @Test

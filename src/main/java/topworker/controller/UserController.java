@@ -14,7 +14,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.Properties;
 
 @RestController
@@ -41,11 +40,7 @@ public class UserController {
     @RequestMapping(value = "/user/active", method = RequestMethod.GET)
     public HttpStatus activeAccount(@RequestParam String login, HttpServletResponse response) {
         try {
-            System.out.println(login);
-            String s1 = URLDecoder.decode(login, "UTF-8");
-            System.out.println(s1);
-            String userLogin = encryptionService.decrypt(URLDecoder.decode(login, "UTF-8"));
-            System.out.println(userLogin);
+            String userLogin = encryptionService.decrypt(login);
             userService.activateUser(userLogin);
             response.sendRedirect(ACTIVATION_SUCCESS_URL);
         } catch (Exception e) {

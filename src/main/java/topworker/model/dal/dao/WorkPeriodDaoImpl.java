@@ -33,11 +33,12 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     private UserDao userDao;
 
     @Override
-    public List<EWorkPeriod> getFromDateToDate(Date startDate, Date endDate) {
+    public List<EWorkPeriod> getFromDateToDate(Date start, Date stop, String login) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
         Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);
-        cq.where(cb.between(root.get(EWorkPeriod_.start), startDate, endDate));
+        Join<EWorkPeriod, EUser> join = root.join(EWorkPeriod_.user);
+        cq.where(cb.and(cb.between(root.get(EWorkPeriod_.start), start, stop), join.get(EUser_.login).in(login)));
         Query q = entityManager.createQuery(cq);
         return q.getResultList();
     }

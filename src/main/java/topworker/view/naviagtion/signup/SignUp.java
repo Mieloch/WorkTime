@@ -16,6 +16,7 @@ import topworker.utils.MessagesBundle;
 import topworker.view.naviagtion.information.Home;
 
 import javax.annotation.PostConstruct;
+import java.util.Locale;
 
 /**
  * Created by echomil on 10.03.16.
@@ -37,6 +38,7 @@ public class SignUp extends VerticalLayout implements View {
     private TextField email;
     private PasswordField password;
     private Label registerLabel;
+    private Locale currentLocale;
 
     public SignUp() {
 
@@ -52,6 +54,8 @@ public class SignUp extends VerticalLayout implements View {
         setExpandRatio(form, 9f);
         setComponentAlignment(form, Alignment.TOP_CENTER);
         setComponentAlignment(registerLabel, Alignment.MIDDLE_CENTER);
+        currentLocale = messagesBundle.getLocale();
+
     }
 
     public void initForm() {
@@ -126,7 +130,7 @@ public class SignUp extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        if (event == null) {
+        if (!currentLocale.equals(messagesBundle.getLocale())) {
             removeAllComponents();
             init();
         }

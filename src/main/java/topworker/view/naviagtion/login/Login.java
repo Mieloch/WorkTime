@@ -13,6 +13,7 @@ import topworker.event.LoginEvent;
 import topworker.utils.MessagesBundle;
 
 import javax.annotation.PostConstruct;
+import java.util.Locale;
 
 /**
  * Created by echomil on 06.03.16.
@@ -29,7 +30,7 @@ public class Login extends VerticalLayout implements View {
 
     private VerticalLayout content;
     private Label loginLabel;
-
+    private Locale currentLocale;
     @Autowired
     private MessagesBundle messagesBundle;
 
@@ -50,6 +51,7 @@ public class Login extends VerticalLayout implements View {
         setComponentAlignment(content, Alignment.TOP_CENTER);
         setExpandRatio(loginLabel, 1.5f);
         setExpandRatio(content, 9f);
+        currentLocale = messagesBundle.getLocale();
     }
 
     private void createComponents() {
@@ -89,7 +91,7 @@ public class Login extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        if (event == null) {
+        if (!currentLocale.equals(messagesBundle.getLocale())) {
             removeAllComponents();
             init();
         }

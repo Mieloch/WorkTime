@@ -9,6 +9,8 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.WebApplicationContext;
 import topworker.model.bo.WorkDay;
 import topworker.service.WorkPeriodService;
@@ -19,6 +21,7 @@ import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Echomil on 2016-02-24.
@@ -37,6 +40,8 @@ public class SummaryView extends HorizontalLayout implements View {
     private Table workDayTable;
     private Label sumLabel;
     private DateRangeValidator dateRangeValidator;
+    private Locale currentLocale;
+
     private final String datePattern = "dd-MM-yyyy";
 
     @Autowired
@@ -50,11 +55,13 @@ public class SummaryView extends HorizontalLayout implements View {
         initLayout();
         createComponents();
         addComponents();
+        currentLocale = messagesBundle.getLocale();
+
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        if (event == null) {
+        if (!currentLocale.equals(messagesBundle.getLocale())) {
             removeAllComponents();
             init();
         }
@@ -80,7 +87,7 @@ public class SummaryView extends HorizontalLayout implements View {
         beginDateField.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                if(dateRangeValidator != null){
+                if (dateRangeValidator != null) {
                     endDateField.removeValidator(dateRangeValidator);
                 }
                 dateRangeValidator = new DateRangeValidator(messagesBundle.getMessage("not_allowed_date"), beginDateField.getValue(), new Date(), null);
@@ -94,7 +101,7 @@ public class SummaryView extends HorizontalLayout implements View {
         searchButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                    fillWorkDayTable();
+                fillWorkDayTable();
             }
         });
         workDayTable = new Table();
@@ -119,16 +126,20 @@ public class SummaryView extends HorizontalLayout implements View {
 
 
     private void fillWorkDayTable() {
-        List<WorkDay> workDayList = workPeriodService.getWorkDays(beginDateField.getValue(), endDateField.getValue());
-        int i = 0, sum = 0;
-        SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
-        for (WorkDay workDay : workDayList) {
-            Item item = workDayTable.addItem("" + i);
-            item.getItemProperty("date").setValue(dateFormat.format(workDay.getDate()));
-            item.getItemProperty("work_time").setValue(TimeUtils.formatTime(workDay.getWorkDurationMinutes()));
-            sum += workDay.getWorkDurationMinutes();
-            i++;
+        if (beginDateField.isValid() && endDateField.isValid()) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            List<WorkDay> workDayList = workPeriodService.getWorkDays(beginDateField.getValue(), endDateField.getValue(), auth.getName());
+            int i = 0, sum = 0;
+            SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
+            for (WorkDay workDay : workDayList) {
+                Item item = workDayTable.addItem("" + i);
+                item.getItemProperty("date").setValue(dateFormat.format(workDay.getDate()));
+                item.getItemProperty("work_time").setValue(TimeUtils.formatTime(workDay.getWorkDurationMinutes()));
+                sum += workDay.getWorkDurationMinutes();
+                i++;
+            }
+            sumLabel.setValue(messagesBundle.getMessage("summary") + ": " + TimeUtils.formatTime(sum));
+
         }
-        sumLabel.setValue(messagesBundle.getMessage("summary") + ": " + TimeUtils.formatTime(sum));
     }
 }

@@ -4,8 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import topworker.model.bo.WorkDay;
 import topworker.model.bo.WorkPeriod;
@@ -15,10 +13,7 @@ import topworker.service.WorkPeriodService;
 
 import javax.persistence.NoResultException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,10 +34,11 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     }
 
     @Override
-    public List<WorkPeriod> getFromDateToDate(Date startDate, Date endDate) {
+    public List<WorkPeriod> getFromDateToDate(Date startDate, Date endDate, String login) {
         List<EWorkPeriod> queryResult;
         try {
-            queryResult = workPeriodDao.getFromDateToDate(startDate, endDate);
+
+            queryResult = workPeriodDao.getFromDateToDate(startDate, endDate, login);
         } catch (NoResultException exception) {
             return null;
         }
@@ -50,12 +46,7 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     }
 
     @Override
-    public void postTime(WorkPeriod workPeriod) {
-        workPeriodDao.postTime(workPeriod);
-    }
-
-    @Override
-    public List<WorkPeriod> getAllStartingIn(Date day) {
+    public List<WorkPeriod> getAllStartingIn(Date day, String login) {
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(day);
         startDate.set(Calendar.HOUR_OF_DAY, 0);
@@ -68,7 +59,7 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
 
         List<EWorkPeriod> queryResult;
         try {
-            queryResult = workPeriodDao.getFromDateToDate(startDate.getTime(), stopDate.getTime());
+            queryResult = workPeriodDao.getFromDateToDate(startDate.getTime(), stopDate.getTime(), login);
         } catch (EmptyResultDataAccessException exception) {
             return null;
         }
@@ -76,7 +67,7 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     }
 
     @Override
-    public List<WorkDay> getWorkDays(Date begin, Date end) {
+    public List<WorkDay> getWorkDays(Date begin, Date end, String login) {
         List<WorkDay> workDayList = new ArrayList<>();
         Calendar beginDate = Calendar.getInstance();
         Calendar endDate = Calendar.getInstance();
@@ -86,7 +77,7 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
         long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
         int i = 0;
         do {
-            List<WorkPeriod> periodsFromDay = getAllStartingIn(beginDate.getTime());
+            List<WorkPeriod> periodsFromDay = getAllStartingIn(beginDate.getTime(), login);
             if (!periodsFromDay.isEmpty()) {
                 workDayList.add(new WorkDay(periodsFromDay, beginDate.getTime()));
             }
@@ -101,6 +92,7 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
         workPeriodDao.postTimeToUser(user, period);
     }
 
+
     @Override
     public List<WorkPeriod> getAll() {
         List<EWorkPeriod> queryResult;
@@ -113,12 +105,26 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     }
 
     @Override
-    public List<WorkPeriod> getAllBelongToUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String login = authentication.getName();
+    public List<WorkPeriod> getAllBelongToLogedUser(String login) {
         return mapToWorkPeriod(workPeriodDao.getAllBelongToUser(login));
 
 
+    }
+
+    @Override
+    public Integer getMonthlySumInMinutes(Date month, String login) {
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        gregorianCalendar.setTime(month);
+        gregorianCalendar.set(Calendar.DAY_OF_MONTH, gregorianCalendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        Date start = gregorianCalendar.getTime();
+        gregorianCalendar.set(Calendar.DAY_OF_MONTH, gregorianCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date end = gregorianCalendar.getTime();
+        List<WorkDay> workDays = getWorkDays(start, end, login);
+        int sum = 0;
+        for (WorkDay workDay : workDays) {
+            sum += workDay.getWorkDurationMinutes();
+        }
+        return sum;
     }
 
     private List<WorkPeriod> mapToWorkPeriod(List<EWorkPeriod> eWorkPeriods) {

@@ -15,7 +15,9 @@ import topworker.model.dal.entity.EUserRoles;
 import topworker.service.EncryptionService;
 import topworker.service.UserService;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,6 +37,14 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl() {
         mapper = new ModelMapper();
         mapper.addConverter(getUserRoleConverter());
+    }
+
+    @Override
+    public List<User> getAll() {
+        List<EUser> eUsers = userDao.getAll();
+        List<User> users = new ArrayList<>();
+        mapper.map(eUsers, users);
+        return users;
     }
 
     @Override
@@ -90,6 +100,7 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
 
     protected EUser mapToEuser(User user){
         EUser result = new EUser();

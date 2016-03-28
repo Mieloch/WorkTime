@@ -1,7 +1,5 @@
 package topworker.utils;
 
-import org.springframework.context.i18n.LocaleContextHolder;
-
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -10,11 +8,11 @@ import java.util.ResourceBundle;
  */
 public class MessagesBundle {
     private ResourceBundle resourceBundle;
+    private Locale locale;
 
     public MessagesBundle() {
-        Locale l = LocaleContextHolder.getLocale();
-        LocaleContextHolder.setLocale(new Locale("EN", "en"));
-        resourceBundle = ResourceBundle.getBundle("messages", LocaleContextHolder.getLocale());
+        locale = new Locale("EN", "en");
+        resourceBundle = ResourceBundle.getBundle("messages", locale);
     }
 
     public String getMessage(String key) {
@@ -22,7 +20,15 @@ public class MessagesBundle {
     }
 
     public void changeBundle(Locale locale) {
-        LocaleContextHolder.setLocale(locale);
-        resourceBundle = ResourceBundle.getBundle("messages", LocaleContextHolder.getLocale());
+        this.setLocale(locale);
+        resourceBundle = ResourceBundle.getBundle("messages", locale);
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    public Locale getLocale() {
+        return locale;
     }
 }

@@ -5,6 +5,8 @@ import com.vaadin.spring.annotation.SpringView;
 import org.springframework.beans.factory.annotation.Autowired;
 import topworker.utils.MessagesBundle;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Created by echomil on 07.03.16.
  */
@@ -19,6 +21,13 @@ public class Home extends SimpleInformationPage {
 
     @Autowired
     private MessagesBundle messagesBundle;
+
+    @PostConstruct
+    private void init() {
+        setTitleLabel(messagesBundle.getMessage("home_label"));
+        setInformationMessage(messagesBundle.getMessage("home_information"));
+        currentLocale = messagesBundle.getLocale();
+    }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {

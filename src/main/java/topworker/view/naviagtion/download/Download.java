@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * Created by echomil on 21.03.16.
@@ -25,6 +26,7 @@ public class Download extends VerticalLayout implements View {
     private final String CLIENT_PATH = "/var/lib/openshift/56f076250c1e664af2000037/app-root/data/TopWorkerClient.zip";
     private VerticalLayout content;
     private Label downloadLabel;
+    private Locale currentLocale;
 
     @Autowired
     private MessagesBundle messagesBundle;
@@ -43,6 +45,8 @@ public class Download extends VerticalLayout implements View {
         setExpandRatio(downloadLabel, 9f);
         setComponentAlignment(downloadLabel, Alignment.MIDDLE_CENTER);
         setComponentAlignment(content, Alignment.TOP_CENTER);
+        currentLocale = messagesBundle.getLocale();
+
     }
 
     private void createComponents() {
@@ -86,7 +90,7 @@ public class Download extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        if (event == null) {
+        if (!currentLocale.equals(messagesBundle.getLocale())) {
             removeAllComponents();
             init();
         }

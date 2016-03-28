@@ -1511,8 +1511,26 @@ div.v-layout.v-horizontal.v-widget {
 	font-style: normal;
 }
 
+@font-face {
+	font-family: Amble-Regular;
+	font-weight: normal;
+	font-style: normal;
+	src: url(../valo/util/bourbon/css3/../../mytheme/fonts.eot);
+	src: url(../valo/util/bourbon/css3/../../mytheme/fonts.eot?#iefix) format("embedded-opentype"), url(../valo/util/bourbon/css3/../../mytheme/fonts.woff) format("woff"), url(../valo/util/bourbon/css3/../../mytheme/fonts.ttf) format("truetype"), url(../valo/util/bourbon/css3/../../mytheme/fonts.svg#Amble-Regular) format("svg");
+}
+
+.Amble-Regular {
+	font-family: Amble-Regular;
+	font-style: normal;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
+	text-align: center;
+}
+
 .topworkertheme.v-app, .topworkertheme.v-app-loading {
-	font: 300 16px/1.55 "Open Sans", sans-serif;
+	font: 300 16px/1.55 Amble-Regular;
 	color: #464646;
 	background-color: #fafafa;
 	cursor: default;
@@ -12475,6 +12493,12 @@ div.v-layout.v-horizontal.v-widget {
 	content: "\e800";
 }
 
+.topworkertheme .transparent_btn {
+	border: transparent;
+	background: transparent;
+	box-shadow: none;
+}
+
 .topworkertheme .signup {
 	font-family: "fontello";
 	font-style: normal;
@@ -12559,6 +12583,7 @@ div.v-layout.v-horizontal.v-widget {
 .topworkertheme .information {
 	border: none;
 	color: black;
+	box-shadow: none;
 }
 
 .topworkertheme .v-calendar-event-month * {

@@ -15,4 +15,6 @@ public interface UserDao {
     EUser findById(int id);
     void persist(EUser entity);
     Set<EUserRoles> getRoles(Set<UserRole> roles);
+
+    List<EUser> getAll();
 }

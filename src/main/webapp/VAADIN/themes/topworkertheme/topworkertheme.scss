@@ -34,6 +34,10 @@
     font-style: normal;
   }
 
+@include font(Amble-Regular,
+        '../../mytheme/fonts');
+$v-font-family: Amble-Regular;
+
 @mixin topworkertheme {
 
 
@@ -101,7 +105,11 @@
   .home:after {
     content: "\e800";
   }
-
+  .transparent_btn {
+    border: transparent;
+    background: transparent;
+    box-shadow: none;
+  }
   .signup {
     font-family: 'fontello';
     font-style: normal;
@@ -193,6 +201,7 @@
   .information {
     border: none;
     color: black;
+    box-shadow: none;
   }
 
   .v-calendar-event-month * {

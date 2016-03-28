@@ -34,4 +34,5 @@ public class BeanConfiguration {
     public MessagesBundle getMessagesBundle() {
         return new MessagesBundle();
     }
+
 }

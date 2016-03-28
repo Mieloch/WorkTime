@@ -3,6 +3,7 @@ package topworker.view;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
@@ -19,6 +20,7 @@ import topworker.view.naviagtion.login.Login;
 import topworker.view.naviagtion.signup.SignUp;
 import topworker.view.naviagtion.summary.SummaryView;
 import topworker.view.utils.AuthenticationService;
+import topworker.view.utils.Icons;
 import topworker.view.utils.ViewChangeSecurityChecker;
 
 import java.util.Locale;
@@ -42,6 +44,7 @@ public class MainUI extends UI {
     private Button loginButton;
     private Button logoutButton;
     private View languageChanger;
+
 
 
     AuthenticationService authenticationService;
@@ -84,7 +87,6 @@ public class MainUI extends UI {
         } catch (BadCredentialsException exception) {
             Notification.show(messagesBundle.getMessage("log_in_error"), Notification.Type.ERROR_MESSAGE);
         }
-
     }
 
     private void initNavigator() {
@@ -162,24 +164,10 @@ public class MainUI extends UI {
     private void initBottomLayout() {
         bottomLayout = new HorizontalLayout();
         bottomLayout.setSizeFull();
-        Button btn = new Button("test");
-        btn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                messagesBundle.changeBundle(new Locale("PL", "pl"));
-                languageChanger.enter(null);
-            }
-        });
-        Button btn2 = new Button("test2");
-        btn2.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                messagesBundle.changeBundle(new Locale("EN", "en"));
-                languageChanger.enter(null);
-            }
-        });
-        bottomLayout.addComponent(btn2);
-        bottomLayout.addComponent(btn);
+        HorizontalLayout languageButtons = new HorizontalLayout();
+        languageButtons.addComponent(createLanguageButton(new Locale("PL", "pl"), Icons.PL));
+        languageButtons.addComponent(createLanguageButton(new Locale("EN", "en"), Icons.GB));
+        bottomLayout.addComponent(languageButtons);
         bottomLayout.addStyleName("menu-panel");
     }
 
@@ -236,6 +224,22 @@ public class MainUI extends UI {
         upperLayout.setComponentAlignment(homeButton, Alignment.MIDDLE_CENTER);
         upperLayout.addComponent(loginButton, 7, 0);
         upperLayout.setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
+    }
+
+    private Button createLanguageButton(final Locale locale, String icon) {
+        Button btn = new Button();
+        btn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                if (!messagesBundle.getLocale().equals(locale)) {
+                    messagesBundle.changeBundle(locale);
+                    languageChanger.enter(null);
+                }
+            }
+        });
+        btn.setIcon(new ThemeResource(icon));
+        btn.addStyleName("transparent_btn");
+        return btn;
     }
 
     public void setLanguageChanger(View languageChanger) {

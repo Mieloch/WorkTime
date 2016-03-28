@@ -5,15 +5,20 @@ import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import topworker.model.bo.WorkPeriod;
 import topworker.service.WorkPeriodService;
+import topworker.utils.MessagesBundle;
 import topworker.utils.TimeUtils;
 import topworker.view.naviagtion.calendar.enums.CalendarRange;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Component
@@ -24,16 +29,20 @@ class WorkCalendarController {
     private CalendarRange currentRange;
 
     @Autowired
+    private MessagesBundle messagesBundle;
+
+    @Autowired
     private WorkPeriodService workPeriodService;
 
     public WorkCalendarController() {
-        calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Warsaw"), new Locale("pl", "PL"));
+        calendar = new GregorianCalendar();
     }
 
     public void loadWorkPeriods() {
-        List<WorkPeriod> periods = workPeriodService.getAllBelongToUser();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<WorkPeriod> periods = workPeriodService.getAllBelongToLogedUser(auth.getName());
         for (WorkPeriod workPeriod : periods) {
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm", new Locale("pl", "PL"));
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm", messagesBundle.getLocale());
             String endTime = format.format(workPeriod.getStop());
             String startTime = format.format(workPeriod.getStart());
             CalendarEvent calEvent = new BasicEvent(startTime + "-" + endTime, TimeUtils.formatTime(workPeriod.getDuration()), workPeriod.getStart(),
@@ -116,7 +125,6 @@ class WorkCalendarController {
     }
 
     private void setWholeMonth() {
-        calendar.add(java.util.Calendar.DAY_OF_MONTH,7);
         calendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
         calendarComponent.setStartDate(calendar.getTime());
         calendar.add(GregorianCalendar.MONTH, 1);

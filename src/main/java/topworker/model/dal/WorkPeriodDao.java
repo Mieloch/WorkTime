@@ -10,12 +10,17 @@ import java.util.List;
  * Created by Echomil on 2016-02-26.
  */
 public interface WorkPeriodDao {
-     List<EWorkPeriod> getFromDateToDate(Date startDate, Date endDate);
-     void postTime(WorkPeriod timeStamp);
-     List<EWorkPeriod> getAll();
-     EWorkPeriod getByStartDate(Date startDate);
-     List<EWorkPeriod> getAllStartingIn(Date start);
+    List<EWorkPeriod> getFromDateToDate(Date startDate, Date endDate, String login);
 
-     void postTimeToUser(String user, WorkPeriod period);
-     List<EWorkPeriod> getAllBelongToUser(String user);
+    void postTime(WorkPeriod timeStamp);
+
+    List<EWorkPeriod> getAll();
+
+    EWorkPeriod getByStartDate(Date startDate);
+
+    List<EWorkPeriod> getAllStartingIn(Date start);
+
+    void postTimeToUser(String user, WorkPeriod period);
+
+    List<EWorkPeriod> getAllBelongToUser(String user);
 }

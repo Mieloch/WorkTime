@@ -5,7 +5,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import topworker.model.bo.UserRole;
 import topworker.model.dal.UserDao;
-import topworker.model.dal.entity.*;
+import topworker.model.dal.entity.EUser;
+import topworker.model.dal.entity.EUserRoles;
+import topworker.model.dal.entity.EUserRoles_;
+import topworker.model.dal.entity.EUser_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,6 +43,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<EUser> getAll() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<EUser> cq = cb.createQuery(EUser.class);
+        Root<EUser> root = cq.from(EUser.class);
+        Query query = entityManager.createQuery(cq);
+        return query.getResultList();
+    }
+
+    @Override
     public EUser findById(int id) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<EUser> cq = cb.createQuery(EUser.class);
@@ -68,4 +80,6 @@ public class UserDaoImpl implements UserDao {
         rolesSet.addAll(query.getResultList());
         return rolesSet;
     }
+
+
 }

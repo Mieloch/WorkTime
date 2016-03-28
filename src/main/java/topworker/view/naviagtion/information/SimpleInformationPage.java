@@ -8,6 +8,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 
+import java.util.Locale;
+
 /**
  * Created by echomil on 23.03.16.
  */
@@ -16,6 +18,7 @@ public class SimpleInformationPage extends VerticalLayout implements View {
     private VerticalLayout content;
     private Label titleLable;
     private TextArea information;
+    protected Locale currentLocale;
 
 
     public SimpleInformationPage() {
