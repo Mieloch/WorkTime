@@ -13,7 +13,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.BadCredentialsException;
 import topworker.event.LoginEvent;
 import topworker.utils.MessagesBundle;
-import topworker.view.naviagtion.calendar.WorkCalendarView;
+import topworker.view.naviagtion.calendar.WorkCalendarViewImpl;
 import topworker.view.naviagtion.download.Download;
 import topworker.view.naviagtion.information.Home;
 import topworker.view.naviagtion.login.Login;
@@ -83,7 +83,7 @@ public class MainUI extends UI {
             authenticationService.handleAuthentication(loginEvent.getLogin(), loginEvent.getPassword());
             upperLayout.removeAllComponents();
             addNavigationButtons();
-            navigator.navigateTo(WorkCalendarView.VIEW_NAME);
+            navigator.navigateTo(WorkCalendarViewImpl.VIEW_NAME);
         } catch (BadCredentialsException exception) {
             Notification.show(messagesBundle.getMessage("log_in_error"), Notification.Type.ERROR_MESSAGE);
         }
@@ -99,7 +99,7 @@ public class MainUI extends UI {
     }
 
     private void addNavigationButtons() {
-        Button calendarButton = createNavigationButton("", WorkCalendarView.VIEW_NAME, "calendar");
+        Button calendarButton = createNavigationButton("", WorkCalendarViewImpl.VIEW_NAME, "calendar");
         Button listButton = createNavigationButton("", SummaryView.VIEW_NAME, "list");
         Button homeButton = createNavigationButton("", Home.VIEW_NAME, "home");
         Button downloadButton = createNavigationButton("", Download.VIEW_NAME, "download");
