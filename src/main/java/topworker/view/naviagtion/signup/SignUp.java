@@ -3,6 +3,7 @@ package topworker.view.naviagtion.signup;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.AbstractStringValidator;
 import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
@@ -77,7 +78,7 @@ public class SignUp extends VerticalLayout implements View {
                     userService.addUser(user);
                     emailService.sendRegistrationMsg(user.getEmail(), user.getLogin());
                     UI.getCurrent().getNavigator().navigateTo(Home.VIEW_NAME);
-                    showSuccessMsg("Aktywuj konto klikajac w link na twojej skrzynce pocztowej");
+                    showSuccessMsg(messagesBundle.getMessage("sign_up_success"));
                     clearFields();
 
                 } catch (IllegalArgumentException e) {
@@ -90,6 +91,7 @@ public class SignUp extends VerticalLayout implements View {
 
             }
         });
+        submit.addShortcutListener(new Button.ClickShortcut(submit, ShortcutAction.KeyCode.ENTER));
         form.addComponent(login);
         form.addComponent(password);
         form.addComponent(email);

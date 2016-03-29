@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import topworker.model.dal.SecurityDao;
 import topworker.service.EncryptionService;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Created by echomil on 17.03.16.
  */
 @Service
+//@DependsOn(value = {"securityDao"})
 public class EncryptionServiceImpl implements EncryptionService {
 
     @Autowired
@@ -27,6 +30,7 @@ public class EncryptionServiceImpl implements EncryptionService {
         encryptor = new BasicTextEncryptor();
     }
 
+    @PostConstruct
     public void init() {
         encryptor.setPassword(securityDao.getRecord(TEXT_ENCRYPTION_KEY));
     }

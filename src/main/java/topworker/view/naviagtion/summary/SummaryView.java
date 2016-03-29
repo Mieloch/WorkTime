@@ -126,7 +126,7 @@ public class SummaryView extends HorizontalLayout implements View {
 
 
     private void fillWorkDayTable() {
-        if (beginDateField.isValid() && endDateField.isValid()) {
+        if (beginDateField.isValid() && endDateField.isValid() && !beginDateField.isEmpty() && !endDateField.isEmpty()) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             List<WorkDay> workDayList = workPeriodService.getWorkDays(beginDateField.getValue(), endDateField.getValue(), auth.getName());
             int i = 0, sum = 0;

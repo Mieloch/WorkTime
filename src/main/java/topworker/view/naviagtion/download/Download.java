@@ -23,7 +23,7 @@ import java.util.Locale;
 public class Download extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "download";
-    private final String CLIENT_PATH = "/var/lib/openshift/56f076250c1e664af2000037/app-root/data/TopWorkerClient.zip";
+    private final String CLIENT_PATH = System.getProperty("user.home") + "/app-root/data/Client.zip";
     private VerticalLayout content;
     private Label downloadLabel;
     private Locale currentLocale;
