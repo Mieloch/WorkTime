@@ -1,7 +1,7 @@
-package topworker.model.dal;
+package topworker.dal;
 
+import topworker.dal.entity.EWorkPeriod;
 import topworker.model.bo.WorkPeriod;
-import topworker.model.dal.entity.EWorkPeriod;
 
 import java.util.Date;
 import java.util.List;

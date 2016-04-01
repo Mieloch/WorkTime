@@ -5,7 +5,7 @@ import org.jasypt.digest.StandardStringDigester;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import topworker.model.dal.SecurityDao;
+import topworker.dal.SecurityDao;
 import topworker.service.EncryptionService;
 
 import javax.annotation.PostConstruct;

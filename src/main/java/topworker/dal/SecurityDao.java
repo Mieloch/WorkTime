@@ -1,4 +1,4 @@
-package topworker.model.dal;
+package topworker.dal;
 
 /**
  * Created by echomil on 22.03.16.

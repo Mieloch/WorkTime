@@ -1,14 +1,14 @@
-package topworker.model.dal.dao;
+package topworker.dal.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import topworker.dal.UserDao;
+import topworker.dal.entity.EUser;
+import topworker.dal.entity.EUserRoles;
+import topworker.dal.entity.EUserRoles_;
+import topworker.dal.entity.EUser_;
 import topworker.model.bo.UserRole;
-import topworker.model.dal.UserDao;
-import topworker.model.dal.entity.EUser;
-import topworker.model.dal.entity.EUserRoles;
-import topworker.model.dal.entity.EUserRoles_;
-import topworker.model.dal.entity.EUser_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

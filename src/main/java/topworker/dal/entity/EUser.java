@@ -1,4 +1,4 @@
-package topworker.model.dal.entity;
+package topworker.dal.entity;
 
 import javax.persistence.*;
 import java.util.Date;

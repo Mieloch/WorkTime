@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import topworker.dal.UserDao;
+import topworker.dal.entity.EUser;
+import topworker.dal.entity.EUserRoles;
 import topworker.model.bo.User;
 import topworker.model.bo.UserRole;
-import topworker.model.dal.UserDao;
-import topworker.model.dal.entity.EUser;
-import topworker.model.dal.entity.EUserRoles;
 import topworker.service.EncryptionService;
 import topworker.service.UserService;
 

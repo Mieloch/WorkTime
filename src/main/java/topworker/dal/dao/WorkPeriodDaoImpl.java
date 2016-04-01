@@ -1,15 +1,15 @@
-package topworker.model.dal.dao;
+package topworker.dal.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import topworker.dal.UserDao;
+import topworker.dal.WorkPeriodDao;
+import topworker.dal.entity.EUser;
+import topworker.dal.entity.EUser_;
+import topworker.dal.entity.EWorkPeriod;
+import topworker.dal.entity.EWorkPeriod_;
 import topworker.model.bo.WorkPeriod;
-import topworker.model.dal.UserDao;
-import topworker.model.dal.WorkPeriodDao;
-import topworker.model.dal.entity.EUser;
-import topworker.model.dal.entity.EUser_;
-import topworker.model.dal.entity.EWorkPeriod;
-import topworker.model.dal.entity.EWorkPeriod_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

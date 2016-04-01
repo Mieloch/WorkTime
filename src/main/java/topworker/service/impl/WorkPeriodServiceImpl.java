@@ -5,10 +5,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import topworker.dal.WorkPeriodDao;
+import topworker.dal.entity.EWorkPeriod;
 import topworker.model.bo.WorkDay;
 import topworker.model.bo.WorkPeriod;
-import topworker.model.dal.WorkPeriodDao;
-import topworker.model.dal.entity.EWorkPeriod;
 import topworker.service.WorkPeriodService;
 
 import javax.persistence.NoResultException;

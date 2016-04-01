@@ -4,12 +4,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import topworker.dal.UserDao;
+import topworker.dal.entity.EUser;
+import topworker.dal.entity.EUserRoles;
+import topworker.dal.entity.EWorkPeriod;
 import topworker.model.bo.User;
 import topworker.model.bo.UserRole;
-import topworker.model.dal.UserDao;
-import topworker.model.dal.entity.EUser;
-import topworker.model.dal.entity.EUserRoles;
-import topworker.model.dal.entity.EWorkPeriod;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -5,9 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
+import topworker.dal.WorkPeriodDao;
+import topworker.dal.entity.EWorkPeriod;
 import topworker.model.bo.WorkPeriod;
-import topworker.model.dal.WorkPeriodDao;
-import topworker.model.dal.entity.EWorkPeriod;
 
 import java.util.*;
 

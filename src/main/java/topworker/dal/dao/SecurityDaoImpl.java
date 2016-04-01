@@ -1,10 +1,10 @@
-package topworker.model.dal.dao;
+package topworker.dal.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import topworker.model.dal.SecurityDao;
-import topworker.model.dal.entity.ESecurity;
-import topworker.model.dal.entity.ESecurity_;
+import topworker.dal.SecurityDao;
+import topworker.dal.entity.ESecurity;
+import topworker.dal.entity.ESecurity_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

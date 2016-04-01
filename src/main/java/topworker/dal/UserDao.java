@@ -1,8 +1,8 @@
-package topworker.model.dal;
+package topworker.dal;
 
+import topworker.dal.entity.EUser;
+import topworker.dal.entity.EUserRoles;
 import topworker.model.bo.UserRole;
-import topworker.model.dal.entity.EUser;
-import topworker.model.dal.entity.EUserRoles;
 
 import java.util.List;
 import java.util.Set;
