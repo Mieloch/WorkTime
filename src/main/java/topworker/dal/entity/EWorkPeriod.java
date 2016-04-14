@@ -5,6 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "WORK_PERIOD")
+//@ValidStartBeforeStop TODO investigate why does'nt work
 public class EWorkPeriod {
 
     @GeneratedValue
@@ -12,6 +13,8 @@ public class EWorkPeriod {
     private long id;
 
     private Date start;
+
+
     private Date stop;
 
     @ManyToOne

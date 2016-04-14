@@ -1,5 +1,6 @@
 package topworker.service.impl;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,10 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
 
     @Override
     public void postTimeToUser(String user, WorkPeriod period) {
+        Date roundedStart = DateUtils.round(period.getStart(), Calendar.SECOND);
+        Date roundedStop = DateUtils.round(period.getStop(), Calendar.SECOND);
+        period.setStart(roundedStart);
+        period.setStop(roundedStop);
         workPeriodDao.postTimeToUser(user, period);
     }
 

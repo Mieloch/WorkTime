@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import topworker.utils.MessagesBundle;
 
 /**
@@ -14,6 +15,10 @@ import topworker.utils.MessagesBundle;
 @Configuration
 public class BeanConfiguration {
 
+    @Bean
+    public javax.validation.Validator localValidatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
+    }
 
     @Bean(name = "apiProperties")
     public PropertiesFactoryBean apiProperties() {

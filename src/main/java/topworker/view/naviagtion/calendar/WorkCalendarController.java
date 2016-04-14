@@ -150,9 +150,8 @@ class WorkCalendarController {
         }
         calendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
         workCalendarView.setStartDate(calendar.getTime());
-        calendar.add(GregorianCalendar.MONTH, 1);
+        calendar.set(GregorianCalendar.DAY_OF_MONTH, calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH));
         workCalendarView.setEndDate(calendar.getTime());
-        calendar.add(GregorianCalendar.MONTH, -1);
         calendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
         currentRange = CalendarRange.MONTH;
     }
