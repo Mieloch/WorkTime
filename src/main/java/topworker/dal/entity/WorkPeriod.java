@@ -20,7 +20,7 @@ public class WorkPeriod {
     private Date stop;
 
     @ManyToOne
-    private User user;
+    private WorkDay workDay;
 
     public WorkPeriod() {
     }
@@ -29,6 +29,14 @@ public class WorkPeriod {
     public WorkPeriod(Date start, Date stop) {
         this.start = start;
         this.stop = stop;
+    }
+
+    public WorkDay getWorkDay() {
+        return workDay;
+    }
+
+    public void setWorkDay(WorkDay workDay) {
+        this.workDay = workDay;
     }
 
     public int getDuration() {
@@ -55,11 +63,5 @@ public class WorkPeriod {
         this.stop = stop;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

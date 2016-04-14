@@ -8,7 +8,5 @@ import java.util.Date;
 public class WorkPeriod_ {
     public static volatile SingularAttribute<WorkPeriod, Date> start;
     public static volatile SingularAttribute<WorkPeriod, Date> stop;
-    public static volatile SingularAttribute<WorkPeriod, User> user;
-
-
+    public static volatile SingularAttribute<WorkPeriod, WorkDay> workDay;
 }

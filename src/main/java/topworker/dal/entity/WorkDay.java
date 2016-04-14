@@ -1,10 +1,9 @@
 package topworker.dal.entity;
 
 
-import org.apache.commons.lang3.time.DateUtils;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -15,23 +14,37 @@ import java.util.List;
 @Entity(name = "WORK_DAY")
 public class WorkDay {
 
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @OneToMany
     private List<WorkPeriod> workPeriods;
 
+    @ManyToOne
+    private User user;
+
+    @Transient
     private int workDurationMinutes;
 
-    private  Date date;
+    @Type(type = "date")
+    @Column(name = "DATE", nullable = false)
+    private Date date;
 
-    public WorkDay(List<WorkPeriod> periods, Date date) {
-        this.workPeriods = new ArrayList<>();
-        workDurationMinutes = 0;
-        this.date = date;
+    public WorkDay() {
+    }
 
-        for (WorkPeriod period : periods) {
-            if (DateUtils.isSameDay(period.getStart(),date)) {
-                workDurationMinutes += (period.getStop().getTime() - period.getStart().getTime()) / 60000;
-                this.workPeriods.add(period);
-            }
-        }
+
+    public int getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getWorkDurationMinutes() {

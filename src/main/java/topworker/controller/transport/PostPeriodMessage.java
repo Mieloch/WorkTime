@@ -1,21 +1,21 @@
-package topworker.controller;
+package topworker.controller.transport;
 
 import java.util.Date;
 
 /**
  * Created by echomil on 19.03.16.
  */
-public class Message {
+public class PostPeriodMessage {
     private Date start;
     private Date end;
     private String login;
 
 
-    public Message() {
+    public PostPeriodMessage() {
 
     }
 
-    public Message(Date start, Date end) {
+    public PostPeriodMessage(Date start, Date end) {
         this.start = start;
         this.end = end;
     }

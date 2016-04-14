@@ -37,18 +37,14 @@ public class User {
 
 
     @OneToMany(mappedBy = "user")
-    private List<WorkPeriod> workPeriods;
+    private List<WorkDay> workDays;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
+
+    public User() {
+    }
 
     public User(String login, String password, String email) {
         this.login = login;
@@ -64,13 +60,22 @@ public class User {
         return set;
     }
 
-    public List<WorkPeriod> getWorkPeriods() {
-        return workPeriods;
+    public List<WorkDay> getWorkDays() {
+        return workDays;
     }
 
-    public void setWorkPeriods(List<WorkPeriod> workPeriods) {
-        this.workPeriods = workPeriods;
+    public void setWorkDays(List<WorkDay> workDays) {
+        this.workDays = workDays;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     public Set<UserRoles> getUserRoles() {
         return userRoles;
@@ -133,7 +138,6 @@ public class User {
         if (!login.equals(user.login)) return false;
         if (!password.equals(user.password)) return false;
         if (!userRoles.equals(user.userRoles)) return false;
-        if (workPeriods != null ? !workPeriods.equals(user.workPeriods) : user.workPeriods != null) return false;
         return email.equals(user.email);
 
     }
@@ -145,7 +149,6 @@ public class User {
         result = 31 * result + password.hashCode();
         result = 31 * result + userRoles.hashCode();
         result = 31 * result + (active ? 1 : 0);
-        result = 31 * result + (workPeriods != null ? workPeriods.hashCode() : 0);
         result = 31 * result + email.hashCode();
         return result;
     }

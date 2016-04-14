@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import topworker.controller.transport.PostPeriodMessage;
 import topworker.dal.entity.WorkPeriod;
 import topworker.service.WorkPeriodService;
 
@@ -17,12 +18,12 @@ public class WorkPeriodsController {
     private WorkPeriodService workPeriodService;
 
     @RequestMapping(value = "/workperiod", method = RequestMethod.POST)
-    public HttpStatus postPeriod(@RequestBody Message msg) {
+    public HttpStatus postPeriod(@RequestBody PostPeriodMessage postPeriodMessage) {
         try {
             WorkPeriod workPeriod = new WorkPeriod();
-            workPeriod.setStart(msg.getStart());
-            workPeriod.setStop(msg.getEnd());
-            workPeriodService.postTimeToUser(msg.getLogin(), workPeriod);
+            workPeriod.setStart(postPeriodMessage.getStart());
+            workPeriod.setStop(postPeriodMessage.getEnd());
+            workPeriodService.postTimeToUser(postPeriodMessage.getLogin(), workPeriod);
         } catch (Exception e) {
             e.printStackTrace();
             return HttpStatus.UNAUTHORIZED;

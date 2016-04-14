@@ -5,10 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import topworker.dal.UserDao;
 import topworker.dal.WorkPeriodDao;
-import topworker.dal.entity.User;
-import topworker.dal.entity.User_;
-import topworker.dal.entity.WorkPeriod;
-import topworker.dal.entity.WorkPeriod_;
+import topworker.dal.entity.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,16 +27,6 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     @Autowired
     private UserDao userDao;
 
-    @Override
-    public List<WorkPeriod> getFromDateToDate(Date start, Date stop, String login) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
-        Root<WorkPeriod> root = cq.from(WorkPeriod.class);
-        Join<WorkPeriod, User> join = root.join(WorkPeriod_.user);
-        cq.where(cb.and(cb.between(root.get(WorkPeriod_.start), start, stop), join.get(User_.login).in(login)));
-        Query q = entityManager.createQuery(cq);
-        return q.getResultList();
-    }
 
     @Override
     public void persist(WorkPeriod period) {
@@ -84,12 +71,12 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     }
 
     @Override
-    public WorkPeriod findLastPeriodInStreakByUser(String user, WorkPeriod period) {
+    public WorkPeriod findLastPeriodInStreak(WorkDay workDay, WorkPeriod period) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
         Root<WorkPeriod> root = cq.from(WorkPeriod.class);
-        Join<WorkPeriod, User> userJoin = root.join(WorkPeriod_.user);
-        cq.where(cb.and(userJoin.get(User_.login).in(user), root.get(WorkPeriod_.stop).in(period.getStart())));
+        Join<WorkPeriod, WorkDay> workDayJoin = root.join(WorkPeriod_.workDay);
+        cq.where(cb.and(workDayJoin.get(WorkDay_.id).in(workDay.getId()), root.get(WorkPeriod_.stop).in(period.getStart())));
         Query q = entityManager.createQuery(cq);
         return (WorkPeriod) getSingleResultFromQuery(q);
 
@@ -99,7 +86,8 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
         Root<WorkPeriod> root = cq.from(WorkPeriod.class);
-        Join<WorkPeriod, User> userJoin = root.join(WorkPeriod_.user);
+        Join<WorkPeriod, WorkDay> workDayJoin = root.join(WorkPeriod_.workDay);
+        Join<WorkDay, User> userJoin = workDayJoin.join(WorkDay_.user);
         cq.where(userJoin.get(User_.login).in(user));
         cq.orderBy(cb.desc(root.get(WorkPeriod_.start)));
         Query q = entityManager.createQuery(cq);

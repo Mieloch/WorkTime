@@ -86,7 +86,8 @@ public class UserDaoImpl implements UserDao {
 
     private Object getSingleResultFromQuery(Query query) {
         try {
-            return query.getSingleResult();
+            Object o = query.getSingleResult();
+            return o;
         } catch (javax.persistence.PersistenceException e) {
             return null;
         } catch (Exception e) {

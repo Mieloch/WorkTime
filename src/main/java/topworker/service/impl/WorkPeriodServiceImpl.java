@@ -1,20 +1,20 @@
 package topworker.service.impl;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import topworker.dal.UserDao;
+import topworker.dal.WorkDayDao;
 import topworker.dal.WorkPeriodDao;
 import topworker.dal.entity.User;
 import topworker.dal.entity.WorkDay;
 import topworker.dal.entity.WorkPeriod;
 import topworker.service.WorkPeriodService;
+import topworker.utils.TimeUtils;
 
-import javax.persistence.NoResultException;
-import javax.validation.Validator;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by Echomil on 2016-02-26.
@@ -31,7 +31,7 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     private UserDao userDao;
 
     @Autowired
-    private Validator validator;
+    private WorkDayDao workDayDao;
 
 
     public WorkPeriodServiceImpl() {
@@ -39,90 +39,33 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     }
 
     @Override
-    public List<WorkPeriod> getFromDateToDate(Date startDate, Date endDate, String login) {
-        List<WorkPeriod> queryResult;
-        try {
-
-            queryResult = workPeriodDao.getFromDateToDate(startDate, endDate, login);
-        } catch (NoResultException exception) {
-            return null;
-        }
-        return (queryResult);
-    }
-
-    @Override
-    public List<WorkPeriod> getAllStartingIn(Date day, String login) {
-        Calendar startDate = Calendar.getInstance();
-        startDate.setTime(day);
-        startDate.set(Calendar.HOUR_OF_DAY, 0);
-        startDate.set(Calendar.MINUTE, 0);
-
-        Calendar stopDate = Calendar.getInstance();
-        stopDate.setTime(day);
-        stopDate.set(Calendar.HOUR_OF_DAY, 23);
-        stopDate.set(Calendar.MINUTE, 59);
-
-        List<WorkPeriod> queryResult;
-        try {
-            queryResult = workPeriodDao.getFromDateToDate(startDate.getTime(), stopDate.getTime(), login);
-        } catch (EmptyResultDataAccessException exception) {
-            return null;
-        }
-        return (queryResult);
-    }
-
-    @Override
     public List<WorkDay> getWorkDays(Date begin, Date end, String login) {
-        List<WorkDay> workDayList = new ArrayList<>();
-        Calendar beginDate = Calendar.getInstance();
-        Calendar endDate = Calendar.getInstance();
-        beginDate.setTime(begin);
-        endDate.setTime(end);
-        long diff = (endDate.getTimeInMillis() - beginDate.getTimeInMillis());
-        long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-        int i = 0;
-        do {
-            List<WorkPeriod> periodsFromDay = getAllStartingIn(beginDate.getTime(), login);
-            if (!periodsFromDay.isEmpty()) {
-                workDayList.add(new WorkDay(periodsFromDay, beginDate.getTime()));
-            }
-            beginDate.add(Calendar.DAY_OF_YEAR, 1);
-            i++;
-        } while (i < days);
-        return workDayList;
+        List<WorkDay> workDays = workDayDao.getBetweenDates(begin, end, login);
+        return workDays;
     }
 
     @Override
-    public void postTimeToUser(String user, WorkPeriod period) {
-
-        Date roundedStart = DateUtils.round(period.getStart(), Calendar.SECOND);
-        Date roundedStop = DateUtils.round(period.getStop(), Calendar.SECOND);
-        period.setStart(roundedStart);
-        period.setStop(roundedStop);
-        WorkPeriod workPeriod = workPeriodDao.findLastPeriodInStreakByUser(user, period);
-
-        if (workPeriod == null) {
-            workPeriod = new WorkPeriod(period.getStart(), period.getStop());
-            User eUser = userDao.findByLogin(user);
-            workPeriod.setUser(eUser);
-            workPeriodDao.persist(workPeriod);
+    public void postTimeToUser(String login, WorkPeriod newPeriod) {
+        //TODO split when period lasts 2 days
+        newPeriod = TimeUtils.roundTimeToField(newPeriod, Calendar.SECOND);
+        WorkDay workDay = workDayDao.getByDateAndUser(login, newPeriod.getStart());
+        if (workDay == null) {
+            workDay = new WorkDay();
+            workDay.setDate(newPeriod.getStart());
+            User user = userDao.findByLogin(login);
+            workDay.setUser(user);
+            workDayDao.create(workDay);
+            WorkPeriod lastPeriod = new WorkPeriod(newPeriod.getStart(), newPeriod.getStop());
+            lastPeriod.setWorkDay(workDay);
+            workPeriodDao.persist(lastPeriod);
         } else {
-            workPeriod.setStop(period.getStop());
-            workPeriodDao.persist(workPeriod);
+            WorkPeriod lastPeriod = workPeriodDao.findLastPeriodInStreak(workDay, newPeriod);
+            lastPeriod.setStop(newPeriod.getStop());
+            workPeriodDao.persist(lastPeriod);
         }
+
     }
 
-
-    @Override
-    public List<WorkPeriod> getAll() {
-        List<WorkPeriod> queryResult;
-        try {
-            queryResult = workPeriodDao.getAll();
-        } catch (EmptyResultDataAccessException exception) {
-            return null;
-        }
-        return queryResult;
-    }
 
     @Override
     public List<WorkPeriod> getAllBelongToLogedUser(String login) {

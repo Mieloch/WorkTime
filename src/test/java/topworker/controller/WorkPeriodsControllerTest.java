@@ -11,10 +11,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import topworker.TopWorkerApplication;
+import topworker.controller.transport.PostPeriodMessage;
 
 import java.nio.charset.Charset;
 import java.util.Date;
@@ -27,6 +29,7 @@ import java.util.GregorianCalendar;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(TopWorkerApplication.class)
 @WebIntegrationTest
+@ActiveProfiles(profiles = "dev")
 public class WorkPeriodsControllerTest {
 
     @Value("${local.server.port}")
@@ -40,11 +43,11 @@ public class WorkPeriodsControllerTest {
         Date start = calendar.getTime();
         calendar.add(GregorianCalendar.HOUR, 1);
         Date end = calendar.getTime();
-        Message message = new Message(end, start);
+        PostPeriodMessage message = new PostPeriodMessage(end, start);
         message.setLogin("demo");
         RestTemplate restTemplate = new TestRestTemplate();
         MultiValueMap m = createHeaders("demo", "demo");
-        HttpEntity<Message> ss = new HttpEntity<>(message, m);
+        HttpEntity<PostPeriodMessage> ss = new HttpEntity<>(message, m);
         restTemplate.exchange(address, HttpMethod.POST, ss, HttpStatus.class);
     }
 
@@ -56,6 +59,7 @@ public class WorkPeriodsControllerTest {
                         auth.getBytes(Charset.forName("US-ASCII")));
                 String authHeader = "Basic " + new String(encodedAuth);
                 set("Authorization", authHeader);
+                set("Content-Type", "application/json");
             }
         };
     }
