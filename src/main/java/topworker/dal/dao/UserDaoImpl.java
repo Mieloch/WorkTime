@@ -39,7 +39,8 @@ public class UserDaoImpl implements UserDao {
         Root<EUser> root = cq.from(EUser.class);
         cq.where(root.get(EUser_.login).in(login));
         Query query = entityManager.createQuery(cq);
-        return (EUser) query.getSingleResult();
+        return (EUser) getSingleResultFromQuery(query);
+
     }
 
     @Override
@@ -58,7 +59,9 @@ public class UserDaoImpl implements UserDao {
         Root<EUser> root = cq.from(EUser.class);
         cq.where(root.get(EUser_.id).in(id));
         Query query = entityManager.createQuery(cq);
-        return (EUser) query.getSingleResult();
+
+        return (EUser) getSingleResultFromQuery(query);
+
     }
 
     @Override
@@ -79,6 +82,17 @@ public class UserDaoImpl implements UserDao {
         Set<EUserRoles> rolesSet = new HashSet<>();
         rolesSet.addAll(query.getResultList());
         return rolesSet;
+    }
+
+    private Object getSingleResultFromQuery(Query query) {
+        try {
+            return query.getSingleResult();
+        } catch (javax.persistence.PersistenceException e) {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

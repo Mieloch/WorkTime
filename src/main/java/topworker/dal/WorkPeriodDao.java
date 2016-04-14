@@ -12,7 +12,7 @@ import java.util.List;
 public interface WorkPeriodDao {
     List<EWorkPeriod> getFromDateToDate(Date startDate, Date endDate, String login);
 
-    void postTime(WorkPeriod timeStamp);
+    void persist(EWorkPeriod timeStamp);
 
     List<EWorkPeriod> getAll();
 
@@ -20,7 +20,7 @@ public interface WorkPeriodDao {
 
     List<EWorkPeriod> getAllStartingIn(Date start);
 
-    void postTimeToUser(String user, WorkPeriod period);
+    EWorkPeriod postTimeToUser(String user, WorkPeriod period);
 
     List<EWorkPeriod> getAllBelongToUser(String user);
 }

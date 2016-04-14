@@ -12,7 +12,6 @@ import topworker.dal.entity.EWorkPeriod_;
 import topworker.model.bo.WorkPeriod;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -44,27 +43,8 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     }
 
     @Override
-    public void postTime(WorkPeriod period) {
-        EWorkPeriod e = getByStopDate(period.getStart());
-        if (e == null) {
-            e = new EWorkPeriod();
-            e.setStart(period.getStart());
-        }
-        e.setStop(period.getStop());
-        entityManager.persist(e);
-    }
-
-    private EWorkPeriod getByStopDate(Date date) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
-        Root<EWorkPeriod> period = cq.from(EWorkPeriod.class);
-        cq.where(period.get(EWorkPeriod_.stop).in(date));
-        Query q = entityManager.createQuery(cq);
-        try {
-            return (EWorkPeriod) q.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
+    public void persist(EWorkPeriod period) {
+        entityManager.persist(period);
     }
 
     @Override
@@ -87,7 +67,7 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         Query q = entityManager.createQuery(cq);
         try {
             return (EWorkPeriod) q.getSingleResult();
-        } catch (NoResultException e) {
+        } catch (javax.persistence.PersistenceException e) {
             return null;
         }
 
@@ -105,30 +85,16 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     }
 
     @Override
-    public void postTimeToUser(String user, WorkPeriod period) {
+    public EWorkPeriod postTimeToUser(String user, WorkPeriod period) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
         Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);
         Join<EWorkPeriod, EUser> userJoin = root.join(EWorkPeriod_.user);
         cq.where(cb.and(userJoin.get(EUser_.login).in(user), root.get(EWorkPeriod_.stop).in(period.getStart())));
         Query q = entityManager.createQuery(cq);
-        List<EWorkPeriod> l = q.getResultList();
-        if (l.isEmpty()) {
-            EWorkPeriod eWorkPeriod = new EWorkPeriod(period.getStart(), period.getStop());
-            EUser eUser = userDao.findByLogin(user);
-            eWorkPeriod.setUser(eUser);
-            try {
-                entityManager.persist(eWorkPeriod);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            EWorkPeriod eWorkPeriod = l.get(0);
-            eWorkPeriod.setStop(period.getStop());
-            entityManager.persist(eWorkPeriod);
-        }
-    }
+        return (EWorkPeriod) getSingleResultFromQuery(q);
 
+    }
     @Override
     public List<EWorkPeriod> getAllBelongToUser(String user) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -139,6 +105,17 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         cq.orderBy(cb.desc(root.get(EWorkPeriod_.start)));
         Query q = entityManager.createQuery(cq);
         return q.getResultList();
+    }
+
+    private Object getSingleResultFromQuery(Query query) {
+        try {
+            return query.getSingleResult();
+        } catch (javax.persistence.PersistenceException e) {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

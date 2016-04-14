@@ -6,7 +6,9 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import topworker.dal.UserDao;
 import topworker.dal.WorkPeriodDao;
+import topworker.dal.entity.EUser;
 import topworker.dal.entity.EWorkPeriod;
 import topworker.model.bo.WorkDay;
 import topworker.model.bo.WorkPeriod;
@@ -27,6 +29,9 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
 
     @Autowired
     private WorkPeriodDao workPeriodDao;
+
+    @Autowired
+    private UserDao userDao;
 
     private ModelMapper modelMapper;
 
@@ -94,7 +99,16 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
         Date roundedStop = DateUtils.round(period.getStop(), Calendar.SECOND);
         period.setStart(roundedStart);
         period.setStop(roundedStop);
-        workPeriodDao.postTimeToUser(user, period);
+        EWorkPeriod eWorkPeriod = workPeriodDao.postTimeToUser(user, period);
+        if (eWorkPeriod == null) {
+            eWorkPeriod = new EWorkPeriod(period.getStart(), period.getStop());
+            EUser eUser = userDao.findByLogin(user);
+            eWorkPeriod.setUser(eUser);
+            workPeriodDao.persist(eWorkPeriod);
+        } else {
+            eWorkPeriod.setStop(period.getStop());
+            workPeriodDao.persist(eWorkPeriod);
+        }
     }
 
 
