@@ -85,7 +85,7 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     }
 
     @Override
-    public EWorkPeriod postTimeToUser(String user, WorkPeriod period) {
+    public EWorkPeriod findLastPeriodInStreakByUser(String user, WorkPeriod period) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
         Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);

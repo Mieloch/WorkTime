@@ -24,6 +24,7 @@ public class WorkPeriodsController {
             workPeriod.setStop(msg.getEnd());
             workPeriodService.postTimeToUser(msg.getLogin(), workPeriod);
         } catch (Exception e) {
+            e.printStackTrace();
             return HttpStatus.UNAUTHORIZED;
         }
         return HttpStatus.OK;

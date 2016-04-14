@@ -15,6 +15,8 @@ import topworker.model.bo.WorkPeriod;
 import topworker.service.WorkPeriodService;
 
 import javax.persistence.NoResultException;
+import javax.validation.Valid;
+import javax.validation.Validator;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +34,9 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private Validator validator;
 
     private ModelMapper modelMapper;
 
@@ -94,12 +99,14 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     }
 
     @Override
-    public void postTimeToUser(String user, WorkPeriod period) {
+    public void postTimeToUser(String user, @Valid WorkPeriod period) {
+
         Date roundedStart = DateUtils.round(period.getStart(), Calendar.SECOND);
         Date roundedStop = DateUtils.round(period.getStop(), Calendar.SECOND);
         period.setStart(roundedStart);
         period.setStop(roundedStop);
-        EWorkPeriod eWorkPeriod = workPeriodDao.postTimeToUser(user, period);
+        EWorkPeriod eWorkPeriod = workPeriodDao.findLastPeriodInStreakByUser(user, period);
+
         if (eWorkPeriod == null) {
             eWorkPeriod = new EWorkPeriod(period.getStart(), period.getStop());
             EUser eUser = userDao.findByLogin(user);

@@ -20,7 +20,7 @@ public interface WorkPeriodDao {
 
     List<EWorkPeriod> getAllStartingIn(Date start);
 
-    EWorkPeriod postTimeToUser(String user, WorkPeriod period);
+    EWorkPeriod findLastPeriodInStreakByUser(String user, WorkPeriod period);
 
     List<EWorkPeriod> getAllBelongToUser(String user);
 }

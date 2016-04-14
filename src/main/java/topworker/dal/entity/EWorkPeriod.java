@@ -1,19 +1,21 @@
 package topworker.dal.entity;
 
+import topworker.dal.validation.ValidStartBeforeStop;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "WORK_PERIOD")
-//@ValidStartBeforeStop TODO investigate why does'nt work
+@ValidStartBeforeStop
 public class EWorkPeriod {
 
     @GeneratedValue
     @Id
     private long id;
 
-    private Date start;
 
+    private Date start;
 
     private Date stop;
 

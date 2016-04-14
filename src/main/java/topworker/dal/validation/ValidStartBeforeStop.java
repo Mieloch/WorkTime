@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {StartBeforeStopValidator.class})
 public @interface ValidStartBeforeStop {
-    String message() default "my valdiator";
+    String message() default "startDate must be before stopDate";
 
     Class<?>[] groups() default {};
 
