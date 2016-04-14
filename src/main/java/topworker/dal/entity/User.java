@@ -1,7 +1,10 @@
 package topworker.dal.entity;
 
+import topworker.model.bo.UserRole;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -10,7 +13,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "USERS")
-public class EUser {
+public class User {
 
     @Id
     @GeneratedValue
@@ -24,7 +27,7 @@ public class EUser {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USERS_USER_ROLES", joinColumns = {@JoinColumn(name = "USERS_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ROLES_ID")})
-    private Set<EUserRoles> userRoles;
+    private Set<UserRoles> userRoles;
 
     @Column(name = "ACTIVE", nullable = false)
     private boolean active;
@@ -34,7 +37,7 @@ public class EUser {
 
 
     @OneToMany(mappedBy = "user")
-    private List<EWorkPeriod> workPeriods;
+    private List<WorkPeriod> workPeriods;
 
     public String getEmail() {
         return email;
@@ -47,19 +50,33 @@ public class EUser {
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
 
-    public List<EWorkPeriod> getWorkPeriods() {
+    public User(String login, String password, String email) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+    }
+
+    public Set<UserRole> getUserRolesEnums() {
+        Set set = new HashSet();
+        for (UserRoles userRole : userRoles) {
+            set.add(UserRole.valueOf(userRole.getType()));
+        }
+        return set;
+    }
+
+    public List<WorkPeriod> getWorkPeriods() {
         return workPeriods;
     }
 
-    public void setWorkPeriods(List<EWorkPeriod> workPeriods) {
+    public void setWorkPeriods(List<WorkPeriod> workPeriods) {
         this.workPeriods = workPeriods;
     }
 
-    public Set<EUserRoles> getUserRoles() {
+    public Set<UserRoles> getUserRoles() {
         return userRoles;
     }
 
-    public void setUserRoles(Set<EUserRoles> userRoles) {
+    public void setUserRoles(Set<UserRoles> userRoles) {
         this.userRoles = userRoles;
     }
 
@@ -109,15 +126,15 @@ public class EUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        EUser eUser = (EUser) o;
+        User user = (User) o;
 
-        if (id != eUser.id) return false;
-        if (active != eUser.active) return false;
-        if (!login.equals(eUser.login)) return false;
-        if (!password.equals(eUser.password)) return false;
-        if (!userRoles.equals(eUser.userRoles)) return false;
-        if (workPeriods != null ? !workPeriods.equals(eUser.workPeriods) : eUser.workPeriods != null) return false;
-        return email.equals(eUser.email);
+        if (id != user.id) return false;
+        if (active != user.active) return false;
+        if (!login.equals(user.login)) return false;
+        if (!password.equals(user.password)) return false;
+        if (!userRoles.equals(user.userRoles)) return false;
+        if (workPeriods != null ? !workPeriods.equals(user.workPeriods) : user.workPeriods != null) return false;
+        return email.equals(user.email);
 
     }
 

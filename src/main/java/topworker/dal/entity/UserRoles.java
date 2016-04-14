@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "USER_ROLES")
-public class EUserRoles {
+public class UserRoles {
 
     @Id
     @GeneratedValue
@@ -37,7 +37,7 @@ public class EUserRoles {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        EUserRoles that = (EUserRoles) o;
+        UserRoles that = (UserRoles) o;
 
         if (id != that.id) return false;
         return type != null ? type.equals(that.type) : that.type == null;

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import topworker.model.bo.WorkPeriod;
+import topworker.dal.entity.WorkPeriod;
 import topworker.service.WorkPeriodService;
 
 @RestController

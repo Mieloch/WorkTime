@@ -9,7 +9,7 @@ import javax.persistence.Id;
  * Created by echomil on 22.03.16.
  */
 @Entity(name = "SECURITY")
-public class ESecurity {
+public class Security {
 
     @Id
     @GeneratedValue

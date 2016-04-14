@@ -4,10 +4,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import topworker.dal.UserDao;
-import topworker.dal.entity.EUser;
-import topworker.dal.entity.EUserRoles;
-import topworker.dal.entity.EUserRoles_;
-import topworker.dal.entity.EUser_;
+import topworker.dal.entity.User;
+import topworker.dal.entity.UserRoles;
+import topworker.dal.entity.UserRoles_;
+import topworker.dal.entity.User_;
 import topworker.model.bo.UserRole;
 
 import javax.persistence.EntityManager;
@@ -33,53 +33,53 @@ public class UserDaoImpl implements UserDao {
     private EntityManager entityManager;
 
     @Override
-    public EUser findByLogin(String login) {
+    public User findByLogin(String login) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EUser> cq = cb.createQuery(EUser.class);
-        Root<EUser> root = cq.from(EUser.class);
-        cq.where(root.get(EUser_.login).in(login));
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        cq.where(root.get(User_.login).in(login));
         Query query = entityManager.createQuery(cq);
-        return (EUser) getSingleResultFromQuery(query);
+        return (User) getSingleResultFromQuery(query);
 
     }
 
     @Override
-    public List<EUser> getAll() {
+    public List<User> getAll() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EUser> cq = cb.createQuery(EUser.class);
-        Root<EUser> root = cq.from(EUser.class);
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
         Query query = entityManager.createQuery(cq);
         return query.getResultList();
     }
 
     @Override
-    public EUser findById(int id) {
+    public User findById(int id) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EUser> cq = cb.createQuery(EUser.class);
-        Root<EUser> root = cq.from(EUser.class);
-        cq.where(root.get(EUser_.id).in(id));
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        cq.where(root.get(User_.id).in(id));
         Query query = entityManager.createQuery(cq);
 
-        return (EUser) getSingleResultFromQuery(query);
+        return (User) getSingleResultFromQuery(query);
 
     }
 
     @Override
-    public void persist(EUser entity) {
+    public void persist(User entity) {
         entityManager.persist(entity);
     }
 
-    public Set<EUserRoles> getRoles(Set<UserRole> roles) {
+    public Set<UserRoles> getRoles(Set<UserRole> roles) {
         List<String> rolesTypes = new ArrayList<>();
         for (UserRole role : roles) {
             rolesTypes.add(role.getType());
         }
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EUserRoles> cq = cb.createQuery(EUserRoles.class);
-        Root<EUserRoles> root = cq.from(EUserRoles.class);
-        cq.where(root.get(EUserRoles_.type).in(rolesTypes));
+        CriteriaQuery<UserRoles> cq = cb.createQuery(UserRoles.class);
+        Root<UserRoles> root = cq.from(UserRoles.class);
+        cq.where(root.get(UserRoles_.type).in(rolesTypes));
         Query query = entityManager.createQuery(cq);
-        Set<EUserRoles> rolesSet = new HashSet<>();
+        Set<UserRoles> rolesSet = new HashSet<>();
         rolesSet.addAll(query.getResultList());
         return rolesSet;
     }

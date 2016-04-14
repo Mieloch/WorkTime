@@ -1,23 +1,18 @@
 package topworker.service.impl;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import topworker.dal.UserDao;
 import topworker.dal.WorkPeriodDao;
-import topworker.dal.entity.EUser;
-import topworker.dal.entity.EWorkPeriod;
-import topworker.model.bo.WorkDay;
-import topworker.model.bo.WorkPeriod;
+import topworker.dal.entity.User;
+import topworker.dal.entity.WorkDay;
+import topworker.dal.entity.WorkPeriod;
 import topworker.service.WorkPeriodService;
 
 import javax.persistence.NoResultException;
-import javax.validation.Valid;
 import javax.validation.Validator;
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -38,22 +33,21 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     @Autowired
     private Validator validator;
 
-    private ModelMapper modelMapper;
 
     public WorkPeriodServiceImpl() {
-        modelMapper = new ModelMapper();
+
     }
 
     @Override
     public List<WorkPeriod> getFromDateToDate(Date startDate, Date endDate, String login) {
-        List<EWorkPeriod> queryResult;
+        List<WorkPeriod> queryResult;
         try {
 
             queryResult = workPeriodDao.getFromDateToDate(startDate, endDate, login);
         } catch (NoResultException exception) {
             return null;
         }
-        return mapToWorkPeriod(queryResult);
+        return (queryResult);
     }
 
     @Override
@@ -68,13 +62,13 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
         stopDate.set(Calendar.HOUR_OF_DAY, 23);
         stopDate.set(Calendar.MINUTE, 59);
 
-        List<EWorkPeriod> queryResult;
+        List<WorkPeriod> queryResult;
         try {
             queryResult = workPeriodDao.getFromDateToDate(startDate.getTime(), stopDate.getTime(), login);
         } catch (EmptyResultDataAccessException exception) {
             return null;
         }
-        return mapToWorkPeriod(queryResult);
+        return (queryResult);
     }
 
     @Override
@@ -99,42 +93,40 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     }
 
     @Override
-    public void postTimeToUser(String user, @Valid WorkPeriod period) {
+    public void postTimeToUser(String user, WorkPeriod period) {
 
         Date roundedStart = DateUtils.round(period.getStart(), Calendar.SECOND);
         Date roundedStop = DateUtils.round(period.getStop(), Calendar.SECOND);
         period.setStart(roundedStart);
         period.setStop(roundedStop);
-        EWorkPeriod eWorkPeriod = workPeriodDao.findLastPeriodInStreakByUser(user, period);
+        WorkPeriod workPeriod = workPeriodDao.findLastPeriodInStreakByUser(user, period);
 
-        if (eWorkPeriod == null) {
-            eWorkPeriod = new EWorkPeriod(period.getStart(), period.getStop());
-            EUser eUser = userDao.findByLogin(user);
-            eWorkPeriod.setUser(eUser);
-            workPeriodDao.persist(eWorkPeriod);
+        if (workPeriod == null) {
+            workPeriod = new WorkPeriod(period.getStart(), period.getStop());
+            User eUser = userDao.findByLogin(user);
+            workPeriod.setUser(eUser);
+            workPeriodDao.persist(workPeriod);
         } else {
-            eWorkPeriod.setStop(period.getStop());
-            workPeriodDao.persist(eWorkPeriod);
+            workPeriod.setStop(period.getStop());
+            workPeriodDao.persist(workPeriod);
         }
     }
 
 
     @Override
     public List<WorkPeriod> getAll() {
-        List<EWorkPeriod> queryResult;
+        List<WorkPeriod> queryResult;
         try {
             queryResult = workPeriodDao.getAll();
         } catch (EmptyResultDataAccessException exception) {
             return null;
         }
-        return mapToWorkPeriod(queryResult);
+        return queryResult;
     }
 
     @Override
     public List<WorkPeriod> getAllBelongToLogedUser(String login) {
-        return mapToWorkPeriod(workPeriodDao.getAllBelongToUser(login));
-
-
+        return workPeriodDao.getAllBelongToUser(login);
     }
 
     @Override
@@ -151,13 +143,6 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
             sum += workDay.getWorkDurationMinutes();
         }
         return sum;
-    }
-
-    private List<WorkPeriod> mapToWorkPeriod(List<EWorkPeriod> eWorkPeriods) {
-        modelMapper = new ModelMapper();
-        Type targetListType = new TypeToken<List<WorkPeriod>>() {
-        }.getType();
-        return modelMapper.map(eWorkPeriods, targetListType);
     }
 
     public WorkPeriodDao getWorkPeriodDao() {

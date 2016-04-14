@@ -10,7 +10,7 @@ import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import topworker.model.bo.User;
+import topworker.dal.entity.User;
 import topworker.service.EmailService;
 import topworker.service.UserService;
 import topworker.utils.MessagesBundle;

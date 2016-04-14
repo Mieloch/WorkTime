@@ -1,6 +1,6 @@
 package topworker.dal.validation;
 
-import topworker.dal.entity.EWorkPeriod;
+import topworker.dal.entity.WorkPeriod;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by echomil on 13.04.16.
  */
-public class StartBeforeStopValidator implements ConstraintValidator<ValidStartBeforeStop, EWorkPeriod> {
+public class StartBeforeStopValidator implements ConstraintValidator<ValidStartBeforeStop, WorkPeriod> {
 
 
     @Override
@@ -18,7 +18,7 @@ public class StartBeforeStopValidator implements ConstraintValidator<ValidStartB
     }
 
     @Override
-    public boolean isValid(EWorkPeriod value, ConstraintValidatorContext context) {
+    public boolean isValid(WorkPeriod value, ConstraintValidatorContext context) {
 
         Date start = value.getStart();
         Date stop = value.getStop();

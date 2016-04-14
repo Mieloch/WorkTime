@@ -5,11 +5,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import topworker.dal.UserDao;
 import topworker.dal.WorkPeriodDao;
-import topworker.dal.entity.EUser;
-import topworker.dal.entity.EUser_;
-import topworker.dal.entity.EWorkPeriod;
-import topworker.dal.entity.EWorkPeriod_;
-import topworker.model.bo.WorkPeriod;
+import topworker.dal.entity.User;
+import topworker.dal.entity.User_;
+import topworker.dal.entity.WorkPeriod;
+import topworker.dal.entity.WorkPeriod_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,41 +31,41 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     private UserDao userDao;
 
     @Override
-    public List<EWorkPeriod> getFromDateToDate(Date start, Date stop, String login) {
+    public List<WorkPeriod> getFromDateToDate(Date start, Date stop, String login) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
-        Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);
-        Join<EWorkPeriod, EUser> join = root.join(EWorkPeriod_.user);
-        cq.where(cb.and(cb.between(root.get(EWorkPeriod_.start), start, stop), join.get(EUser_.login).in(login)));
+        CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
+        Root<WorkPeriod> root = cq.from(WorkPeriod.class);
+        Join<WorkPeriod, User> join = root.join(WorkPeriod_.user);
+        cq.where(cb.and(cb.between(root.get(WorkPeriod_.start), start, stop), join.get(User_.login).in(login)));
         Query q = entityManager.createQuery(cq);
         return q.getResultList();
     }
 
     @Override
-    public void persist(EWorkPeriod period) {
+    public void persist(WorkPeriod period) {
         entityManager.persist(period);
     }
 
     @Override
-    public List<EWorkPeriod> getAll() {
+    public List<WorkPeriod> getAll() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
-        Root<EWorkPeriod> c = cq.from(EWorkPeriod.class);
-        cq.orderBy(cb.asc(c.get(EWorkPeriod_.start)));
+        CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
+        Root<WorkPeriod> c = cq.from(WorkPeriod.class);
+        cq.orderBy(cb.asc(c.get(WorkPeriod_.start)));
         Query q = entityManager.createQuery(cq);
         return q.getResultList();
     }
 
 
     @Override
-    public EWorkPeriod getByStartDate(Date startDate) {
+    public WorkPeriod getByStartDate(Date startDate) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
-        Root<EWorkPeriod> period = cq.from(EWorkPeriod.class);
-        cq.where(period.get(EWorkPeriod_.start).in(startDate));
+        CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
+        Root<WorkPeriod> period = cq.from(WorkPeriod.class);
+        cq.where(period.get(WorkPeriod_.start).in(startDate));
         Query q = entityManager.createQuery(cq);
         try {
-            return (EWorkPeriod) q.getSingleResult();
+            return (WorkPeriod) q.getSingleResult();
         } catch (javax.persistence.PersistenceException e) {
             return null;
         }
@@ -74,35 +73,35 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
     }
 
     @Override
-    public List<EWorkPeriod> getAllStartingIn(Date start) {
+    public List<WorkPeriod> getAllStartingIn(Date start) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
-        Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);
-        cq.where(root.get(EWorkPeriod_.start).in(start));
+        CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
+        Root<WorkPeriod> root = cq.from(WorkPeriod.class);
+        cq.where(root.get(WorkPeriod_.start).in(start));
         Query q = entityManager.createQuery(cq);
 
         return q.getResultList();
     }
 
     @Override
-    public EWorkPeriod findLastPeriodInStreakByUser(String user, WorkPeriod period) {
+    public WorkPeriod findLastPeriodInStreakByUser(String user, WorkPeriod period) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
-        Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);
-        Join<EWorkPeriod, EUser> userJoin = root.join(EWorkPeriod_.user);
-        cq.where(cb.and(userJoin.get(EUser_.login).in(user), root.get(EWorkPeriod_.stop).in(period.getStart())));
+        CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
+        Root<WorkPeriod> root = cq.from(WorkPeriod.class);
+        Join<WorkPeriod, User> userJoin = root.join(WorkPeriod_.user);
+        cq.where(cb.and(userJoin.get(User_.login).in(user), root.get(WorkPeriod_.stop).in(period.getStart())));
         Query q = entityManager.createQuery(cq);
-        return (EWorkPeriod) getSingleResultFromQuery(q);
+        return (WorkPeriod) getSingleResultFromQuery(q);
 
     }
     @Override
-    public List<EWorkPeriod> getAllBelongToUser(String user) {
+    public List<WorkPeriod> getAllBelongToUser(String user) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EWorkPeriod> cq = cb.createQuery(EWorkPeriod.class);
-        Root<EWorkPeriod> root = cq.from(EWorkPeriod.class);
-        Join<EWorkPeriod, EUser> userJoin = root.join(EWorkPeriod_.user);
-        cq.where(userJoin.get(EUser_.login).in(user));
-        cq.orderBy(cb.desc(root.get(EWorkPeriod_.start)));
+        CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
+        Root<WorkPeriod> root = cq.from(WorkPeriod.class);
+        Join<WorkPeriod, User> userJoin = root.join(WorkPeriod_.user);
+        cq.where(userJoin.get(User_.login).in(user));
+        cq.orderBy(cb.desc(root.get(WorkPeriod_.start)));
         Query q = entityManager.createQuery(cq);
         return q.getResultList();
     }

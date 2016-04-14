@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.WebApplicationContext;
-import topworker.model.bo.WorkDay;
+import topworker.dal.entity.WorkDay;
 import topworker.service.WorkPeriodService;
 import topworker.utils.MessagesBundle;
 import topworker.utils.TimeUtils;

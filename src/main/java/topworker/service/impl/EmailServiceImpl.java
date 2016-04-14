@@ -5,7 +5,7 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import topworker.model.bo.User;
+import topworker.dal.entity.User;
 import topworker.service.EmailService;
 import topworker.service.UserService;
 import topworker.service.WorkPeriodService;

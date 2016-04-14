@@ -1,8 +1,9 @@
-package topworker.model.bo;
+package topworker.dal.entity;
 
 
 import org.apache.commons.lang3.time.DateUtils;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
 /**
  * Created by Echomil on 2016-02-26.
  */
+
+@Entity(name = "WORK_DAY")
 public class WorkDay {
 
     private List<WorkPeriod> workPeriods;

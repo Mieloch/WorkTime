@@ -1,7 +1,6 @@
 package topworker.dal;
 
-import topworker.dal.entity.EWorkPeriod;
-import topworker.model.bo.WorkPeriod;
+import topworker.dal.entity.WorkPeriod;
 
 import java.util.Date;
 import java.util.List;
@@ -10,17 +9,17 @@ import java.util.List;
  * Created by Echomil on 2016-02-26.
  */
 public interface WorkPeriodDao {
-    List<EWorkPeriod> getFromDateToDate(Date startDate, Date endDate, String login);
+    List<WorkPeriod> getFromDateToDate(Date startDate, Date endDate, String login);
 
-    void persist(EWorkPeriod timeStamp);
+    void persist(WorkPeriod timeStamp);
 
-    List<EWorkPeriod> getAll();
+    List<WorkPeriod> getAll();
 
-    EWorkPeriod getByStartDate(Date startDate);
+    WorkPeriod getByStartDate(Date startDate);
 
-    List<EWorkPeriod> getAllStartingIn(Date start);
+    List<WorkPeriod> getAllStartingIn(Date start);
 
-    EWorkPeriod findLastPeriodInStreakByUser(String user, WorkPeriod period);
+    WorkPeriod findLastPeriodInStreakByUser(String user, WorkPeriod period);
 
-    List<EWorkPeriod> getAllBelongToUser(String user);
+    List<WorkPeriod> getAllBelongToUser(String user);
 }

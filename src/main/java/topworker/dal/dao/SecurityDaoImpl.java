@@ -3,8 +3,8 @@ package topworker.dal.dao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import topworker.dal.SecurityDao;
-import topworker.dal.entity.ESecurity;
-import topworker.dal.entity.ESecurity_;
+import topworker.dal.entity.Security;
+import topworker.dal.entity.Security_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,13 +26,13 @@ public class SecurityDaoImpl implements SecurityDao {
     @Override
     public String getRecord(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<ESecurity> cq = cb.createQuery(ESecurity.class);
-        Root<ESecurity> root = cq.from(ESecurity.class);
-        cq.where(root.get(ESecurity_.name).in(name));
+        CriteriaQuery<Security> cq = cb.createQuery(Security.class);
+        Root<Security> root = cq.from(Security.class);
+        cq.where(root.get(Security_.name).in(name));
         Query q = entityManager.createQuery(cq);
-        ESecurity result;
+        Security result;
         try {
-            result = (ESecurity) q.getSingleResult();
+            result = (Security) q.getSingleResult();
         } catch (Exception e) {
             return null;
         }

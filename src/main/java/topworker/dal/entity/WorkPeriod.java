@@ -8,7 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name = "WORK_PERIOD")
 @ValidStartBeforeStop
-public class EWorkPeriod {
+public class WorkPeriod {
 
     @GeneratedValue
     @Id
@@ -20,15 +20,19 @@ public class EWorkPeriod {
     private Date stop;
 
     @ManyToOne
-    private EUser user;
+    private User user;
 
-    public EWorkPeriod() {
+    public WorkPeriod() {
     }
 
 
-    public EWorkPeriod(Date start, Date stop) {
+    public WorkPeriod(Date start, Date stop) {
         this.start = start;
         this.stop = stop;
+    }
+
+    public int getDuration() {
+        return (int) ((stop.getTime() - start.getTime()) / 60000);
     }
 
     public long getId() {
@@ -51,11 +55,11 @@ public class EWorkPeriod {
         this.stop = stop;
     }
 
-    public EUser getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(EUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }

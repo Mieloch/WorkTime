@@ -1,9 +1,8 @@
 package topworker.service;
 
-import topworker.model.bo.WorkDay;
-import topworker.model.bo.WorkPeriod;
+import topworker.dal.entity.WorkDay;
+import topworker.dal.entity.WorkPeriod;
 
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +22,6 @@ public interface WorkPeriodService {
 
     List<WorkDay> getWorkDays(Date begin, Date end, String login);
 
-    void postTimeToUser(String user, @Valid WorkPeriod period);
+    void postTimeToUser(String user, WorkPeriod period);
 
 }

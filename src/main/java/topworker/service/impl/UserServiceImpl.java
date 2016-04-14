@@ -1,21 +1,16 @@
 package topworker.service.impl;
 
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import topworker.dal.UserDao;
-import topworker.dal.entity.EUser;
-import topworker.dal.entity.EUserRoles;
-import topworker.model.bo.User;
-import topworker.model.bo.UserRole;
+import topworker.dal.entity.User;
+import topworker.dal.entity.UserRoles;
 import topworker.service.EncryptionService;
 import topworker.service.UserService;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -32,60 +27,55 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private EncryptionService encryptionService;
 
-    private ModelMapper mapper;
 
     public UserServiceImpl() {
-        mapper = new ModelMapper();
-        mapper.addConverter(getUserRoleConverter());
     }
 
     @Override
     public List<User> getAll() {
-        List<EUser> eUsers = userDao.getAll();
-        List<User> users = new ArrayList<>();
-        mapper.map(eUsers, users);
+        List<User> users = userDao.getAll();
         return users;
     }
 
     @Override
     public User getById(int id) {
-        EUser eUser;
+        User user;
         try {
-            eUser = userDao.findById(id);
+            user = userDao.findById(id);
         } catch (EmptyResultDataAccessException exception) {
             return null;
         }
-        return mapToUser(eUser);
+        return user;
     }
 
     @Override
     public User getByLogin(String login) {
-        EUser eUser;
+        User user;
         try {
-            eUser = userDao.findByLogin(login);
+            user = userDao.findByLogin(login);
         } catch (EmptyResultDataAccessException exception) {
             return null;
         }
-        return mapToUser(eUser);
+        return (user);
     }
 
     @Override
     public void activateUser(String login) {
-        EUser euser = userDao.findByLogin(login);
+        User euser = userDao.findByLogin(login);
         euser.setActive(true);
         userDao.persist(euser);
     }
 
     @Override
     public void addUser(User user) {
-        Set<EUserRoles> roles = userDao.getRoles(user.getUserRoles());
+
+        Set<UserRoles> roles = userDao.getRoles(user.getUserRolesEnums());
         String digestPassword = encryptionService.digest(user.getPassword());
         user.setPassword(digestPassword);
         user.setRegistrationDate(new Date());
-        EUser eUser = mapToEuser(user);
-        eUser.setUserRoles(roles);
+        user.setUserRoles(roles);
         try {
-            userDao.persist(eUser);
+            userDao.persist(user);
         }  catch (DataIntegrityViolationException e ) {
             String details = e.getCause().getCause().toString();
             if(details.indexOf("email") != -1){
@@ -101,29 +91,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
-    protected EUser mapToEuser(User user){
-        EUser result = new EUser();
-        mapper.map(user,result);
-        return  result;
-    }
-
-    protected User mapToUser(EUser eUser) {
-        User result = new User();
-        mapper.map(eUser, result);
-        return result;
-    }
-
-    private Converter<EUserRoles, UserRole> getUserRoleConverter() {
-        Converter<EUserRoles, UserRole> converter = new AbstractConverter<EUserRoles, UserRole>() {
-            @Override
-            protected UserRole convert(EUserRoles source) {
-                String type = source.getType();
-                return UserRole.valueOf(type);
-            }
-        };
-        return converter;
-    }
 
     public UserDao getUserDao() {
         return userDao;

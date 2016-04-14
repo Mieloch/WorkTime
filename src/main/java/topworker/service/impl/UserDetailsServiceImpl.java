@@ -8,11 +8,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import topworker.model.bo.User;
+import topworker.dal.entity.User;
 import topworker.model.bo.UserRole;
 import topworker.service.UserService;
 
-import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private List<GrantedAuthority> getGrantedAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (UserRole userRole : user.getUserRoles()) {
+        for (UserRole userRole : user.getUserRolesEnums()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole.getType()));
         }
         return authorities;

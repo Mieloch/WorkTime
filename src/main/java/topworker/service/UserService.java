@@ -1,6 +1,6 @@
 package topworker.service;
 
-import topworker.model.bo.User;
+import topworker.dal.entity.User;
 
 import java.util.List;
 
