@@ -1,5 +1,6 @@
 package topworker.dal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import topworker.dal.validation.ValidStartBeforeStop;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class WorkPeriod {
     private Date stop;
 
     @ManyToOne
+    @JsonIgnore
     private WorkDay workDay;
 
     public WorkPeriod() {

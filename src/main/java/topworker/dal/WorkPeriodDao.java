@@ -22,4 +22,10 @@ public interface WorkPeriodDao {
     WorkPeriod findLastPeriodInStreak(WorkDay workDay, WorkPeriod period);
 
     List<WorkPeriod> getAllBelongToUser(String user);
+
+    void removeAll();
+
+    WorkPeriod get(long id);
+
+    boolean exists(long id);
 }

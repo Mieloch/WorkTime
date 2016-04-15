@@ -20,6 +20,12 @@ public class PostPeriodMessage {
         this.end = end;
     }
 
+    public PostPeriodMessage(Date start, Date end, String login) {
+        this.start = start;
+        this.end = end;
+        this.login = login;
+    }
+
     public String getLogin() {
         return login;
     }

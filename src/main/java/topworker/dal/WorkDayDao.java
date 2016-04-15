@@ -19,5 +19,7 @@ public interface WorkDayDao {
 
     List<WorkDay> getBetweenDates(Date start, Date end, String username);
 
+    void removeAll();
+
 
 }

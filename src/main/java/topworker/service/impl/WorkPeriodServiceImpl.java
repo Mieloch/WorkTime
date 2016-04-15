@@ -45,8 +45,9 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
     }
 
     @Override
-    public void postTimeToUser(String login, WorkPeriod newPeriod) {
+    public WorkPeriod postTimeToUser(String login, WorkPeriod newPeriod) {
         //TODO split when period lasts 2 days
+        WorkPeriod currentPeriod = null;
         newPeriod = TimeUtils.roundTimeToField(newPeriod, Calendar.SECOND);
         WorkDay workDay = workDayDao.getByDateAndUser(login, newPeriod.getStart());
         if (workDay == null) {
@@ -55,14 +56,15 @@ public class WorkPeriodServiceImpl implements WorkPeriodService {
             User user = userDao.findByLogin(login);
             workDay.setUser(user);
             workDayDao.create(workDay);
-            WorkPeriod lastPeriod = new WorkPeriod(newPeriod.getStart(), newPeriod.getStop());
-            lastPeriod.setWorkDay(workDay);
-            workPeriodDao.persist(lastPeriod);
+            currentPeriod = new WorkPeriod(newPeriod.getStart(), newPeriod.getStop());
+            currentPeriod.setWorkDay(workDay);
+            workPeriodDao.persist(currentPeriod);
         } else {
-            WorkPeriod lastPeriod = workPeriodDao.findLastPeriodInStreak(workDay, newPeriod);
-            lastPeriod.setStop(newPeriod.getStop());
-            workPeriodDao.persist(lastPeriod);
+            currentPeriod = workPeriodDao.findLastPeriodInStreak(workDay, newPeriod);
+            currentPeriod.setStop(newPeriod.getStop());
+            workPeriodDao.persist(currentPeriod);
         }
+        return currentPeriod;
 
     }
 

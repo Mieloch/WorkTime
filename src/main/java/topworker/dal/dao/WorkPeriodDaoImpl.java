@@ -94,6 +94,33 @@ public class WorkPeriodDaoImpl implements WorkPeriodDao {
         return q.getResultList();
     }
 
+    @Override
+    public void removeAll() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
+        Root<WorkPeriod> root = cq.from(WorkPeriod.class);
+        Query q = entityManager.createQuery(cq);
+        List<WorkPeriod> workPeriods = q.getResultList();
+        for (WorkPeriod workPeriod : workPeriods) {
+            entityManager.remove(workPeriod);
+        }
+    }
+
+    @Override
+    public WorkPeriod get(long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<WorkPeriod> cq = cb.createQuery(WorkPeriod.class);
+        Root<WorkPeriod> root = cq.from(WorkPeriod.class);
+        cq.where(root.get(WorkPeriod_.id).in(id));
+        Query q = entityManager.createQuery(cq);
+        return (WorkPeriod) getSingleResultFromQuery(q);
+    }
+
+    @Override
+    public boolean exists(long id) {
+        return (get(id) == null);
+    }
+
     private Object getSingleResultFromQuery(Query query) {
         try {
             return query.getSingleResult();

@@ -60,6 +60,19 @@ public class WorkDayDaoImpl implements WorkDayDao {
         return q.getResultList();
     }
 
+    @Override
+    public void removeAll() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<WorkDay> cq = cb.createQuery(WorkDay.class);
+        Root<WorkDay> root = cq.from(WorkDay.class);
+        Query q = entityManager.createQuery(cq);
+        List<WorkDay> workDays = q.getResultList();
+        for (WorkDay workDay : workDays) {
+            entityManager.remove(workDay);
+        }
+    }
+
+
     private Object getSingleResultFromQuery(Query query) {
         try {
             Object o = query.getSingleResult();
